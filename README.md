@@ -16,6 +16,8 @@ Pa otvoriti http://localhost:8080 (drugi port: `node serve.mjs 8091`).
 
 Jezik se može birati i preko adrese: `?lang=en`, `?lang=de`.
 
+Uvod (monogram NP i zavjesa) se prikaže samo pri prvom otvaranju. Da se vidi ponovo: `?intro` na kraju adrese.
+
 ## Gdje je šta
 
 | Fajl | Sadržaj |
@@ -24,12 +26,14 @@ Jezik se može birati i preko adrese: `?lang=en`, `?lang=de`.
 | `data/slike.js` | Dimenzije slika (pravi ga `tools/slike.py`, ne mijenjati ručno) |
 | `index.html` | Kostur stranice, prvi ekran, SEO podaci |
 | `js/app.js` | Sekcije, meni, jezici, galerija, filter fondana, kontakt forma |
-| `js/fx.js` | Efekti: šećer u prahu, 11 spratova, otkrivanje teksta, brojači |
+| `js/fx.js` | Efekti: uvod, šećer u prahu, rastavljeni desert, 11 spratova, svadbe bočno, odbrojavanje, medalje, kursor |
+| `js/art.js` | Crteži: potpis, monogram za uvod, ilustracije recepata, slojevi deserta |
 | `css/style.css` | Cijeli izgled |
 | `assets/img/` | Slike u WebP formatu, tri veličine |
 | `assets/fonts/` | Cormorant Garamond i Manrope (OFL licence uz fontove) |
 | `tools/slike.py` | Obrada slika: izrez, topli ton, WebP veličine |
 | `tools/fontovi.py` | Priprema Cormorant fonta (kvačice č, ć, š, ž spuštene bliže slovu) |
+| `tools/tekstura.py` | Tekstura tamnog mramora u pozadini (`assets/tex/mramor.webp`) |
 
 Tekst se mijenja samo u `data/np.js`. Riječ između zvjezdica (`*Mostara*`) ispisuje se zlatnim kurzivom.
 
@@ -55,7 +59,11 @@ Tekst se mijenja samo u `data/np.js`. Riječ između zvjezdica (`*Mostara*`) isp
    - `demo: false` (nestaju oznake DEMO i traka u podnožju),
    - upisati `contact.phone`, `contact.viber`, `contact.whatsapp` (samo brojevi, npr. `38761234567`) i `contact.email`,
    - YouTube: upisati pravi link kanala ili playliste i postaviti `youtubeIsSearch: false`,
-   - nagrade 2024: upisati takmičenja kad budu poznata.
+   - nagrade 2024: upisati takmičenja kad budu poznata,
+   - `anatomy.layers`: slojeve deserta prilagoditi pravom receptu (sada su primjer),
+   - `academy.upcoming`: pravi datum, mjesto i broj mjesta sljedeće akademije (odbrojavanje radi samo od datuma),
+   - `show.episodes`: pravi naslovi; u `video` upisati YouTube ID epizode i ona se pušta direktno na stranici,
+   - `works.items[].image`: kad stignu fotografije deserata, upisati id slike (umjesto crteža se prikaže fotografija).
 6. Provjeriti kontakt formu: Viber, WhatsApp i email moraju otvarati Nemanjin broj i adresu.
 
 ## Objava (Cloudflare)
@@ -66,7 +74,8 @@ Statična stranica, bez builda. Na Cloudflare Pages ili Workers (static assets) 
 
 - Tamna, topla paleta (ugljen, krem, zlato) jer su fotografije večernje i tople, a zlato veže medalje i šećer.
 - Cormorant Garamond za naslove (elegantan, krupan), Manrope za tekst (čitljiv na mobitelu).
-- Tri potpisna efekta: monogram NP koji se ispiše, šećer u prahu na prvom ekranu (reaguje na miš) i torta od 11 spratova koja raste dok se lista.
+- Potpisni efekti: uvod sa monogramom NP, šećer u prahu na prvom ekranu (reaguje na miš), desert sa Brača koji se rastavi na slojeve, torta od 11 spratova koja raste dok se lista, svadbe koje idu bočno, potpis koji se ispiše.
+- Na mobitelu se recepti, svadbe i epizode prevlače prstom, a desert i spratovi su skraćeni da stanu na ekran.
 - Sekcija Svadbe je svijetla, kao predah između tamnih dijelova.
 - Kontakt nije narudžba nego razgovor: tema, ime, poruka, pa slanje preko Vibera, WhatsAppa ili emaila.
 - Sve animacije staju van ekrana, a uz postavku "smanji pokrete" stranica je mirna i sve je odmah vidljivo. Bez JavaScripta se vidi prvi ekran i osnovni podaci.
