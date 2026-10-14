@@ -153,6 +153,9 @@ window.NP = {
     },
     dish: { bs: 'Krema od piva i mandarina', en: 'Beer cream and mandarin', de: 'Biercreme und Mandarine' },
     badge: { bs: 'Bronca · Brač 2023', en: 'Bronze · Brač 2023', de: 'Bronze · Brač 2023' },
+    open: { bs: 'Rastavi desert', en: 'Take it apart', de: 'Zerlegen' },
+    close: { bs: 'Sastavi', en: 'Put it back', de: 'Zusammensetzen' },
+    hint: { bs: 'Dodirni desert', en: 'Tap the dessert', de: 'Dessert antippen' },
     layers: [
       { kind: 'tuile', th: 9, top: '#E2B877', side: '#B98544',
         name: { bs: 'Tuile od slada', en: 'Malt tuile', de: 'Malz-Tuile' },

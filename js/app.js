@@ -73,15 +73,18 @@
       }).join('') + '</ol></div></section>';
   }
 
+  var anOpen = false;
   function anatomy() {
     var A = D.anatomy; if (!A || !ART.anatomy) return ''; A._id = 'anatomy';
     var names = A.layers.map(function (l) { return [esc(L(l.name)), esc(L(l.note))]; });
-    return '<section class="anatomy" id="anatomy" aria-labelledby="anatomy-t"><div class="an-stage"><div class="wrap an-grid">' +
-      '<div class="an-text">' + head(A) + '<p class="lead an-lead-txt">' + esc(L(A.lead)) + '</p>' +
-      '<p class="an-dish"><span class="label">' + esc(L(A.badge)) + '</span><b>' + esc(L(A.dish)) + '</b></p></div>' +
-      '<div class="an-art">' + ART.anatomy(A.layers, names) + '</div>' +
-      '<ol class="an-list">' + A.layers.map(function (l, i) { return '<li data-i="' + i + '"><small>' + (i + 1) + '</small><span><b>' + esc(L(l.name)) + '</b><em>' + esc(L(l.note)) + '</em></span></li>'; }).join('') + '</ol>' +
-      '</div></div></section>';
+    var open = anOpen ? ' open' : '';
+    return '<section class="sec anatomy' + open + '" id="anatomy" aria-labelledby="anatomy-t"><div class="wrap an-grid">' +
+      '<div class="an-text">' + head(A) + '<p class="lead an-lead-txt rv">' + esc(L(A.lead)) + '</p>' +
+      '<p class="an-dish rv"><span class="label">' + esc(L(A.badge)) + '</span><b>' + esc(L(A.dish)) + '</b></p>' +
+      '<button type="button" class="btn btn-line btn-sm an-btn rv" data-an aria-pressed="' + anOpen + '" aria-controls="anatomy-list"><span class="an-b1">' + esc(L(A.open)) + '</span><span class="an-b2">' + esc(L(A.close)) + '</span></button></div>' +
+      '<div class="an-art"><button type="button" class="an-hit" data-an aria-hidden="true" tabindex="-1">' + ART.anatomy(A.layers, names) + '<span class="an-hint">' + esc(L(A.hint)) + '</span></button>' +
+      '<ol class="an-list" id="anatomy-list">' + A.layers.map(function (l, i) { return '<li data-i="' + i + '" style="--o:' + i + '"><small>' + (i + 1) + '</small><span><b>' + esc(L(l.name)) + '</b><em>' + esc(L(l.note)) + '</em></span></li>'; }).join('') + '</ol></div>' +
+      '</div></section>';
   }
 
   function tiers() {
@@ -124,7 +127,7 @@
       }).join('') + '</div>' +
       '<ul class="masonry">' + F.items.map(function (it, i) {
         return '<li class="mz" data-tags="' + it.tags.join(' ') + '"><button class="lb-open" type="button" data-lb="fon" data-i="' + i + '" aria-label="' + esc(L(D.ui.open) + ': ' + L(it.cap)) + '">' +
-          img(it.id, L(F.alt) + L(it.cap), '(max-width: 640px) 46vw, (max-width: 1100px) 30vw, 400px') + '<span class="mz-cap">' + esc(L(it.cap)) + '</span></button></li>';
+          img(it.id, L(F.alt) + L(it.cap), '(max-width: 900px) 46vw, (max-width: 1100px) 30vw, (max-width: 1600px) 23vw, 300px') + '<span class="mz-cap">' + esc(L(it.cap)) + '</span></button></li>';
       }).join('') + '</ul></div></section>';
   }
 
@@ -145,23 +148,23 @@
   function academy() {
     var A = D.academy; A._id = 'academy';
     return '<section class="sec academy" id="academy" aria-labelledby="academy-t"><div class="wrap ac-grid">' +
-      '<div class="ac-art"><figure class="ph ac-a ri" data-par="0.06">' + img(A.images[0].id, L(A.images[0].alt), '(max-width: 900px) 86vw, 38vw') + '</figure>' +
-      '<figure class="ph ac-b ri">' + img(A.images[1].id, L(A.images[1].alt), '(max-width: 900px) 50vw, 20vw') + '</figure></div>' +
+      '<div class="ac-art"><figure class="ph ac-a ri">' + img(A.images[0].id, L(A.images[0].alt), '(max-width: 900px) 70vw, 30vw') + '</figure>' +
+      '<figure class="ph ac-b ri">' + img(A.images[1].id, L(A.images[1].alt), '(max-width: 900px) 40vw, 14vw') + '</figure></div>' +
       '<div class="ac-text">' + head(A) + L(A.text).map(function (p) { return '<p class="body rv">' + esc(p) + '</p>'; }).join('') +
       '<p class="ac-event rv">' + esc(L(A.event)) + '</p>' +
-      '<ul class="ac-list rv">' + A.facts.map(function (f) { return '<li>' + esc(L(f)) + '</li>'; }).join('') + '</ul>' +
-      (A.upcoming ? upcoming(A.upcoming) : '<p class="ac-next rv">' + esc(L(A.next)) + '</p>') +
-      '<a class="btn btn-line btn-sm rv" href="#contact" data-topic="academy">' + esc(L(A.cta)) + '<span aria-hidden="true">→</span></a></div>' +
-      '</div>' + (A.numbers ? '<div class="wrap ac-more"><ul class="ac-nums">' + A.numbers.map(function (x, i) { return '<li class="rv" style="--d:' + i + '"><b>' + esc(x.n) + '</b><span>' + esc(L(x.label)) + '</span></li>'; }).join('') + '</ul>' + (A.cert ? cert(A.cert) : '') + '</div>' : '') +
-      '</section>';
+      '<ul class="ac-list rv">' + A.facts.map(function (f) { return '<li>' + esc(L(f)) + '</li>'; }).join('') + '</ul></div></div>' +
+      '<div class="wrap ac-more">' + (A.upcoming ? upcoming(A.upcoming, A) : '<p class="ac-next rv">' + esc(L(A.next)) + '</p>') +
+      (A.numbers ? '<ul class="ac-nums">' + A.numbers.map(function (x, i) { return '<li class="rv" style="--d:' + i + '"><b>' + esc(x.n) + '</b><span>' + esc(L(x.label)) + '</span></li>'; }).join('') + '</ul>' : '') +
+      (A.cert ? cert(A.cert) : '') + '</div></section>';
   }
-  function upcoming(U) {
+  function upcoming(U, A) {
     var u = L(U.units);
     return '<div class="ac-up rv" data-date="' + esc(U.date) + '"><p class="label">' + esc(L(U.label)) + (D.demo ? ' <small class="demo-tag">' + esc(L(D.ui.demoTag)) + '</small>' : '') + '</p>' +
       '<p class="ac-up-t">' + esc(L(U.title)) + '</p><p class="ac-up-p">' + esc(L(U.place)) + ' · ' + esc(L(U.seats)) + '</p>' +
       '<div class="cd" role="timer" aria-live="off">' + u.map(function (x, i) { return '<p><b data-cd="' + i + '">00</b><span>' + esc(x) + '</span></p>'; }).join('') + '</div>' +
       '<p class="cd-done" hidden>' + esc(L(U.started)) + '</p>' +
-      '<div class="ac-sign"><a class="send" href="#" data-acad="viber">Viber</a><a class="send" href="#" data-acad="wa" target="_blank" rel="noopener">WhatsApp</a></div></div>';
+      '<div class="ac-sign"><a class="send" href="#" data-acad="viber">Viber</a><a class="send" href="#" data-acad="wa" target="_blank" rel="noopener">WhatsApp</a></div>' +
+      '<a class="ac-ask" href="#contact" data-topic="academy">' + esc(L(A.cta)) + ' <span aria-hidden="true">→</span></a></div>';
   }
   function cert(C) {
     return '<figure class="cert rv" aria-label="' + esc(L(C.title)) + '"><div class="cert-in"><p class="cert-k">' + esc(L(C.kicker)) + '</p>' +
@@ -210,7 +213,7 @@
       }).join('') + '</fieldset>' +
       '<div class="ct-row"><label class="field"><span class="label">' + esc(L(C.name)) + '</span><input id="ct-name" type="text" autocomplete="name" value="' + esc(form.name) + '"></label>' +
       '<label class="field ct-date"' + (form.topic === 'wedding' ? '' : ' hidden') + '><span class="label">' + esc(L(C.date)) + '</span><input id="ct-date" type="date" value="' + esc(form.date) + '"></label></div>' +
-      '<label class="field"><span class="label">' + esc(L(C.message)) + '</span><textarea id="ct-msg" rows="4">' + esc(form.msg) + '</textarea></label>' +
+      '<label class="field"><span class="label">' + esc(L(C.message)) + '</span><textarea id="ct-msg" rows="3">' + esc(form.msg) + '</textarea></label>' +
       '<p class="ct-need" id="ct-need" aria-live="polite"></p>' +
       '<div class="ct-send"><span class="label">' + esc(L(C.send)) + '</span>' +
       '<a class="send" id="send-viber" href="#" data-via="viber">Viber</a><a class="send" id="send-wa" href="#" data-via="wa" target="_blank" rel="noopener">WhatsApp</a><a class="send" id="send-mail" href="#" data-via="mail">Email</a></div>' +
@@ -457,6 +460,7 @@
     var o = e.target.closest('.lb-open'); if (o) { lbOpen(o.getAttribute('data-lb'), +o.getAttribute('data-i'), o); return; }
     var f = e.target.closest('.filters .pill'); if (f) { applyFilter(f.getAttribute('data-f')); return; }
     var tp = e.target.closest('[data-topic-pick]'); if (tp) { pickTopic(tp.getAttribute('data-topic-pick')); return; }
+    var anb = e.target.closest('[data-an]'); if (anb) { anOpen = !anOpen; var sec = document.getElementById('anatomy'); sec.classList.toggle('open', anOpen); [].forEach.call(sec.querySelectorAll('.an-btn'), function (x) { x.setAttribute('aria-pressed', String(anOpen)); }); return; }
     var ac = e.target.closest('[data-acad]'); if (ac) { acadSend(ac.getAttribute('data-acad'), ac); return; }
     var s = e.target.closest('.send'); if (s) { send(s.getAttribute('data-via'), s, e); return; }
     var wb = e.target.closest('[data-wd]'); if (wb) { wdGo(+wb.getAttribute('data-wd')); return; }
