@@ -4,7 +4,7 @@
  */
 (function () {
   'use strict';
-  var D = window.NP, IMG = window.NP_IMG || {};
+  var D = window.NP, IMG = window.NP_IMG || {}, ART = window.NP_ART || {};
   var root = document.documentElement;
   var LANGS = D.languages;
   var lang = LANGS.indexOf(root.lang) !== -1 ? root.lang : LANGS[0];
@@ -54,7 +54,8 @@
       '<div class="story-art">' +
       '<figure class="ph ph-a ri" data-par="0.08">' + img(a.id, L(a.alt), '(max-width: 900px) 86vw, 40vw') + '</figure>' +
       '<figure class="ph ph-b ri">' + img(b.id, L(b.alt), '(max-width: 900px) 46vw, 18vw') + '</figure></div>' +
-      '<blockquote class="quote rv"><p>' + esc(L(S.quote)) + '</p><i aria-hidden="true"></i><cite>' + esc(L(S.quoteNote)) + '</cite></blockquote>' +
+      '<blockquote class="quote rv"><p>' + esc(L(S.quote)) + '</p><i aria-hidden="true"></i><cite>' + esc(L(S.quoteNote)) + '</cite>' +
+      (ART.sign ? '<div class="sign-wrap">' + ART.sign(esc(L(S.sign))) + '</div>' : '') + '</blockquote>' +
       '</div></section>';
   }
 
@@ -64,12 +65,23 @@
     return '<section class="sec works" id="works" aria-labelledby="works-t"><div class="wrap">' + head(W) +
       '<ol class="cards">' + W.items.map(function (it, i) {
         return '<li class="card rv' + (it.image ? ' has-img' : '') + '" style="--d:' + i + '">' +
-          (it.image ? '<figure class="card-img">' + img(it.image, L(it.name), '(max-width: 900px) 90vw, 30vw') + '</figure>' : '') +
+          '<figure class="card-art' + (it.image ? ' card-photo' : '') + '">' + (it.image ? img(it.image, L(it.name), '(max-width: 640px) 90vw, (max-width: 1100px) 45vw, 22vw') : (ART.ill ? ART.ill(it.art) : '')) + '</figure>' +
           '<span class="card-n">' + ROMAN[i] + '</span>' +
           '<h3 class="card-name">' + esc(L(it.name)) + '</h3>' +
           '<p class="card-notes">' + esc(L(it.notes)) + '</p><i class="card-line" aria-hidden="true"></i>' +
           '<p class="card-text">' + esc(L(it.text)) + '</p><p class="card-aside">' + esc(L(it.aside)) + '</p></li>';
       }).join('') + '</ol></div></section>';
+  }
+
+  function anatomy() {
+    var A = D.anatomy; if (!A || !ART.anatomy) return ''; A._id = 'anatomy';
+    var names = A.layers.map(function (l) { return [esc(L(l.name)), esc(L(l.note))]; });
+    return '<section class="anatomy" id="anatomy" aria-labelledby="anatomy-t"><div class="an-stage"><div class="wrap an-grid">' +
+      '<div class="an-text">' + head(A) + '<p class="lead an-lead-txt">' + esc(L(A.lead)) + '</p>' +
+      '<p class="an-dish"><span class="label">' + esc(L(A.badge)) + '</span><b>' + esc(L(A.dish)) + '</b></p></div>' +
+      '<div class="an-art">' + ART.anatomy(A.layers, names) + '</div>' +
+      '<ol class="an-list">' + A.layers.map(function (l, i) { return '<li data-i="' + i + '"><small>' + (i + 1) + '</small><span><b>' + esc(L(l.name)) + '</b><em>' + esc(L(l.note)) + '</em></span></li>'; }).join('') + '</ol>' +
+      '</div></div></section>';
   }
 
   function tiers() {
@@ -93,11 +105,15 @@
       return '<figure class="wd ' + cls + ' ri"><button class="lb-open" type="button" data-lb="wed" data-i="' + i + '" aria-label="' + esc(L(D.ui.open) + ': ' + L(it.cap)) + '">' +
         img(it.id, L(it.alt), sizes) + '</button><figcaption>' + esc(L(it.cap)) + '</figcaption></figure>';
     }
-    return '<section class="sec weddings light" id="weddings" aria-labelledby="weddings-t"><div class="wrap">' +
-      '<div class="wd-top">' + head(W) + '<p class="body rv wd-text">' + esc(L(W.text)) + '</p></div>' +
-      '<div class="wd-grid">' + tile(g[0], 0, 'wd-big', '(max-width: 900px) 92vw, 1200px') +
-      g.slice(1).map(function (it, i) { return tile(it, i + 1, 'wd-sm', '(max-width: 900px) 92vw, 30vw'); }).join('') + '</div>' +
-      '</div></section>';
+    return '<section class="weddings light" id="weddings" aria-labelledby="weddings-t"><div class="wd-pin"><div class="wd-inner">' +
+      '<div class="wrap wd-top">' + head(W) + '<p class="body rv wd-text">' + esc(L(W.text)) + '</p></div>' +
+      '<div class="wd-track" tabindex="0" role="region" aria-label="' + esc(L(W.chapter)) + '"><ul class="wd-rail">' +
+      g.map(function (it, i) { return '<li class="wd-slide' + (i === 0 ? ' wd-first' : '') + '">' + tile(it, i, '', '(max-width: 900px) 86vw, 62vw').replace('<figure class="wd  ri">', '<figure class="wd">') + '</li>'; }).join('') +
+      '</ul></div>' +
+      '<div class="wrap wd-bar"><p class="wd-count" aria-hidden="true"><b>01</b> / ' + String(g.length).padStart(2, '0') + '</p>' +
+      '<i class="wd-prog" aria-hidden="true"><i></i></i>' +
+      '<p class="wd-nav"><button type="button" class="wd-btn" data-wd="-1" aria-label="' + esc(L(D.ui.prev)) + '">←</button><button type="button" class="wd-btn" data-wd="1" aria-label="' + esc(L(D.ui.next)) + '">→</button></p></div>' +
+      '</div></div></section>';
   }
 
   function fondant() {
@@ -116,10 +132,10 @@
     var A = D.awards; A._id = 'awards';
     return '<section class="sec awards" id="awards" aria-labelledby="awards-t"><div class="wrap aw-grid">' + head(A) +
       '<ol class="timeline">' + A.items.map(function (it, i) {
-        var medals = ''; for (var k = 0; k < it.count; k++) medals += '<i class="medal medal-' + it.medal + '" aria-hidden="true"></i>';
+        var medals = '<span class="medals" aria-hidden="true">'; for (var k = 0; k < it.count; k++) medals += '<i class="m3d m-' + it.medal + '"><i class="m-rib"></i><i class="m-disc"><i class="m-face"><b>' + String(it.year).slice(2) + '</b></i></i></i>'; medals += '</span>';
         var place = [L(it.city), L(it.cat)].filter(Boolean).join(' · ');
         return '<li class="tl rv" style="--d:' + i + '"><span class="tl-year">' + it.year + '</span>' +
-          '<div class="tl-body"><p class="tl-medal">' + medals + '<b>' + esc(L(it.name)) + '</b></p>' +
+          medals + '<div class="tl-body"><p class="tl-medal"><b>' + esc(L(it.name)) + '</b></p>' +
           '<p class="tl-event">' + esc(L(it.event)) + '</p>' + (place ? '<p class="tl-place">' + esc(place) + '</p>' : '') +
           (it.image ? '<button type="button" class="link-btn lb-open" data-lb="dip" data-i="' + i + '">' + esc(L(A.diploma)) + '<span aria-hidden="true"> ↗</span></button>' : '') +
           '</div></li>';
@@ -134,9 +150,25 @@
       '<div class="ac-text">' + head(A) + L(A.text).map(function (p) { return '<p class="body rv">' + esc(p) + '</p>'; }).join('') +
       '<p class="ac-event rv">' + esc(L(A.event)) + '</p>' +
       '<ul class="ac-list rv">' + A.facts.map(function (f) { return '<li>' + esc(L(f)) + '</li>'; }).join('') + '</ul>' +
-      '<p class="ac-next rv">' + esc(L(A.next)) + '</p>' +
-      '<a class="btn rv" href="#contact" data-topic="academy">' + esc(L(A.cta)) + '<span aria-hidden="true">→</span></a></div>' +
-      '</div></section>';
+      (A.upcoming ? upcoming(A.upcoming) : '<p class="ac-next rv">' + esc(L(A.next)) + '</p>') +
+      '<a class="btn btn-line btn-sm rv" href="#contact" data-topic="academy">' + esc(L(A.cta)) + '<span aria-hidden="true">→</span></a></div>' +
+      '</div>' + (A.numbers ? '<div class="wrap ac-more"><ul class="ac-nums">' + A.numbers.map(function (x, i) { return '<li class="rv" style="--d:' + i + '"><b>' + esc(x.n) + '</b><span>' + esc(L(x.label)) + '</span></li>'; }).join('') + '</ul>' + (A.cert ? cert(A.cert) : '') + '</div>' : '') +
+      '</section>';
+  }
+  function upcoming(U) {
+    var u = L(U.units);
+    return '<div class="ac-up rv" data-date="' + esc(U.date) + '"><p class="label">' + esc(L(U.label)) + (D.demo ? ' <small class="demo-tag">' + esc(L(D.ui.demoTag)) + '</small>' : '') + '</p>' +
+      '<p class="ac-up-t">' + esc(L(U.title)) + '</p><p class="ac-up-p">' + esc(L(U.place)) + ' · ' + esc(L(U.seats)) + '</p>' +
+      '<div class="cd" role="timer" aria-live="off">' + u.map(function (x, i) { return '<p><b data-cd="' + i + '">00</b><span>' + esc(x) + '</span></p>'; }).join('') + '</div>' +
+      '<p class="cd-done" hidden>' + esc(L(U.started)) + '</p>' +
+      '<div class="ac-sign"><a class="send" href="#" data-acad="viber">Viber</a><a class="send" href="#" data-acad="wa" target="_blank" rel="noopener">WhatsApp</a></div></div>';
+  }
+  function cert(C) {
+    return '<figure class="cert rv" aria-label="' + esc(L(C.title)) + '"><div class="cert-in"><p class="cert-k">' + esc(L(C.kicker)) + '</p>' +
+      '<p class="cert-t">' + esc(L(C.title)) + '</p><p class="cert-l">' + esc(L(C.line)) + '</p>' +
+      '<p class="cert-who"><span></span><small>' + esc(L(C.who)) + '</small></p>' +
+      '<div class="cert-foot"><p class="cert-by">' + (ART.sign ? ART.sign('Nemanja').replace(/sg-/g, 'sc-') : '') + '<small>' + esc(L(C.by)) + ' · Nemanja Petrović</small></p>' +
+      '<i class="cert-seal" aria-hidden="true"><b>NP</b></i></div></div></figure>';
   }
 
   function show() {
@@ -145,8 +177,13 @@
       '<p class="chapter"><i aria-hidden="true"></i>' + esc(L(S.chapter)) + '</p>' +
       '<h2 class="show-title split" id="show-t">' + words(L(S.title)) + '</h2>' +
       '<p class="show-meta">' + esc(L(S.meta)) + '</p><p class="show-text">' + esc(L(S.text)) + '</p>' +
-      '<a class="btn btn-line" href="' + esc(D.youtube) + '" target="_blank" rel="noopener">' + esc(L(S.cta)) + '<span aria-hidden="true">↗</span></a>' +
-      '</div></section>';
+      '</div>' + (S.episodes ? '<div class="eps-wrap"><ul class="eps">' + S.episodes.map(function (e, i) {
+        return '<li class="ep rv" style="--d:' + i + '"><button type="button" class="ep-btn" data-ep="' + i + '" aria-label="' + esc(L(D.ui.play) + ': ' + L(e.title)) + '">' +
+          '<span class="ep-img">' + img(e.img, '', '(max-width: 640px) 72vw, (max-width: 1100px) 40vw, 26vw') + '<i class="ep-play" aria-hidden="true"></i></span>' +
+          '<span class="ep-n">' + esc(L(S.epLabel)) + ' ' + String(e.n).padStart(2, '0') + '</span><span class="ep-t">' + esc(L(e.title)) + '</span></button></li>';
+      }).join('') + '</ul></div>' : '') +
+      '<p class="show-cta"><a class="btn btn-line" href="' + esc(D.youtube) + '" target="_blank" rel="noopener">' + esc(L(S.cta)) + '<span aria-hidden="true">↗</span></a></p>' +
+      '</section>';
   }
 
   function beyond() {
@@ -157,7 +194,8 @@
       }).join('') +
       '<article class="by rv" style="--d:2"><p class="by-year">' + esc(L(B.press.title)) + '</p><ul class="press">' + B.press.items.map(function (p) {
         return '<li><a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(p.name) + '<span aria-hidden="true">↗</span></a></li>';
-      }).join('') + '</ul></article></div></div></section>';
+      }).join('') + '</ul></article></div></div>' +
+      '<div class="marquee" aria-hidden="true"><div class="mq-track">' + [0, 1].map(function () { return '<p>' + B.press.items.map(function (p) { return '<span>' + esc(p.name) + '</span><i></i>'; }).join('') + '<span>@' + esc(D.contact.instagram) + '</span><i></i></p>'; }).join('') + '</div></div></section>';
   }
 
   var form = { topic: 'wedding', name: '', date: '', msg: '' };
@@ -229,7 +267,7 @@
   function render() {
     staticTexts();
     nav();
-    document.getElementById('main').innerHTML = stats() + story() + works() + tiers() + weddings() + fondant() + awards() + academy() + show() + beyond() + contact();
+    document.getElementById('main').innerHTML = stats() + story() + works() + anatomy() + tiers() + weddings() + fondant() + awards() + academy() + show() + beyond() + contact();
     footer();
     bindForm();
     applyFilter(curFilter);
@@ -289,6 +327,7 @@
       lb.addEventListener('touchend', function (e) { var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) lbGo(dx < 0 ? 1 : -1); });
     }
     lb.setAttribute('aria-label', lbSet[lbI] ? lbSet[lbI].cap : '');
+    lb.classList.toggle('lb-paper', kind === 'dip');
     lbDraw();
     lb.hidden = false; requestAnimationFrame(function () { lb.classList.add('open'); });
     root.classList.add('locked');
@@ -339,7 +378,7 @@
     var m = missing(), need = document.getElementById('ct-need'); if (!need) return;
     need.textContent = m.length ? m.join(' · ') : L(D.contactSec.ready);
     need.classList.toggle('ok', !m.length);
-    [].forEach.call(document.querySelectorAll('.send'), function (a) { a.setAttribute('aria-disabled', String(!!m.length)); a.classList.toggle('locked', !!m.length); });
+    [].forEach.call(document.querySelectorAll('#ct-form .send'), function (a) { a.setAttribute('aria-disabled', String(!!m.length)); a.classList.toggle('locked', !!m.length); });
   }
   function bindForm() {
     var n = document.getElementById('ct-name'), d = document.getElementById('ct-date'), t = document.getElementById('ct-msg');
@@ -390,6 +429,27 @@
     return lang === 'en' ? d + ' ' + mo + ' ' + m[1] : d + '. ' + mo + ' ' + m[1];
   }
 
+  /* ---------- akademija: prijava preko Vibera ili WhatsAppa ---------- */
+  function acadSend(via, a) {
+    var U = D.academy.upcoming, K = D.contact;
+    var txt = L(U.msg).replace('{t}', L(U.title)).replace('{p}', L(U.place));
+    if (via === 'viber') a.href = K.viber ? 'viber://chat?number=' + encodeURIComponent(K.viber) + '&draft=' + encodeURIComponent(txt) : 'viber://forward?text=' + encodeURIComponent(txt);
+    else a.href = 'https://wa.me/' + (K.whatsapp || '') + '?text=' + encodeURIComponent(txt);
+  }
+
+  /* ---------- svadbe: dugmad lijevo/desno ---------- */
+  function wdGo(d) { document.dispatchEvent(new CustomEvent('np:wd', { detail: d })); }
+
+  /* ---------- epizode: video na stranici (youtube-nocookie) ili YouTube ---------- */
+  function playEp(i, btn) {
+    var e = D.show.episodes[i];
+    if (!e.video) { window.open(D.youtube, '_blank', 'noopener'); return; }
+    var box = document.createElement('div'); box.className = 'ep-btn ep-on';
+    box.innerHTML = '<span class="ep-img"><iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(e.video) + '?autoplay=1&rel=0" title="' + esc(L(e.title)) + '" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></span>' +
+      '<span class="ep-n">' + esc(L(D.show.epLabel)) + ' ' + String(e.n).padStart(2, '0') + '</span><span class="ep-t">' + esc(L(e.title)) + '</span>';
+    btn.replaceWith(box);
+  }
+
   /* ---------- događaji ---------- */
   document.addEventListener('click', function (e) {
     var l = e.target.closest('[data-lang]'); if (l) { setLang(l.getAttribute('data-lang')); return; }
@@ -397,7 +457,10 @@
     var o = e.target.closest('.lb-open'); if (o) { lbOpen(o.getAttribute('data-lb'), +o.getAttribute('data-i'), o); return; }
     var f = e.target.closest('.filters .pill'); if (f) { applyFilter(f.getAttribute('data-f')); return; }
     var tp = e.target.closest('[data-topic-pick]'); if (tp) { pickTopic(tp.getAttribute('data-topic-pick')); return; }
+    var ac = e.target.closest('[data-acad]'); if (ac) { acadSend(ac.getAttribute('data-acad'), ac); return; }
     var s = e.target.closest('.send'); if (s) { send(s.getAttribute('data-via'), s, e); return; }
+    var wb = e.target.closest('[data-wd]'); if (wb) { wdGo(+wb.getAttribute('data-wd')); return; }
+    var ep = e.target.closest('[data-ep]'); if (ep) { playEp(+ep.getAttribute('data-ep'), ep); return; }
     var a = e.target.closest('a[href^="#"]');
     if (a) {
       var id = a.getAttribute('href').slice(1), target = id && document.getElementById(id);

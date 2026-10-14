@@ -83,12 +83,115 @@
   /* ---------- listanje: zaglavlje, napredak, paralaks, 11 spratova ---------- */
   var top = document.getElementById('top'), lastY = 0, ticking = false;
   var pars = [], tiers = null, tc = null, steps = [], lastN = -1;
+  var an = null, anL = [], anI = [], anLast = -2;
+  var wd = null, wdTrack = null, wdRail = null, wdMax = 0, wdPad = [0, 0], wdDesk = false, wdN = 0, wdCur = -1, wdCount = null, wdBar = null, wdP = 0;
   function collect() {
     pars = [].slice.call(document.querySelectorAll('[data-par]'));
     tiers = document.getElementById('tiers');
     tc = tiers && tiers.querySelector('.tc-n');
     steps = tiers ? [].slice.call(tiers.querySelectorAll('[data-step]')) : [];
     lastN = -1;
+    an = document.getElementById('anatomy');
+    anL = an ? [].slice.call(an.querySelectorAll('.an-l')) : [];
+    anI = an ? [].slice.call(an.querySelectorAll('.an-list li')) : [];
+    anLast = -2;
+    if (an) {
+      var sv = an.querySelector('.an-svg');
+      if (sv) sv.setAttribute('viewBox', matchMedia('(max-width: 900px)').matches ? '-4 0 470 520' : '0 0 760 520');
+      if (reduced) { an.style.setProperty('--x', 1); an.classList.add('all'); }
+    }
+    wdSetup();
+  }
+
+  /* ---------- svadbe: na desktopu se lista bočno dok stranica ide dole, na mobitelu prevlačenje ---------- */
+  function wdSetup() {
+    wd = document.getElementById('weddings'); if (!wd) return;
+    wdTrack = wd.querySelector('.wd-track'); wdRail = wd.querySelector('.wd-rail');
+    wdCount = wd.querySelector('.wd-count b'); wdBar = wd.querySelector('.wd-prog i');
+    wdN = wdRail.children.length; wdCur = -1;
+    wdDesk = matchMedia('(min-width: 901px)').matches && !reduced;
+    root.classList.toggle('wd-h', wdDesk);
+    if (wdDesk) {
+      wdRail.style.transform = '';
+      wdMax = Math.max(0, wdRail.scrollWidth - wdTrack.clientWidth);
+      var cs = getComputedStyle(wd); wdPad = [parseFloat(cs.paddingTop) || 0, parseFloat(cs.paddingBottom) || 0];
+      wd.style.height = Math.round(innerHeight + wdMax + wdPad[0] + wdPad[1]) + 'px';
+    } else { wd.style.height = ''; wdRail.style.transform = ''; wdMax = 0; }
+  }
+  function wdShow(p) {
+    wdP = p;
+    var i = Math.max(0, Math.min(wdN - 1, Math.round(p * (wdN - 1))));
+    if (wdBar) wdBar.style.transform = 'scaleX(' + Math.max(0.02, p).toFixed(3) + ')';
+    if (i !== wdCur) {
+      wdCur = i; if (wdCount) wdCount.textContent = String(i + 1).padStart(2, '0');
+      [].forEach.call(wdRail.children, function (li, j) { li.classList.toggle('on', j === i); });
+    }
+  }
+  function wdScroll() {
+    if (!wd) return;
+    if (wdDesk) {
+      var r = wd.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      var p = Math.min(1, Math.max(0, (-r.top - wdPad[0]) / Math.max(1, wdMax)));
+      wdRail.style.transform = 'translate3d(' + (-p * wdMax).toFixed(1) + 'px,0,0)';
+      wdShow(p);
+    }
+  }
+  function wdTrackScroll() {
+    if (wdDesk || !wdTrack) return;
+    var m = wdTrack.scrollWidth - wdTrack.clientWidth; wdShow(m > 0 ? wdTrack.scrollLeft / m : 0);
+  }
+  document.addEventListener('np:wd', function (e) {
+    if (!wd) return;
+    var d = e.detail, i = Math.max(0, Math.min(wdN - 1, wdCur + d));
+    if (wdDesk) {
+      var top = wd.getBoundingClientRect().top + scrollY + wdPad[0] + wdMax * (wdN > 1 ? i / (wdN - 1) : 0);
+      scrollTo({ top: top, behavior: 'smooth' });
+    } else {
+      var li = wdRail.children[i]; if (li) wdTrack.scrollTo({ left: li.offsetLeft - wdRail.children[0].offsetLeft, behavior: reduced ? 'auto' : 'smooth' });
+    }
+  });
+  /* povlačenje mišem na desktopu pomjera galeriju (klik bez pomjeranja i dalje otvara sliku) */
+  (function drag() {
+    var x0 = 0, y0 = 0, moved = false, on = false;
+    document.addEventListener('pointerdown', function (e) {
+      if (!wdDesk || e.pointerType !== 'mouse' || e.button !== 0 || !e.target.closest('.wd-track')) return;
+      on = true; moved = false; x0 = e.clientX; y0 = scrollY; e.preventDefault();
+    });
+    addEventListener('pointermove', function (e) {
+      if (!on) return;
+      var dx = e.clientX - x0; if (Math.abs(dx) > 4) moved = true;
+      if (moved && wdMax) { root.classList.add('dragging'); scrollTo(0, y0 - dx); }
+    });
+    addEventListener('pointerup', function () { if (!on) return; on = false; root.classList.remove('dragging'); });
+    document.addEventListener('click', function (e) { if (moved && e.target.closest('.wd-track')) { e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
+  })();
+
+  /* ---------- odbrojavanje do akademije (kuca samo dok se vidi) ---------- */
+  var cdTimer = 0;
+  function countdown() {
+    var box = document.querySelector('.ac-up'); clearInterval(cdTimer); if (!box) return;
+    var t = Date.parse(box.getAttribute('data-date')), cells = box.querySelectorAll('[data-cd]');
+    function tick() {
+      var ms = t - Date.now();
+      if (!(ms > 0)) { box.querySelector('.cd').hidden = true; box.querySelector('.cd-done').hidden = false; clearInterval(cdTimer); return; }
+      var v = [Math.floor(ms / 864e5), Math.floor(ms / 36e5) % 24, Math.floor(ms / 6e4) % 60, Math.floor(ms / 1e3) % 60];
+      for (var i = 0; i < 4; i++) { var x = String(v[i]).padStart(2, '0'); if (cells[i].textContent !== x) cells[i].textContent = x; }
+    }
+    tick();
+    new IntersectionObserver(function (en) { clearInterval(cdTimer); if (en[0].isIntersecting) cdTimer = setInterval(tick, 1000); }).observe(box);
+  }
+
+  /* ---------- medalje se naginju za mišem ---------- */
+  if (fine && !reduced) {
+    document.addEventListener('pointermove', function (e) {
+      var tl = e.target.closest && e.target.closest('.tl'); if (!tl) return;
+      var m = tl.querySelector('.medals'); if (!m) return;
+      var r = m.getBoundingClientRect(), dx = (e.clientX - (r.left + r.width / 2)) / 160, dy = (e.clientY - (r.top + r.height / 2)) / 160;
+      m.style.setProperty('--ry', (Math.max(-1, Math.min(1, dx)) * 28).toFixed(1) + 'deg');
+      m.style.setProperty('--rx', (Math.max(-1, Math.min(1, -dy)) * 22).toFixed(1) + 'deg');
+    }, { passive: true });
+    document.addEventListener('pointerout', function (e) { var tl = e.target.closest && e.target.closest('.tl'); if (tl && !tl.contains(e.relatedTarget)) { var m = tl.querySelector('.medals'); if (m) { m.style.removeProperty('--rx'); m.style.removeProperty('--ry'); } } });
   }
   function onScroll() {
     ticking = false;
@@ -114,20 +217,42 @@
         tiers.classList.toggle('done', p > 0.9);
       }
     }
+    if (an) {
+      var ar = an.getBoundingClientRect(), aspan = ar.height - vh;
+      if (ar.bottom > 0 && ar.top < vh) {
+        var ap = Math.min(1, Math.max(0, -ar.top / Math.max(1, aspan)));
+        var x = Math.min(1, Math.max(0, (ap - 0.06) / 0.42)); x = x * x * (3 - 2 * x);
+        an.style.setProperty('--x', x.toFixed(4));
+        var ai = ap < 0.5 ? -1 : Math.min(anL.length - 1, Math.floor((ap - 0.5) / 0.46 * anL.length));
+        if (ai !== anLast) {
+          anLast = ai;
+          an.classList.toggle('open', ai >= 0);
+          anL.forEach(function (g) { g.classList.toggle('act', +g.getAttribute('data-i') === ai); });
+          anI.forEach(function (li, j) { li.classList.toggle('act', j === ai || (ai < 0 && j === 0)); });
+        }
+      }
+    }
+    wdScroll();
   }
   addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-  addEventListener('resize', onScroll);
+  addEventListener('resize', function () { collect(); onScroll(); });
 
   /* ---------- kursor (samo miš) ---------- */
   (function cursor() {
     var c = document.querySelector('.cursor'); if (!c || !fine || reduced) return;
     root.classList.add('has-cursor');
+    c.innerHTML = '<i></i><span></span>';
+    var lab = c.querySelector('span'), UI = window.NP && window.NP.ui;
     var x = -100, y = -100, cxp = -100, cyp = -100, on = false;
     addEventListener('pointermove', function (e) {
       x = e.clientX; y = e.clientY;
       if (!on) { on = true; cxp = x; cyp = y; loop(); }
-      var t = e.target.closest && e.target.closest('a, button, .lb-open, input, textarea');
-      c.classList.toggle('big', !!t);
+      var t = e.target.closest && e.target.closest('a, button, .lb-open, input, textarea, .wd-track');
+      var word = '', L = window.NPApp && window.NPApp.L;
+      if (t && L && UI) { if (wdDesk && t.closest('.wd-track')) word = L(UI.drag); else if (t.closest('.lb-open')) word = L(UI.view); }
+      if (lab.textContent !== word) lab.textContent = word;
+      c.classList.toggle('big', !!t && !word);
+      c.classList.toggle('word', !!word);
     }, { passive: true });
     document.addEventListener('pointerleave', function () { on = false; c.style.opacity = 0; });
     function loop() {
@@ -139,10 +264,36 @@
     }
   })();
 
-  function init() { collect(); watch(); pauseOff(); onScroll(); }
+  function init() {
+    collect(); watch(); pauseOff(); onScroll(); countdown();
+    var tio = new IntersectionObserver(function (en) { en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('tex'); tio.unobserve(x.target); } }); }, { rootMargin: '700px 0px' });
+    [].forEach.call(document.querySelectorAll('.works, .awards, .contact'), function (el) { tio.observe(el); });
+    if (wdTrack) wdTrack.addEventListener('scroll', function () { requestAnimationFrame(wdTrackScroll); }, { passive: true });
+    wdTrackScroll(); if (wd && wdCur < 0) wdShow(0);
+  }
   document.addEventListener('np:render', init);
   init();
-  /* monogram se ispiše kad su fontovi spremni (bez čekanja duže od 1,8 s) */
+  /* ---------- uvod: samo pri prvom otvaranju (ili ?intro), dodir ili tipka ga preskače ---------- */
   var go = function () { root.classList.add('ready'); };
-  if (document.fonts && document.fonts.ready) { Promise.race([document.fonts.ready, new Promise(function (r) { setTimeout(r, 600); })]).then(go); } else go();
+  var introPending = root.classList.contains('intro-on') && window.NP_ART && !reduced;
+  if (introPending) {
+    var ui = window.NP.ui, L0 = window.NPApp ? window.NPApp.L : function (o) { return o.bs; };
+    var el = document.createElement('div'); el.className = 'intro'; el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = '<div class="intro-in">' + window.NP_ART.mono + '<p class="intro-l">Pastry Chef · Mostar</p></div><span class="intro-skip">' + L0(ui.skipIntro) + '</span><i class="intro-edge"></i>';
+    document.body.appendChild(el);
+    root.classList.add('locked');
+    requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.add('go'); }); });
+    var ended = false, end = function () {
+      if (ended) return; ended = true; clearTimeout(tm);
+      el.classList.add('out'); root.classList.remove('locked', 'intro-on'); go();
+      removeEventListener('keydown', end); removeEventListener('wheel', end);
+      setTimeout(function () { el.remove(); }, 1300);
+    };
+    var tm = setTimeout(end, 2400);
+    el.addEventListener('pointerdown', end); addEventListener('keydown', end); addEventListener('wheel', end, { passive: true });
+  } else {
+    root.classList.remove('intro-on');
+    /* monogram se ispiše kad su fontovi spremni (bez čekanja duže od 0,6 s) */
+    if (document.fonts && document.fonts.ready) { Promise.race([document.fonts.ready, new Promise(function (r) { setTimeout(r, 600); })]).then(go); } else go();
+  }
 })();

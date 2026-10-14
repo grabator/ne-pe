@@ -71,6 +71,11 @@
     try { l = new URLSearchParams(location.search).get('lang') || localStorage.getItem('np-lang'); } catch (e) {}
     if (l === 'en' || l === 'de' || l === 'bs') d.lang = l;
     d.className += ' js';
+    /* uvod samo pri prvom otvaranju; ekran ostaje taman dok se ne pokrene */
+    try {
+      var force = /[?&]intro\b/.test(location.search), seen = localStorage.getItem('np-intro') === '1';
+      if (force || (!seen && !matchMedia('(prefers-reduced-motion: reduce)').matches)) { d.className += ' intro-on'; localStorage.setItem('np-intro', '1'); }
+    } catch (e) {}
   })();
 </script>
 </head>
@@ -128,6 +133,7 @@
 
 <script src="data/np.js"></script>
 <script src="data/slike.js"></script>
+<script src="js/art.js"></script>
 <script src="js/app.js"></script>
 <script src="js/fx.js"></script>
 </body>

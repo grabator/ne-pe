@@ -238,6 +238,7 @@ em { font-style: italic; }
 
 /* ---------- 04 svadbe (svijetla sekcija) ---------- */
 .light { background: var(--paper); color: var(--paper-ink); }
+.light .wd-pin { position: relative; z-index: 1; }
 .light::before, .light::after { content: ''; position: absolute; left: 0; right: 0; height: clamp(60px, 10vw, 140px); pointer-events: none; }
 .light::before { top: 0; background: linear-gradient(var(--ink), var(--paper)); }
 .light::after { bottom: 0; background: linear-gradient(var(--paper), var(--ink)); }
@@ -249,16 +250,43 @@ em { font-style: italic; }
 .wd-top { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; align-items: end; margin-bottom: clamp(40px, 6vw, 72px); }
 .wd-top .sec-head { grid-column: 1 / 8; margin: 0; }
 .wd-text { grid-column: 8 / 13; }
-.wd-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 24px); }
+.weddings { position: relative; }
+.wd-inner { padding: var(--sec) 0 clamp(64px, 8vw, 120px); }
+.wd-top { margin-bottom: clamp(28px, 4vw, 48px); }
 .wd { margin: 0; position: relative; }
-.wd-big { grid-column: 1 / -1; }
-.wd-big .lb-open { aspect-ratio: 16 / 8.5; }
-.wd-big img { object-position: 50% 32%; }
-.wd-sm .lb-open { aspect-ratio: 4 / 5; }
 .wd figcaption { margin-top: 14px; font: 600 10.5px/1.5 var(--sans); letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-2); }
+/* traka sa fotografijama: na mobitelu se prevlači prstom */
+.wd-track { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); scrollbar-width: none; -webkit-overflow-scrolling: touch; outline-offset: -4px; }
+.wd-track::-webkit-scrollbar { display: none; }
+.wd-rail { display: flex; gap: clamp(14px, 2vw, 28px); width: max-content; padding: 0 var(--gut); }
+.wd-slide { flex: none; width: min(82vw, 520px); scroll-snap-align: start; }
+.wd-slide .lb-open { aspect-ratio: 4 / 5; }
+.wd-slide img { transform: scale(1.001); transition: transform 7s cubic-bezier(.2, .5, .3, 1); }
+.wd-slide.on img { transform: scale(1.07); }
+.wd-bar { display: flex; align-items: center; gap: 22px; margin-top: 26px; }
+.wd-count { font: 600 11px/1 var(--sans); letter-spacing: 0.22em; color: var(--paper-2); white-space: nowrap; }
+.wd-count b { font: 300 30px/1 var(--serif); letter-spacing: 0; color: var(--paper-ink); margin-right: 4px; }
+.wd-prog { position: relative; flex: 1; height: 1px; background: rgba(26, 22, 18, 0.15); overflow: hidden; }
+.wd-prog i { position: absolute; inset: 0; background: #8A6A35; transform-origin: 0 50%; transform: scaleX(0.02); transition: transform 0.25s linear; }
+.wd-nav { display: flex; gap: 10px; }
+.wd-btn { width: 48px; height: 48px; border: 1px solid rgba(26, 22, 18, 0.22); border-radius: 50%; color: var(--paper-ink); font-size: 17px; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
+.wd-btn:hover { background: var(--paper-ink); color: var(--paper); border-color: var(--paper-ink); }
+/* desktop: sekcija se zalijepi, fotografije idu bočno dok se lista */
+.wd-h .weddings { padding: clamp(60px, 10vw, 140px) 0; box-sizing: border-box; }
+.wd-h .wd-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.wd-h .wd-inner { height: 100%; padding: 92px 0 32px; display: flex; flex-direction: column; justify-content: center; }
+.wd-h .weddings .h2 { font-size: clamp(44px, 5vw, 80px); }
+.wd-h .wd-track { overflow: hidden; scroll-snap-type: none; cursor: grab; }
+.wd-h.dragging, .wd-h.dragging * { cursor: grabbing !important; user-select: none; }
+.wd-h .wd-rail { padding-left: max(var(--gut), (100vw - var(--max)) / 2); will-change: transform; }
+.wd-h .wd-slide { width: auto; }
+.wd-h .wd-slide .lb-open { aspect-ratio: auto; width: auto; height: min(56vh, 600px); }
+.wd-h .wd-slide img { width: auto; height: 100%; max-width: none; }
+.wd-h .wd-slide figcaption { max-width: 40ch; }
+.wd-h .wd-slide:last-child { padding-right: var(--gut); }
 .lb-open { display: block; width: 100%; overflow: hidden; background: #E9E0D2; position: relative; cursor: zoom-in; }
 .lb-open img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease); }
-@media (hover: hover) { .lb-open:hover img { transform: scale(1.04); } }
+@media (hover: hover) { .lb-open:hover img { transform: scale(1.04); } .wd-slide .lb-open:hover img { transform: scale(1.07); } }
 
 /* ---------- 05 fondan ---------- */
 .filters { display: flex; flex-wrap: wrap; gap: 10px; margin: -24px 0 clamp(32px, 4vw, 48px); }
@@ -279,19 +307,29 @@ em { font-style: italic; }
 .aw-grid .sec-head { grid-column: 1 / 6; align-self: start; position: sticky; top: 120px; }
 .timeline { grid-column: 7 / 13; position: relative; padding-left: 40px; }
 .timeline::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 10px; width: 1px; background: linear-gradient(var(--gold), rgba(201, 164, 106, 0.15)); }
-.tl { position: relative; display: grid; grid-template-columns: 112px 1fr; gap: 20px; padding: 0 0 clamp(36px, 4vw, 56px); }
+.tl { position: relative; display: grid; grid-template-columns: 112px 1fr; grid-template-rows: auto 1fr; column-gap: 20px; padding: 0 0 clamp(40px, 4vw, 60px); }
+.tl-year { grid-row: 1 / 3; }
+.medals { grid-column: 2; display: flex; gap: 12px; margin-bottom: 16px; perspective: 700px; --rx: 0deg; --ry: 0deg; }
+.tl-body { grid-column: 2; }
+/* medalja: traka i metalni disk koji se lagano okreće */
+.m3d { position: relative; display: block; width: 60px; height: 88px; transform-style: preserve-3d; transform: rotateX(var(--rx)) rotateY(var(--ry)); transition: transform 0.6s var(--ease); }
+.m-rib { position: absolute; left: 50%; top: 0; width: 28px; height: 36px; margin-left: -14px; background: linear-gradient(90deg, #5B1A20 0 30%, #E2C690 30% 38%, #5B1A20 38% 62%, #E2C690 62% 70%, #5B1A20 70%); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%); }
+.m-disc { position: absolute; left: 0; bottom: 0; width: 60px; height: 60px; border-radius: 50%; background: conic-gradient(from 210deg, var(--m3), var(--m1), var(--m2), var(--m3), var(--m1), var(--m2), var(--m3)); box-shadow: 0 14px 26px -12px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.25); animation: sway 7s ease-in-out infinite; }
+.m-face { position: absolute; inset: 6px; border-radius: 50%; overflow: hidden; display: grid; place-items: center; background: radial-gradient(circle at 34% 28%, var(--m1), var(--m2) 55%, var(--m3)); box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.45), inset 0 -4px 7px rgba(0, 0, 0, 0.35); }
+.m-face b { font: 500 19px/1 var(--serif); color: rgba(40, 26, 8, 0.5); text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45); }
+.m-face::after { content: ''; position: absolute; inset: -40%; background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.8) 50%, transparent 58%); transform: translateX(-120%); }
+.tl.in .m-face::after { animation: shine 1.6s 0.4s var(--ease) both, shine 1.6s 6s var(--ease) infinite; }
+.m-gold { --m1: #F8E7B0; --m2: #C9A046; --m3: #7E5E1C; }
+.m-silver { --m1: #FFFFFF; --m2: #BFC4CA; --m3: #6E747C; }
+.m-bronze { --m1: #F4CDA4; --m2: #B0743E; --m3: #643B1C; }
+.m3d + .m3d .m-disc { animation-delay: -2s; }
+@keyframes sway { 0%, 100% { transform: rotateY(-16deg); } 50% { transform: rotateY(16deg); } }
 .tl::before { content: ''; position: absolute; left: -44px; top: 14px; width: 9px; height: 9px; border-radius: 50%; background: var(--ink-2); border: 1px solid var(--gold); }
 .tl-year { font: 300 clamp(40px, 3.6vw, 56px)/0.9 var(--serif); color: var(--cream); font-variant-numeric: lining-nums; }
 .tl-medal { display: flex; align-items: center; gap: 10px; }
 .tl-medal b { font: 600 11px/1 var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
-.medal { position: relative; width: 22px; height: 22px; border-radius: 50%; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25); }
-.medal-gold { background: radial-gradient(circle at 35% 30%, #F6E2A8, #C9A046 55%, #8C6A22); }
-.medal-silver { background: radial-gradient(circle at 35% 30%, #FFFFFF, #BFC3C8 55%, #7E848C); }
-.medal-bronze { background: radial-gradient(circle at 35% 30%, #F2C9A0, #B0743E 55%, #6E4220); }
-.medal::after { content: ''; position: absolute; inset: -40%; background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.75) 50%, transparent 60%); transform: translateX(-120%); }
-.tl.in .medal::after { animation: shine 1.4s 0.5s var(--ease) both; }
-@keyframes shine { to { transform: translateX(120%); } }
-.tl-event { margin-top: 12px; font: 300 clamp(24px, 2vw, 32px)/1.15 var(--serif); color: var(--cream); }
+@keyframes shine { 0% { transform: translateX(-120%); } 30%, 100% { transform: translateX(120%); } }
+.tl-event { margin-top: 10px; font: 300 clamp(24px, 2vw, 32px)/1.15 var(--serif); color: var(--cream); }
 .tl-place { margin-top: 6px; font-size: 15px; color: var(--cream-2); }
 .link-btn { margin-top: 14px; font: 600 11px/1 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); padding: 8px 0; border-bottom: 1px solid rgba(201, 164, 106, 0.4); transition: color 0.3s, border-color 0.3s; cursor: zoom-in; background: none; display: inline-block; width: auto; overflow: visible; }
 .link-btn:hover { color: var(--gold-2); border-color: var(--gold-2); }
@@ -387,10 +425,158 @@ em { font-style: italic; }
 .lb-prev { left: 18px; } .lb-next { right: 18px; }
 .lb-x { position: absolute; top: calc(18px + env(safe-area-inset-top)); right: var(--gut); font: 600 11px/1 var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream); padding: 12px 0; }
 
+
+/* ---------- potpisni radovi: ilustracija ili fotografija ---------- */
+.card-art { position: relative; margin: -6px -4px 6px; aspect-ratio: 4 / 3; display: grid; place-items: center; min-width: 0; overflow: hidden; }
+.card { min-width: 0; }
+.card-art .ill { position: absolute; inset: 0; }
+.card-art::before { content: ''; position: absolute; inset: 8% 14%; border-radius: 50%; background: radial-gradient(closest-side, rgba(201, 164, 106, 0.16), transparent); opacity: 0.6; transition: opacity 0.8s, transform 1.2s var(--ease); }
+.ill { position: relative; width: 100%; height: 100%; overflow: visible; fill: none; stroke: var(--gold); stroke-width: 1.1; stroke-linecap: round; stroke-linejoin: round; transition: stroke 0.6s; }
+.js .ill > * { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2.6s var(--ease) calc(0.25s + var(--d, 0) * 0.15s); }
+.js .card.in .ill > * { stroke-dashoffset: 0; }
+.card-photo { aspect-ratio: 4 / 3; overflow: hidden; margin: calc(clamp(28px, 3vw, 44px) * -1 + 8px) calc(clamp(22px, 2.4vw, 34px) * -1 + 8px) 6px; }
+.card-photo::before { display: none; }
+.card-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease); }
+@media (hover: hover) {
+  .card:hover .card-art::before { opacity: 1; transform: scale(1.12); }
+  .card:hover .ill { stroke: var(--gold-2); }
+  .card:hover .card-photo img { transform: scale(1.06); }
+}
+
+/* ---------- potpis ---------- */
+.sign-wrap { width: min(280px, 64vw); margin-top: 4px; }
+.sign { display: block; width: 100%; height: auto; overflow: visible; }
+.js .sign-wipe { transform: scaleX(0); transform-box: fill-box; transform-origin: 0 50%; transition: transform 2.8s cubic-bezier(.45, .05, .35, 1) 0.5s; }
+.js .in .sign-wipe { transform: none; }
+
+/* ---------- anatomija deserta ---------- */
+.anatomy { position: relative; height: 280vh; background: radial-gradient(60% 50% at 70% 50%, rgba(201, 164, 106, 0.10), transparent 70%), var(--ink); }
+.an-stage { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; align-items: center; overflow: hidden; }
+.an-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; align-items: center; }
+.an-text { grid-column: 1 / 6; }
+.an-text .sec-head { margin-bottom: 0; }
+.an-lead-txt { margin-top: 26px; }
+.an-dish { margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--line); display: grid; gap: 10px; }
+.an-dish b { font: italic 300 clamp(24px, 2vw, 32px)/1.15 var(--serif); color: var(--cream); }
+.an-art { grid-column: 6 / 13; }
+.an-svg { display: block; width: 100%; height: auto; max-height: calc(100svh - 110px); overflow: visible; }
+.an-l { transform: translateY(calc(var(--x, 0) * var(--k) * 58px)); }
+.an-tag { opacity: var(--x, 0); transition: opacity 0.3s; }
+.an-lead { stroke: var(--gold); stroke-width: 1; opacity: 0.7; }
+.an-dot { fill: var(--gold); }
+.an-name { font: 300 25px/1 var(--serif); fill: var(--cream); transition: fill 0.4s; }
+.an-note { font: 600 11px/1 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; fill: var(--gold); }
+.an-num { display: none; font: 500 22px/1 var(--serif); fill: var(--gold-2); }
+.an-garnish { transform: translateY(calc(var(--x, 0) * -18px)); }
+.open .an-l:not(.act) .an-name { fill: var(--cream-2); }
+.an-l.act .an-name { fill: var(--gold-2); }
+.an-list { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.an-list li { display: flex; gap: 14px; align-items: baseline; }
+.an-list small { font: 500 22px/1 var(--serif); color: var(--gold-2); min-width: 16px; }
+.an-list span { display: grid; gap: 6px; }
+.an-list b { font: 300 24px/1.1 var(--serif); color: var(--cream); }
+.an-list em { font: 600 10.5px/1.3 var(--sans); font-style: normal; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+
+/* ---------- akademija: termin, odbrojavanje, certifikat ---------- */
+.ac-up { margin-top: 30px; padding: 26px clamp(20px, 2.4vw, 32px) 28px; border: 1px solid rgba(201, 164, 106, 0.35); background: linear-gradient(160deg, rgba(201, 164, 106, 0.08), transparent 60%); display: grid; gap: 10px; }
+.ac-up-t { font: 300 clamp(26px, 2.2vw, 34px)/1.1 var(--serif); color: var(--cream); }
+.ac-up-p { font-size: 15px; color: var(--cream-2); }
+.cd { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 12px 0 8px; }
+.cd p { display: grid; justify-items: center; gap: 6px; padding: 14px 4px 12px; border: 1px solid var(--line); background: rgba(14, 12, 10, 0.5); }
+.cd b { font: 300 clamp(34px, 3vw, 48px)/1 var(--serif); color: var(--gold-2); font-variant-numeric: tabular-nums lining-nums; }
+.cd span { font: 600 10px/1 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-2); }
+.cd-done { font: italic 300 22px/1.3 var(--serif); color: var(--gold-2); }
+.ac-sign { display: flex; gap: 10px; margin-top: 6px; }
+.ac-sign .send { flex: 1 1 0; }
+.btn-sm { padding: 15px 22px; font-size: 11px; }
+.ac-more { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; align-items: center; margin-top: clamp(64px, 9vw, 130px); }
+.ac-nums { grid-column: 1 / 6; display: grid; gap: 0; }
+.ac-nums li { display: grid; grid-template-columns: 120px 1fr; align-items: baseline; gap: 18px; padding: 20px 0; border-top: 1px solid var(--line); }
+.ac-nums li:last-child { border-bottom: 1px solid var(--line); }
+.ac-nums b { font: 300 clamp(52px, 5vw, 76px)/0.9 var(--serif); color: var(--gold); font-variant-numeric: lining-nums; }
+.ac-nums span { color: var(--cream-2); }
+.cert { grid-column: 7 / 13; margin: 0; position: relative; padding: 14px; background: #F4ECDD; color: #2A2218; box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(0, 0, 0, 0.2); transform: rotate(-1.6deg); transition: transform 1s var(--ease), opacity 1.1s var(--ease); }
+.js .cert.rv { transform: rotate(-4deg) translateY(30px); }
+.js .cert.rv.in { transform: rotate(-1.6deg); }
+@media (hover: hover) { .js .cert.rv.in:hover { transform: rotate(0deg) scale(1.01); } }
+.cert-in { position: relative; border: 1px solid #B8955A; outline: 1px solid #B8955A; outline-offset: -7px; padding: clamp(28px, 4vw, 52px) clamp(22px, 3.4vw, 48px) clamp(24px, 3vw, 36px); text-align: center; background: radial-gradient(120% 90% at 50% 0, rgba(255, 255, 255, 0.6), transparent 60%); }
+.cert-k { font: 600 10px/1.4 var(--sans); letter-spacing: 0.28em; text-transform: uppercase; color: #8A6A35; }
+.cert-t { margin-top: 10px; font: 300 clamp(44px, 5vw, 72px)/1 var(--serif); letter-spacing: 0.02em; color: #2A2218; }
+.cert-l { margin-top: 8px; font: italic 300 clamp(17px, 1.4vw, 21px)/1.3 var(--serif); color: #5A4A36; }
+.cert-who { margin: 26px auto 0; max-width: 300px; display: grid; gap: 8px; }
+.cert-who span { height: 28px; border-bottom: 1px solid #B8955A; }
+.cert-who small, .cert-by small { font: 600 9px/1.3 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: #8A6A35; }
+.cert-foot { margin-top: 22px; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; text-align: left; }
+.cert-by { display: grid; gap: 4px; width: min(200px, 55%); }
+.cert-by .sign { width: 100%; }
+.cert-seal { position: relative; flex: none; width: 74px; height: 74px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 35% 30%, #F8E7B0, #C9A046 55%, #7E5E1C); box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.6), inset 0 0 0 5px rgba(255, 255, 255, 0.18); }
+.cert-seal::before { content: ''; position: absolute; inset: -6px; border-radius: 50%; background: repeating-conic-gradient(#C9A046 0 6deg, #A8822F 6deg 12deg); z-index: -1; -webkit-mask: radial-gradient(closest-side, transparent 78%, #000 80%); mask: radial-gradient(closest-side, transparent 78%, #000 80%); }
+.cert-seal b { font: 400 24px/1 var(--serif); color: rgba(60, 40, 10, 0.65); letter-spacing: -0.04em; }
+
+/* ---------- slatke priče: epizode ---------- */
+.eps-wrap { width: min(var(--max), 100% - var(--gut) * 2); margin: clamp(48px, 6vw, 80px) auto 0; }
+.eps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); text-align: left; }
+.ep-btn { display: grid; gap: 8px; width: 100%; text-align: left; }
+.ep-img { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--ink-3); }
+.ep-img img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.9) brightness(0.82); transition: transform 1.2s var(--ease), filter 0.6s; }
+.ep-img iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.ep-play { position: absolute; left: 50%; top: 50%; width: 58px; height: 58px; margin: -29px; border-radius: 50%; border: 1px solid rgba(243, 234, 219, 0.7); background: rgba(14, 12, 10, 0.35); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); transition: transform 0.5s var(--ease), background-color 0.4s; }
+.ep-play::after { content: ''; position: absolute; left: 23px; top: 19px; border-left: 15px solid var(--cream); border-top: 10px solid transparent; border-bottom: 10px solid transparent; }
+.ep-n { margin-top: 8px; font: 600 10.5px/1 var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+.ep-t { font: 300 clamp(22px, 1.6vw, 28px)/1.15 var(--serif); color: var(--cream); }
+@media (hover: hover) {
+  .ep-btn:hover .ep-img img { transform: scale(1.05); filter: saturate(1) brightness(0.95); }
+  .ep-btn:hover .ep-play { transform: scale(1.1); background: var(--gold); border-color: var(--gold); }
+}
+.show-cta { margin-top: clamp(36px, 5vw, 56px); }
+
+/* ---------- pisali su: traka ---------- */
+.marquee { margin-top: clamp(64px, 8vw, 110px); border-block: 1px solid var(--line); overflow: hidden; padding: clamp(18px, 2.4vw, 30px) 0; }
+.mq-track { display: flex; width: max-content; animation: mq 42s linear infinite; }
+.marquee:hover .mq-track { animation-play-state: paused; }
+.mq-track p { display: flex; align-items: center; gap: clamp(26px, 3vw, 48px); padding-right: clamp(26px, 3vw, 48px); }
+.mq-track span { font: italic 300 clamp(28px, 3.6vw, 52px)/1 var(--serif); color: var(--cream-2); white-space: nowrap; }
+.mq-track i { flex: none; width: 10px; height: 10px; background: var(--gold); clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%); }
+@keyframes mq { to { transform: translateX(-50%); } }
+
+/* ---------- mramor u pozadini nekih sekcija ---------- */
+/* učitava se tek kad je sekcija blizu (klasa tex iz js/fx.js) */
+.works.tex, .awards.tex, .contact.tex { background-image: url(../assets/tex/mramor.webp); background-size: cover; background-position: center; }
+.awards.tex { background-position: 70% 30%; }
+
+/* ---------- uvod ---------- */
+html.intro-on body::before { content: ''; position: fixed; inset: 0; z-index: 119; background: var(--ink); animation: intro-safe 0.01s 4s forwards; }
+@keyframes intro-safe { to { visibility: hidden; } }
+.intro { position: fixed; inset: 0; z-index: 120; display: grid; place-items: center; background: var(--ink); transition: transform 1.15s cubic-bezier(.76, 0, .24, 1); }
+.intro.out { transform: translateY(-100%); }
+.intro-edge { position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.intro-in { display: grid; justify-items: center; gap: 22px; transition: transform 1s var(--ease), opacity 0.6s; }
+.intro.out .intro-in { transform: translateY(-50px); opacity: 0; }
+.intro-mono { width: clamp(130px, 22vw, 210px); height: auto; overflow: visible; fill: transparent; stroke: var(--gold); stroke-width: 0.5; }
+.intro-mono path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.intro.go .intro-mono path { animation: draw 1.25s var(--ease) forwards, fill-in 0.6s 1.05s ease forwards; }
+.intro.go .intro-mono path + path { animation-delay: 0.15s, 1.15s; }
+.intro.go .intro-mono .intro-line { animation: draw 0.9s 0.55s var(--ease) forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes fill-in { to { fill: var(--cream); stroke-width: 0; } }
+.intro-l { font: 600 11px/1 var(--sans); letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); opacity: 0; transform: translateY(8px); transition: opacity 0.8s 0.9s, transform 1s 0.9s var(--ease); }
+.intro.go .intro-l { opacity: 1; transform: none; }
+.intro-skip { position: absolute; bottom: calc(28px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); font: 600 10px/1 var(--sans); letter-spacing: 0.24em; text-transform: uppercase; color: var(--cream-2); opacity: 0; transition: opacity 0.6s 0.8s; }
+.intro.go .intro-skip { opacity: 0.7; }
+
+/* diploma se otvara kao papir */
+.lb-paper .lb-img { transform-origin: 50% 0; box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.8); animation: unfold 1s var(--ease) both; }
+@keyframes unfold { from { opacity: 0; transform: perspective(1400px) rotateX(-62deg) translateY(-20px); } }
+
 /* ---------- kursor ---------- */
-.cursor { position: fixed; left: -18px; top: -18px; z-index: 100; width: 36px; height: 36px; border: 1px solid rgba(201, 164, 106, 0.7); border-radius: 50%; pointer-events: none; opacity: 0; transition: width 0.35s var(--ease), height 0.35s var(--ease), left 0.35s var(--ease), top 0.35s var(--ease), background-color 0.35s, opacity 0.3s; mix-blend-mode: difference; display: none; }
+.cursor { position: fixed; left: 0; top: 0; z-index: 100; width: 0; height: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s; display: none; }
 .has-cursor .cursor { display: block; }
-.cursor.big { width: 72px; height: 72px; left: -36px; top: -36px; background: rgba(201, 164, 106, 0.12); }
+.cursor i { position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; background: var(--gold); clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%); transition: transform 0.45s var(--ease); }
+.cursor.big i { transform: scale(1.9) rotate(45deg); }
+.cursor span { position: absolute; left: -44px; top: -44px; width: 88px; height: 88px; border-radius: 50%; display: grid; place-items: center; background: rgba(14, 12, 10, 0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); border: 1px solid rgba(201, 164, 106, 0.7); font: 600 10px/1 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream); transform: scale(0); transition: transform 0.4s var(--ease); }
+.cursor.word span { transform: scale(1); }
+.cursor.word i { transform: scale(0); }
+.has-cursor .lb-open, .has-cursor.wd-h .wd-track { cursor: none; }
 
 /* ---------- brzina: van ekrana se ne crta i ne animira ---------- */
 #main > .sec:not(.tiers) { content-visibility: auto; contain-intrinsic-size: auto 1100px; }
@@ -447,7 +633,10 @@ em { font-style: italic; }
   .filters { margin-top: -12px; }
   .aw-grid .sec-head { position: static; }
   .timeline { padding-left: 28px; }
-  .tl { grid-template-columns: 1fr; gap: 6px; }
+  .tl { grid-template-columns: 1fr; grid-template-rows: none; gap: 6px; }
+  .tl-year { grid-row: auto; }
+  .medals, .tl-body { grid-column: 1; }
+  .medals { margin-top: 8px; }
   .tl::before { left: -32px; }
   .ac-art { width: 84%; margin-bottom: 56px; }
   .ac-b { right: -14%; }
@@ -476,16 +665,60 @@ em { font-style: italic; }
   .tiers-detail { width: 42%; right: -18%; bottom: -4%; }
   .tiers-detail figcaption { display: none; }
   .tiers-line { left: -14px; }
+
+  /* anatomija na mobitelu: crtež preko cijele širine, brojevi uz slojeve, ispod ime aktivnog sloja */
+  .anatomy { height: 250vh; }
+  .an-stage { align-items: start; padding-top: calc(72px + env(safe-area-inset-top)); }
+  .an-grid { grid-template-columns: 1fr; row-gap: 8px; }
+  .an-text, .an-art { grid-column: 1; }
+  .an-text .chapter { margin-bottom: 12px; }
+  .anatomy .h2 { font-size: clamp(36px, 10.5vw, 52px); }
+  .an-lead-txt { display: none; }
+  .an-dish { margin-top: 10px; padding-top: 0; border: 0; gap: 4px; }
+  .an-dish b { font-size: 20px; }
+  .an-svg { width: auto; max-width: 100%; max-height: calc(100svh - 300px); margin-inline: auto; }
+  .an-name, .an-note { display: none; }
+  .an-num { display: block; font-size: 34px; }
+  .an-list { position: relative; width: auto; height: 66px; overflow: visible; clip-path: none; }
+  .an-list li { position: absolute; inset: 0 0 auto 0; opacity: 0; transform: translateY(8px); transition: opacity 0.5s, transform 0.6s var(--ease); }
+  .an-list li.act { opacity: 1; transform: none; }
+  .an-list b { font-size: 22px; }
+
+  .card-art { aspect-ratio: 16 / 10; }
+  .medals { gap: 10px; margin-bottom: 12px; }
+  .m3d { width: 50px; height: 74px; }
+  .m-disc { width: 50px; height: 50px; }
+  .m-face { inset: 5px; }
+  .m-face b { font-size: 16px; }
+  .m-rib { width: 24px; height: 30px; margin-left: -12px; }
+  .ac-more { grid-template-columns: 1fr; row-gap: 56px; }
+  .ac-nums, .cert { grid-column: 1; }
+  .ac-nums li { grid-template-columns: 84px 1fr; gap: 12px; padding: 16px 0; }
+  .cert { margin-inline: 4px; }
+  .eps-wrap { width: 100%; }
+  .eps { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(76vw, 340px); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); padding: 0 var(--gut) 6px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .eps::-webkit-scrollbar { display: none; }
+  .ep { scroll-snap-align: start; }
+  .wd-bar { margin-top: 20px; gap: 16px; }
 }
 @media (max-width: 380px) {
   .hero-name { font-size: 48px; }
+  .cd { gap: 5px; }
+  .cd p { padding: 12px 2px 10px; }
+  .cd b { font-size: 30px; }
+  .cd span { font-size: 9px; letter-spacing: 0.14em; }
+  .wd-btn { width: 44px; height: 44px; }
   .card { min-height: 0; }
   .ct-side { grid-template-columns: 1fr; }
   .ct-img { grid-row: auto; width: 60%; }
 }
 @media (max-width: 640px) {
-  .cards { grid-template-columns: 1fr; }
-  .card { min-height: 0; gap: 12px; }
+  /* recepti se prevlače prstom, kartica do kartice */
+  .works .wrap { width: 100%; }
+  .works .sec-head { width: min(var(--max), 100% - var(--gut) * 2); margin-inline: auto; }
+  .cards { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(80vw, 330px); gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); padding: 0 var(--gut) 4px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .cards::-webkit-scrollbar { display: none; }
+  .card { min-height: 0; gap: 12px; scroll-snap-align: start; }
   .card-aside { margin-top: 10px; }
 }
 
@@ -511,4 +744,15 @@ em { font-style: italic; }
   .tiers-line::after { height: 100%; }
   .tiers-final, .tiers-detail { opacity: 1; transform: none; }
   @media (max-width: 900px) { .tiers-steps { height: auto; display: grid; } .tiers-steps li { position: static; } .tiers-art { height: auto; } }
+  .anatomy { height: auto; }
+  .an-stage { position: static; height: auto; padding: var(--sec) 0; }
+  .an-list { position: static; width: auto; height: auto; clip-path: none; overflow: visible; display: grid; gap: 14px; margin-top: 20px; }
+  .an-list li { position: static; opacity: 1; transform: none; }
+  @media (min-width: 901px) { .an-list { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); } }
+  .mq-track { animation: none; flex-wrap: wrap; width: auto; }
+  .mq-track p + p { display: none; }
+  .mq-track p { flex-wrap: wrap; padding: 0 var(--gut); }
+  .m-disc { animation: none; }
+  .js .ill > * { stroke-dashoffset: 0; }
+  .js .sign-wipe { transform: none; }
 }
