@@ -48,7 +48,11 @@ window.NP = {
       en: 'Demo: website preview. Photos: Hercegovina.info, Hercegovina.in, Instagram @nemanja_petr.',
       de: 'Demo: Vorschau der Website. Fotos: Hercegovina.info, Hercegovina.in, Instagram @nemanja_petr.'
     },
-    demoTag: { bs: 'demo', en: 'demo', de: 'Demo' }
+    demoTag: { bs: 'demo', en: 'demo', de: 'Demo' },
+    view: { bs: 'Pogledaj', en: 'View', de: 'Ansehen' },
+    drag: { bs: 'Povuci', en: 'Drag', de: 'Ziehen' },
+    skipIntro: { bs: 'Preskoči', en: 'Skip', de: 'Überspringen' },
+    play: { bs: 'Pusti epizodu', en: 'Play episode', de: 'Folge abspielen' }
   },
 
   /* --- prvi ekran (isti tekst stoji i direktno u index.html zbog brzine i SEO) --- */
@@ -95,6 +99,7 @@ window.NP = {
       en: 'Every detail carries my signature. I love it most when you tell me: do it the way you think it should be.',
       de: 'Jedes Detail trägt meine Handschrift. Am liebsten höre ich: Mach es so, wie du es für richtig hältst.'
     },
+    sign: { bs: 'Nemanja', en: 'Nemanja', de: 'Nemanja' },
     images: [
       { id: 'stepenice', alt: { bs: 'Nemanja Petrović na stepeništu, u kuharskoj jakni i kapi', en: 'Nemanja Petrović on a staircase in chef whites and toque', de: 'Nemanja Petrović auf einer Treppe in Kochjacke und Kochmütze' } },
       { id: 'portret-crna', alt: { bs: 'Nemanja Petrović u crnoj kuharskoj jakni', en: 'Nemanja Petrović in a black chef jacket', de: 'Nemanja Petrović in schwarzer Kochjacke' } }
@@ -111,35 +116,65 @@ window.NP = {
         notes: { bs: 'Nutella · jagode', en: 'Nutella · strawberries', de: 'Nutella · Erdbeeren' },
         text: { bs: 'Prva receptura. Sve je počelo njom.', en: 'My first recipe. It all began with it.', de: 'Mein erstes Rezept. Mit ihm fing alles an.' },
         aside: { bs: 'Zašto se zove tako, ostaje tajna.', en: 'Why it bears this name remains a secret.', de: 'Warum sie so heißt, bleibt ein Geheimnis.' },
-        image: null
+        image: null, art: 'cake'
       },
       {
         name: { bs: 'Krema od piva', en: 'Beer Cream', de: 'Biercreme' },
         notes: { bs: 'pivo · dinstana mandarina', en: 'beer · braised mandarin', de: 'Bier · geschmorte Mandarine' },
         text: { bs: 'Bronca na Braču, među 500 takmičara.', en: 'Bronze on Brač, among 500 competitors.', de: 'Bronze auf Brač, unter 500 Teilnehmern.' },
         aside: { bs: 'Spoj nespojivog.', en: 'A pairing that should not work, yet does.', de: 'Die Verbindung des Unvereinbaren.' },
-        image: null
+        image: null, art: 'quenelle'
       },
       {
         name: { bs: 'Panakota s lavandom', en: 'Lavender Panna Cotta', de: 'Lavendel Panna Cotta' },
         notes: { bs: 'lavanda · divlje trešnje', en: 'lavender · wild cherries', de: 'Lavendel · Wildkirschen' },
         text: { bs: 'Cvjetna, nježna i tiha.', en: 'Floral, delicate and quiet.', de: 'Blumig, zart und leise.' },
         aside: { bs: 'Desert koji se pamti po mirisu.', en: 'A dessert remembered by its scent.', de: 'Ein Dessert, das man am Duft erkennt.' },
-        image: null
+        image: null, art: 'dome'
       },
       {
         name: { bs: 'Bijelo vino i maline', en: 'White Wine and Raspberries', de: 'Weißwein und Himbeeren' },
         notes: { bs: 'krema · bijelo vino · maline', en: 'cream · white wine · raspberries', de: 'Creme · Weißwein · Himbeeren' },
         text: { bs: 'Zvuči odvažno, a jede se lako.', en: 'It sounds daring and tastes effortless.', de: 'Klingt gewagt, schmeckt mühelos.' },
         aside: { bs: 'Neobični spojevi su moj potpis.', en: 'Unexpected pairings are my signature.', de: 'Ungewöhnliche Kombinationen sind meine Handschrift.' },
-        image: null
+        image: null, art: 'coupe'
       }
     ]
   },
 
-  /* --- 03 Jedanaest spratova --- */
+  /* --- 03 Anatomija deserta (DEMO: slojevi po opisu deserta sa Brača, Nemanja treba potvrditi) --- */
+  anatomy: {
+    chapter: { bs: '03 · Anatomija deserta', en: '03 · Anatomy of a Dessert', de: '03 · Anatomie eines Desserts' },
+    title: { bs: 'Pet slojeva *bronce*.', en: 'Five layers of *bronze*.', de: 'Fünf Schichten *Bronze*.' },
+    lead: {
+      bs: 'Desert koji je na Braču osvojio broncu među 500 takmičara, rastavljen sloj po sloj. Svaki ima svoj zadatak: hrskavo, kremasto, svježe.',
+      en: 'The dessert that won bronze on Brač among 500 competitors, taken apart layer by layer. Each one has a job: crunch, cream, freshness.',
+      de: 'Das Dessert, das auf Brač unter 500 Teilnehmern Bronze gewann, Schicht für Schicht zerlegt. Jede hat ihre Aufgabe: knusprig, cremig, frisch.'
+    },
+    dish: { bs: 'Krema od piva i mandarina', en: 'Beer cream and mandarin', de: 'Biercreme und Mandarine' },
+    badge: { bs: 'Bronca · Brač 2023', en: 'Bronze · Brač 2023', de: 'Bronze · Brač 2023' },
+    layers: [
+      { kind: 'tuile', th: 9, top: '#E2B877', side: '#B98544',
+        name: { bs: 'Tuile od slada', en: 'Malt tuile', de: 'Malz-Tuile' },
+        note: { bs: 'tanko, hrskavo, zlatno', en: 'thin, crisp, golden', de: 'dünn, knusprig, golden' } },
+      { kind: 'gel', th: 16, top: '#F0A24A', side: '#C9702A',
+        name: { bs: 'Gel od dinstane mandarine', en: 'Braised mandarin gel', de: 'Gel aus geschmorter Mandarine' },
+        note: { bs: 'svježina i kiselost', en: 'freshness and acidity', de: 'Frische und Säure' } },
+      { kind: 'cream', th: 44, top: '#F2E3C6', side: '#D9C29A',
+        name: { bs: 'Krema od tamnog piva', en: 'Dark beer cream', de: 'Creme aus dunklem Bier' },
+        note: { bs: 'srce deserta', en: 'the heart of the dessert', de: 'das Herz des Desserts' } },
+      { kind: 'sponge', th: 26, top: '#C58F55', side: '#9A6A36',
+        name: { bs: 'Biskvit od lješnjaka', en: 'Hazelnut sponge', de: 'Haselnuss-Biskuit' },
+        note: { bs: 'mekano, orašasto', en: 'soft and nutty', de: 'weich und nussig' } },
+      { kind: 'crunch', th: 14, top: '#8A5E36', side: '#5E3D22',
+        name: { bs: 'Hrskava podloga', en: 'Crunchy base', de: 'Knuspriger Boden' },
+        note: { bs: 'karamelizirana bijela čokolada', en: 'caramelised white chocolate', de: 'karamellisierte weiße Schokolade' } }
+    ]
+  },
+
+  /* --- 04 Jedanaest spratova --- */
   tiers: {
-    chapter: { bs: '03 · Najveći izazov', en: '03 · The Greatest Challenge', de: '03 · Die größte Herausforderung' },
+    chapter: { bs: '04 · Najveći izazov', en: '04 · The Greatest Challenge', de: '04 · Die größte Herausforderung' },
     title: { bs: 'Jedanaest *spratova*.', en: 'Eleven *tiers*.', de: 'Elf *Etagen*.' },
     steps: [
       { bs: 'Mladenci su rekli samo jedno: neka bude što veća.', en: 'The couple asked for just one thing: make it as tall as possible.', de: 'Das Brautpaar hatte nur einen Wunsch: so groß wie möglich.' },
@@ -155,7 +190,7 @@ window.NP = {
 
   /* --- 04 Svadbe --- */
   weddings: {
-    chapter: { bs: '04 · Svadbe', en: '04 · Weddings', de: '04 · Hochzeiten' },
+    chapter: { bs: '05 · Svadbe', en: '05 · Weddings', de: '05 · Hochzeiten' },
     title: { bs: 'Trenutak koji *pamtite*.', en: 'A moment you *remember*.', de: 'Ein Moment, der *bleibt*.' },
     text: {
       bs: 'Na svadbi torta nije samo desert. Ona je trenutak večeri: dekoracija uživo pred mladencima, srce od malina i kiša šećera koju gosti pamte godinama.',
@@ -166,13 +201,14 @@ window.NP = {
       { id: 'secer', cap: { bs: 'Kiša šećera · Ljetnikovac Radobolja, Mostar', en: 'A shower of sugar · Ljetnikovac Radobolja, Mostar', de: 'Puderzuckerregen · Ljetnikovac Radobolja, Mostar' }, alt: { bs: 'Nemanja posipa šećer u prahu preko torte u obliku srca pred mladom', en: 'Nemanja dusting powdered sugar over a heart-shaped cake before the bride', de: 'Nemanja bestäubt eine herzförmige Torte vor der Braut mit Puderzucker' } },
       { id: 'capljina', cap: { bs: 'Torta duga jedan metar · Hotel President, Čapljina', en: 'A one-metre cake · Hotel President, Čapljina', de: 'Eine Torte von einem Meter · Hotel President, Čapljina' }, alt: { bs: 'Nemanja dekoriše svadbenu tortu kalama i grožđem pred gostima', en: 'Nemanja decorating a wedding cake with calla lilies and grapes in front of guests', de: 'Nemanja dekoriert eine Hochzeitstorte mit Calla und Trauben vor den Gästen' } },
       { id: 'sprat11-palme', cap: { bs: 'Jedanaest spratova', en: 'Eleven tiers', de: 'Elf Etagen' }, alt: { bs: 'Torta na jedanaest spratova među palmama', en: 'Eleven-tier cake among palm trees', de: 'Elfstöckige Torte zwischen Palmen' } },
-      { id: 'mladenci', cap: { bs: 'Za mladence koji vole fudbal', en: 'For a couple who love football', de: 'Für ein fußballbegeistertes Brautpaar' }, alt: { bs: 'Svadbena torta sa figurama mladenaca i loptom', en: 'Wedding cake with figures of the couple and a football', de: 'Hochzeitstorte mit Brautpaarfiguren und Fußball' } }
+      { id: 'mladenci', cap: { bs: 'Za mladence koji vole fudbal', en: 'For a couple who love football', de: 'Für ein fußballbegeistertes Brautpaar' }, alt: { bs: 'Svadbena torta sa figurama mladenaca i loptom', en: 'Wedding cake with figures of the couple and a football', de: 'Hochzeitstorte mit Brautpaarfiguren und Fußball' } },
+      { id: 'servis', cap: { bs: 'Desert pred gostima, uživo', en: 'Dessert served live before the guests', de: 'Dessert live vor den Gästen' }, alt: { bs: 'Nemanja servira desert gostima u restoranu', en: 'Nemanja serving dessert to guests in a restaurant', de: 'Nemanja serviert den Gästen ein Dessert im Restaurant' } }
     ]
   },
 
   /* --- 05 Fondan --- */
   fondant: {
-    chapter: { bs: '05 · Fondan', en: '05 · Fondant', de: '05 · Fondant' },
+    chapter: { bs: '06 · Fondan', en: '06 · Fondant', de: '06 · Fondant' },
     title: { bs: 'Skulpture koje se *jedu*.', en: 'Sculptures you can *eat*.', de: 'Skulpturen zum *Essen*.' },
     lead: {
       bs: 'Šećerna pasta u mojim rukama postaje lik, priča i uspomena. Svaka figura je urađena ručno.',
@@ -201,7 +237,7 @@ window.NP = {
 
   /* --- 06 Nagrade --- */
   awards: {
-    chapter: { bs: '06 · Nagrade', en: '06 · Awards', de: '06 · Auszeichnungen' },
+    chapter: { bs: '07 · Nagrade', en: '07 · Awards', de: '07 · Auszeichnungen' },
     title: { bs: 'Medalje koje *govore*.', en: 'Medals that *speak*.', de: 'Medaillen, die *sprechen*.' },
     diploma: { bs: 'Diploma', en: 'Diploma', de: 'Urkunde' },
     items: [
@@ -232,7 +268,7 @@ window.NP = {
 
   /* --- 07 Akademija --- */
   academy: {
-    chapter: { bs: '07 · Akademija', en: '07 · Academy', de: '07 · Akademie' },
+    chapter: { bs: '08 · Akademija', en: '08 · Academy', de: '08 · Akademie' },
     title: { bs: 'Znanje se *dijeli*.', en: 'Knowledge is meant to be *shared*.', de: 'Wissen will *geteilt* werden.' },
     text: {
       bs: [
@@ -260,6 +296,34 @@ window.NP = {
     },
     next: { bs: 'Sljedeći termin uskoro.', en: 'Next date coming soon.', de: 'Der nächste Termin folgt bald.' },
     cta: { bs: 'Prijavite interes', en: 'Register your interest', de: 'Interesse anmelden' },
+    /* DEMO: termin, mjesto i broj mjesta su primjer dok Nemanja ne potvrdi */
+    upcoming: {
+      date: '2027-03-13T10:00:00+01:00',
+      label: { bs: 'Sljedeća akademija', en: 'Next academy', de: 'Nächste Akademie' },
+      title: { bs: 'Restoranski deserti · dvodnevni kurs', en: 'Restaurant desserts · two-day course', de: 'Restaurantdesserts · zweitägiger Kurs' },
+      place: { bs: '13. i 14. marta 2027. · Mostar', en: '13 and 14 March 2027 · Mostar', de: '13. und 14. März 2027 · Mostar' },
+      seats: { bs: 'Mjesta: 24', en: 'Seats: 24', de: 'Plätze: 24' },
+      units: { bs: ['dana', 'sati', 'min', 'sek'], en: ['days', 'hours', 'min', 'sec'], de: ['Tage', 'Std', 'Min', 'Sek'] },
+      started: { bs: 'Kurs je u toku.', en: 'The course is under way.', de: 'Der Kurs läuft.' },
+      signup: { bs: 'Prijavi se', en: 'Sign up', de: 'Anmelden' },
+      msg: {
+        bs: 'Pozdrav Nemanja, želim se prijaviti na akademiju ({t}, {p}).',
+        en: 'Hello Nemanja, I would like to sign up for the academy ({t}, {p}).',
+        de: 'Hallo Nemanja, ich möchte mich für die Akademie anmelden ({t}, {p}).'
+      }
+    },
+    numbers: [
+      { n: '100', label: { bs: 'slastičara i chefova na masterclassu', en: 'pastry chefs and cooks at the masterclass', de: 'Konditoren und Köche bei der Masterclass' } },
+      { n: '2', label: { bs: 'dana rada u kuhinji', en: 'days of hands-on work', de: 'Tage Praxis in der Küche' } },
+      { n: '1', label: { bs: 'certifikat za svakog', en: 'certificate for everyone', de: 'Zertifikat für alle' } }
+    ],
+    cert: {
+      kicker: { bs: 'Akademija slastičarstva · Mostar', en: 'Pastry Academy · Mostar', de: 'Konditorei-Akademie · Mostar' },
+      title: { bs: 'Certifikat', en: 'Certificate', de: 'Zertifikat' },
+      line: { bs: 'o završenom masterclassu restoranskih deserata', en: 'of completion, restaurant dessert masterclass', de: 'über die abgeschlossene Masterclass für Restaurantdesserts' },
+      who: { bs: 'Ime polaznika', en: 'Participant name', de: 'Name der Teilnehmerin / des Teilnehmers' },
+      by: { bs: 'Predavač', en: 'Instructor', de: 'Kursleiter' }
+    },
     images: [
       { id: 'plating', alt: { bs: 'Nemanja slaže desert u restoranu', en: 'Nemanja plating a dessert in a restaurant', de: 'Nemanja richtet ein Dessert im Restaurant an' } },
       { id: 'kuhinja', alt: { bs: 'Nemanja u bijeloj kuharskoj jakni sa izvezenim imenom', en: 'Nemanja in a white chef jacket embroidered with his name', de: 'Nemanja in weißer Kochjacke mit gesticktem Namen' } }
@@ -268,7 +332,7 @@ window.NP = {
 
   /* --- 08 Slatke priče --- */
   show: {
-    chapter: { bs: '08 · Slatke priče', en: '08 · Sweet Stories', de: '08 · Süße Geschichten' },
+    chapter: { bs: '09 · Slatke priče', en: '09 · Sweet Stories', de: '09 · Süße Geschichten' },
     title: { bs: 'Slatke *priče*', en: 'Sweet *Stories*', de: 'Süße *Geschichten*' },
     meta: { bs: '30 emisija · 30 recepata · YouTube', en: '30 episodes · 30 recipes · YouTube', de: '30 Folgen · 30 Rezepte · YouTube' },
     text: {
@@ -276,12 +340,22 @@ window.NP = {
       en: 'Recipes from my kitchen, step by step. Soon as a book, too.',
       de: 'Rezepte aus meiner Küche, Schritt für Schritt. Bald auch als Buch.'
     },
-    cta: { bs: 'Gledaj na YouTubeu', en: 'Watch on YouTube', de: 'Auf YouTube ansehen' }
+    cta: { bs: 'Sve epizode na YouTubeu', en: 'All episodes on YouTube', de: 'Alle Folgen auf YouTube' },
+    /* DEMO: naslovi i slike epizoda su primjer; video: 'YouTube ID' pušta epizodu na stranici */
+    episodes: [
+      { n: 1, img: 'plating', video: null, title: { bs: 'Grešna torta', en: 'The Sinful Cake', de: 'Die Sündige Torte' } },
+      { n: 2, img: 'crno-zlato', video: null, title: { bs: 'Čokolada i zlato', en: 'Chocolate and gold', de: 'Schokolade und Gold' } },
+      { n: 3, img: 'balon-zlato', video: null, title: { bs: 'Torta sa balonom', en: 'The hot air balloon cake', de: 'Die Ballontorte' } },
+      { n: 4, img: 'dzungla', video: null, title: { bs: 'Figure od fondana', en: 'Fondant figures', de: 'Fondantfiguren' } },
+      { n: 5, img: 'leptiri', video: null, title: { bs: 'Leptiri od šećera', en: 'Sugar butterflies', de: 'Zuckerschmetterlinge' } },
+      { n: 6, img: 'bozic', video: null, title: { bs: 'Božićna torta', en: 'The Christmas cake', de: 'Die Weihnachtstorte' } }
+    ],
+    epLabel: { bs: 'Epizoda', en: 'Episode', de: 'Folge' }
   },
 
   /* --- 09 Šire od kuhinje --- */
   beyond: {
-    chapter: { bs: '09 · Šire od kuhinje', en: '09 · Beyond the Kitchen', de: '09 · Über die Küche hinaus' },
+    chapter: { bs: '10 · Šire od kuhinje', en: '10 · Beyond the Kitchen', de: '10 · Über die Küche hinaus' },
     title: { bs: 'Više od *deserta*.', en: 'More than *dessert*.', de: 'Mehr als *Dessert*.' },
     cols: [
       {
@@ -316,7 +390,7 @@ window.NP = {
 
   /* --- 10 Kontakt --- */
   contactSec: {
-    chapter: { bs: '10 · Kontakt', en: '10 · Contact', de: '10 · Kontakt' },
+    chapter: { bs: '11 · Kontakt', en: '11 · Contact', de: '11 · Kontakt' },
     title: { bs: 'Za svadbe, saradnju, akademiju ili *razgovor*.', en: 'For weddings, collaborations, the academy or a *conversation*.', de: 'Für Hochzeiten, Kooperationen, die Akademie oder ein *Gespräch*.' },
     note: { bs: 'Odgovaram lično.', en: 'I reply personally.', de: 'Ich antworte persönlich.' },
     topicLabel: { bs: 'Tema', en: 'Topic', de: 'Thema' },
