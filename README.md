@@ -26,7 +26,7 @@ Uvod (monogram NP i zavjesa) se prikaže samo pri prvom otvaranju. Da se vidi po
 | `data/slike.js` | Dimenzije slika (pravi ga `tools/slike.py`, ne mijenjati ručno) |
 | `index.html` | Kostur stranice, prvi ekran, SEO podaci |
 | `js/app.js` | Sekcije, meni, jezici, galerija, filter fondana, kontakt forma |
-| `js/fx.js` | Efekti: uvod, šećer u prahu, rastavljeni desert, 11 spratova, svadbe bočno, odbrojavanje, medalje, kursor |
+| `js/fx.js` | Efekti: uvod, šećer u prahu, 11 spratova, svadbe (strelice), odbrojavanje, medalje, kursor |
 | `js/art.js` | Crteži: potpis, monogram za uvod, ilustracije recepata, slojevi deserta |
 | `css/style.css` | Cijeli izgled |
 | `assets/img/` | Slike u WebP formatu, tri veličine |
@@ -74,8 +74,9 @@ Statična stranica, bez builda. Na Cloudflare Pages ili Workers (static assets) 
 
 - Tamna, topla paleta (ugljen, krem, zlato) jer su fotografije večernje i tople, a zlato veže medalje i šećer.
 - Cormorant Garamond za naslove (elegantan, krupan), Manrope za tekst (čitljiv na mobitelu).
-- Potpisni efekti: uvod sa monogramom NP, šećer u prahu na prvom ekranu (reaguje na miš), desert sa Brača koji se rastavi na slojeve, torta od 11 spratova koja raste dok se lista, svadbe koje idu bočno, potpis koji se ispiše.
-- Na mobitelu se recepti, svadbe i epizode prevlače prstom, a desert i spratovi su skraćeni da stanu na ekran.
+- Potpisni efekti: uvod sa monogramom NP, šećer u prahu na prvom ekranu (reaguje na miš), desert sa Brača koji se na klik rastavi na slojeve, torta od 11 spratova koja naraste kad se dođe do nje, potpis koji se ispisuje potezom pera.
+- Svadbe: na desktopu strelice lijevo/desno, na mobitelu prevlačenje prstom. Ništa se ne "popunjava" dok se lista.
+- Na mobitelu se recepti, svadbe i epizode prevlače prstom.
 - Sekcija Svadbe je svijetla, kao predah između tamnih dijelova.
 - Kontakt nije narudžba nego razgovor: tema, ime, poruka, pa slanje preko Vibera, WhatsAppa ili emaila.
 - Sve animacije staju van ekrana, a uz postavku "smanji pokrete" stranica je mirna i sve je odmah vidljivo. Bez JavaScripta se vidi prvi ekran i osnovni podaci.
