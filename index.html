@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="bs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nemanja Petrović · Pastry Chef · Mostar</title>
+<meta name="description" content="Nemanja Petrović, pastry chef iz Mostara. 15 godina zanata, medalje iz Niša, Budve i Brača, svadbene torte i Akademija slastičarstva.">
+<!-- DEMO: obrisati ovaj red prije objave (vidi README) -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0E0C0A">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="assets/np.svg" type="image/svg+xml">
+<link rel="canonical" href="https://ne-pe.grabafaceit.workers.dev/">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Nemanja Petrović · Pastry Chef · Mostar">
+<meta property="og:description" content="15 godina zanata. Medalje iz Niša, Budve i Brača. Svadbene torte, fondan i Akademija slastičarstva.">
+<meta property="og:image" content="https://ne-pe.grabafaceit.workers.dev/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://ne-pe.grabafaceit.workers.dev/">
+<meta property="og:locale" content="bs_BA">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:locale:alternate" content="de_DE">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preload" href="assets/fonts/cormorant-garamond-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/cormorant-garamond-latin-300-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/manrope-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="assets/img/portret-842.webp" imagesrcset="assets/img/portret-480.webp 480w, assets/img/portret-842.webp 842w" imagesizes="(max-width: 900px) 80vw, 42vw" fetchpriority="high">
+<link rel="stylesheet" href="css/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "#nemanja",
+      "name": "Nemanja Petrović",
+      "jobTitle": "Pastry Chef",
+      "image": "https://ne-pe.grabafaceit.workers.dev/assets/img/portret-842.webp",
+      "url": "https://ne-pe.grabafaceit.workers.dev/",
+      "birthPlace": { "@type": "Place", "name": "Doboj" },
+      "homeLocation": { "@type": "Place", "name": "Mostar", "address": { "@type": "PostalAddress", "addressLocality": "Mostar", "addressCountry": "BA" } },
+      "worksFor": { "@type": "Organization", "name": "Aldi grupa", "address": { "@type": "PostalAddress", "addressLocality": "Mostar", "addressCountry": "BA" } },
+      "sameAs": ["https://www.instagram.com/nemanja_petr/"],
+      "award": [
+        "Zlatna medalja, restoranski desert, gastro festival Niš 2022",
+        "Srebrna medalja, Prvenstvo Crne Gore, Budva 2023",
+        "Bronzana medalja, evropsko takmičenje Bisermora, Brač 2023"
+      ],
+      "knowsAbout": ["Pastry", "Cake design", "Restaurant desserts", "Fondant"]
+    },
+    {
+      "@type": "Event",
+      "name": "Masterclass restoranskih deserata",
+      "startDate": "2026-10-11",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "location": { "@type": "Place", "name": "Hotel Bristol", "address": { "@type": "PostalAddress", "addressLocality": "Mostar", "addressCountry": "BA" } },
+      "organizer": { "@id": "#nemanja" },
+      "performer": { "@id": "#nemanja" }
+    }
+  ]
+}
+</script>
+<script>
+  /* jezik i "smanji pokrete" prije crtanja, da ništa ne trepne */
+  (function () {
+    var d = document.documentElement, l = null;
+    try { l = new URLSearchParams(location.search).get('lang') || localStorage.getItem('np-lang'); } catch (e) {}
+    if (l === 'en' || l === 'de' || l === 'bs') d.lang = l;
+    d.className += ' js';
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main" data-t="ui.skip">Preskoči na sadržaj</a>
+
+<header class="top" id="top">
+  <a class="brand" href="#hero" aria-label="Nemanja Petrović">
+    <svg class="mono" viewBox="0 0 108 80" aria-hidden="true"><text x="2" y="64">N</text><text x="44" y="64">P</text><path class="mono-line" d="M8 74 H100"/></svg>
+    <span class="brand-name">Nemanja Petrović</span>
+  </a>
+  <nav class="nav" aria-label="Glavni meni" id="nav"></nav>
+  <div class="top-right">
+    <div class="langs" id="langs" role="group" aria-label="Jezik"></div>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="sheet"><span class="mb-l" aria-hidden="true"><i></i><i></i></span><span class="mb-t" data-t="ui.menu">Meni</span></button>
+  </div>
+  <i class="progress" aria-hidden="true"></i>
+</header>
+
+<div class="sheet" id="sheet" hidden></div>
+
+<section class="hero" id="hero" aria-label="Nemanja Petrović">
+  <canvas class="sugar" aria-hidden="true"></canvas>
+  <div class="hero-in">
+    <div class="hero-text">
+      <p class="label" data-t="hero.label">Pastry Chef · Mostar</p>
+      <h1 class="hero-name"><span class="hn-1">Nemanja</span><span class="hn-2"><em>Petrović</em></span></h1>
+      <p class="hero-tag" data-t="hero.tagline">Sve je počelo Grešnom tortom.</p>
+    </div>
+    <figure class="hero-portrait">
+      <div class="arch">
+        <img src="assets/img/portret-842.webp" srcset="assets/img/portret-480.webp 480w, assets/img/portret-842.webp 842w" sizes="(max-width: 900px) 80vw, 42vw" width="842" height="1053" alt="Nemanja Petrović u tamnom odijelu" data-t-alt="hero.portraitAlt" fetchpriority="high" decoding="async">
+      </div>
+      <span class="arch-line" aria-hidden="true"></span>
+    </figure>
+    <div class="hero-foot">
+      <p class="label muted" data-t="hero.meta">15 godina · 5 medalja · Akademija slastičarstva</p>
+      <a class="scroll-cue" href="#story"><span data-t="hero.scroll">Listaj</span><i aria-hidden="true"></i></a>
+    </div>
+  </div>
+</section>
+
+<main id="main" tabindex="-1">
+  <noscript>
+    <div class="wrap nos">
+      <p>Nemanja Petrović je pastry chef iz Mostara: 15 godina zanata, medalje iz Niša, Budve i Brača, svadbene torte i Akademija slastičarstva.</p>
+      <p>Instagram: <a href="https://www.instagram.com/nemanja_petr/">@nemanja_petr</a></p>
+    </div>
+  </noscript>
+</main>
+
+<footer class="foot" id="foot"></footer>
+
+<div class="cursor" aria-hidden="true"></div>
+
+<script src="data/np.js"></script>
+<script src="data/slike.js"></script>
+<script src="js/app.js"></script>
+<script src="js/fx.js"></script>
+</body>
+</html>
