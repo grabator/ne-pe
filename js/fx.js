@@ -244,7 +244,7 @@
     requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.add('go'); }); });
     var ended = false, end = function () {
       if (ended) return; ended = true; clearTimeout(tm);
-      el.classList.add('out'); root.classList.remove('locked', 'intro-on'); go();
+      el.classList.add('out'); root.classList.remove('locked', 'intro-on'); root.classList.add('hero-go'); go();
       removeEventListener('keydown', end); removeEventListener('wheel', end);
       setTimeout(function () { el.remove(); }, 1300);
     };
@@ -252,6 +252,8 @@
     el.addEventListener('pointerdown', end); addEventListener('keydown', end); addEventListener('wheel', end, { passive: true });
   } else {
     root.classList.remove('intro-on');
+    /* portret se otkriva odmah (ne čeka fontove), monogram i ime kad su fontovi spremni */
+    requestAnimationFrame(function () { root.classList.add('hero-go'); });
     /* monogram se ispiše kad su fontovi spremni (bez čekanja duže od 0,6 s) */
     if (document.fonts && document.fonts.ready) { Promise.race([document.fonts.ready, new Promise(function (r) { setTimeout(r, 600); })]).then(go); } else go();
   }
