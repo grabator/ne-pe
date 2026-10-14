@@ -122,8 +122,12 @@
   }
   document.addEventListener('np:wd', function (e) {
     if (!wdTrack) return;
-    var i = Math.max(0, Math.min(wdN - 1, wdCur + e.detail)), li = wdRail.children[i];
-    if (li) wdTrack.scrollTo({ left: li.offsetLeft - wdRail.children[0].offsetLeft, behavior: reduced ? 'auto' : 'smooth' });
+    /* sljedeća/prethodna fotografija u odnosu na stvarnu poziciju trake */
+    var x = wdTrack.scrollLeft, max = wdTrack.scrollWidth - wdTrack.clientWidth, o = wdRail.children[0].offsetLeft;
+    var offs = [].map.call(wdRail.children, function (li) { return Math.min(max, li.offsetLeft - o); });
+    var t = e.detail > 0 ? offs.filter(function (v) { return v > x + 4; })[0] : offs.filter(function (v) { return v < x - 4; }).pop();
+    if (t == null) t = e.detail > 0 ? max : 0;
+    wdTrack.scrollTo({ left: t, behavior: reduced ? 'auto' : 'smooth' });
   });
 
   /* ---------- 11 spratova: kad sekcija uđe u ekran, torta naraste i brojač ide do 11 ---------- */
