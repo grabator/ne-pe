@@ -1,0 +1,3 @@
+# DEMO: prije objave zamijeniti sa "Allow: /" i dodati Sitemap red (vidi README)
+User-agent: *
+Disallow: /
