@@ -152,6 +152,7 @@ em { font-style: italic; }
 .more-a:hover { gap: 18px; border-color: var(--gold); }
 .light .more-a { color: #6B4E1E; border-color: rgba(107, 78, 30, 0.5); }
 .academy.short .ac-more { margin-top: clamp(32px, 4vw, 56px); }
+.academy.short .ac-art { padding-bottom: 0; }
 .story.short .more { margin-top: 18px; }
 
 /* podnožje: sve stranice */
@@ -908,6 +909,8 @@ html.intro-on body::before { content: ''; position: fixed; inset: 0; z-index: 11
   .ac-art { width: 74%; margin-bottom: 40px; }
   .ac-a { aspect-ratio: 4 / 3.6; }
   .ac-b { right: -18%; width: 44%; }
+  .academy.short .ac-art { width: 100%; margin: 0 0 32px; }
+  .academy.short .ac-a { aspect-ratio: 4 / 3; }
   .by-grid { grid-template-columns: 1fr; }
 
   /* 11 spratova na mobitelu: kraće, slika iznad teksta */
@@ -987,6 +990,7 @@ html.intro-on body::before { content: ''; position: fixed; inset: 0; z-index: 11
 @media (max-width: 640px) {
   /* recepti se prevlače prstom, kartica do kartice */
   .works .wrap { width: 100%; }
+  .works .more { padding-inline: var(--gut); margin-top: 28px; }
   .works .sec-head { width: min(var(--max), 100% - var(--gut) * 2); margin-inline: auto; }
   .cards { overflow-y: hidden; overscroll-behavior-y: auto; touch-action: pan-x pan-y; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(80vw, 330px); gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); padding: 0 var(--gut) 4px; scrollbar-width: none; overscroll-behavior-x: contain; }
   .cards::-webkit-scrollbar { display: none; }
