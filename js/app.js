@@ -8,6 +8,9 @@
   var root = document.documentElement;
   var LANGS = D.languages;
   var lang = LANGS.indexOf(root.lang) !== -1 ? root.lang : LANGS[0];
+  /* stranica: home (index.html) ili podstranica iz D.pages (prica, radovi, svadbe, akademija, saradnja) i recepti */
+  var PAGE = document.body.getAttribute('data-page') || 'home', HOME = PAGE === 'home';
+  var sheet = document.getElementById('sheet'), menuBtn = document.getElementById('menu-btn'), sheetOpen = false;
 
   /* ---------- pomoćne ---------- */
   function L(o) { return o == null ? '' : (typeof o === 'string' || typeof o === 'number') ? String(o) : (o[lang] != null ? o[lang] : (o.en != null ? o.en : o.bs)); }
@@ -33,8 +36,14 @@
     return '<img' + (cls ? ' class="' + cls + '"' : '') + ' src="assets/img/' + id + '-' + big + '.webp" srcset="' + set + '" sizes="' + (sizes || '100vw') + '" width="' + m.w + '" height="' + m.h + '" alt="' + esc(alt) + '"' + (eager ? '' : ' loading="lazy"') + ' decoding="async">';
   }
 
+  /* broj poglavlja ide redom na svakoj stranici (01, 02...), u podacima je samo naziv */
+  var chapN = 0;
+  function chap(sec) { chapN++; return String(chapN).padStart(2, '0') + ' · ' + L(sec.chapter).replace(/^\d+\s*·\s*/, ''); }
+  /* link "Sve o ..." ispod skraćene sekcije na početnoj */
+  function more(k, href) { return '<p class="more rv"><a class="more-a" href="' + href + '">' + esc(L(D.more[k])) + '<i aria-hidden="true">→</i></a></p>'; }
+
   function head(sec, lead) {
-    return '<header class="sec-head rv"><p class="chapter"><i aria-hidden="true"></i>' + esc(L(sec.chapter)) + '</p>' +
+    return '<header class="sec-head rv"><p class="chapter"><i aria-hidden="true"></i>' + esc(chap(sec)) + '</p>' +
       '<h2 class="h2 split" id="' + sec._id + '-t">' + words(L(sec.title)) + '</h2>' + (lead ? '<p class="lead">' + esc(lead) + '</p>' : '') + '</header>';
   }
 
@@ -45,12 +54,12 @@
     }).join('') + '</ul></section>';
   }
 
-  function story() {
+  function story(short) {
     var S = D.story; S._id = 'story';
-    var a = S.images[0], b = S.images[1];
-    return '<section class="sec story" id="story" aria-labelledby="story-t"><div class="wrap story-grid">' +
+    var a = S.images[0], b = S.images[1], txt = L(S.text);
+    return '<section class="sec story' + (short ? ' short' : '') + '" id="story" aria-labelledby="story-t"><div class="wrap story-grid">' +
       '<div class="story-text">' + head(S) +
-      L(S.text).map(function (p) { return '<p class="body rv">' + esc(p) + '</p>'; }).join('') + '</div>' +
+      (short ? txt.slice(0, 1) : txt).map(function (p) { return '<p class="body rv">' + esc(p) + '</p>'; }).join('') + (short ? more('story', 'prica.html') : '') + '</div>' +
       '<div class="story-art">' +
       '<figure class="ph ph-a ri" data-par="0.08">' + img(a.id, L(a.alt), '(max-width: 900px) 86vw, 40vw') + '</figure>' +
       '<figure class="ph ph-b ri">' + img(b.id, L(b.alt), '(max-width: 900px) 46vw, 18vw') + '</figure></div>' +
@@ -60,24 +69,24 @@
   }
 
   var ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI'];
-  function works() {
+  function works(short) {
     var W = D.works; W._id = 'works';
     return '<section class="sec works" id="works" aria-labelledby="works-t"><div class="wrap">' + head(W) +
-      '<ol class="cards">' + W.items.map(function (it, i) {
+      '<ol class="cards" tabindex="0" aria-label="' + esc(L(W.chapter).replace(/^\d+\s*·\s*/, '')) + '">' + W.items.map(function (it, i) {
         return '<li class="card rv' + (it.image ? ' has-img' : '') + '" style="--d:' + i + '">' +
           '<figure class="card-art' + (it.image ? ' card-photo' : '') + '">' + (it.image ? img(it.image, L(it.name), '(max-width: 640px) 90vw, (max-width: 1100px) 45vw, 22vw') : (ART.ill ? ART.ill(it.art) : '')) + '</figure>' +
           '<span class="card-n">' + ROMAN[i] + '</span>' +
           '<h3 class="card-name">' + esc(L(it.name)) + '</h3>' +
           '<p class="card-notes">' + esc(L(it.notes)) + '</p><i class="card-line" aria-hidden="true"></i>' +
           '<p class="card-text">' + esc(L(it.text)) + '</p><p class="card-aside">' + esc(L(it.aside)) + '</p></li>';
-      }).join('') + '</ol></div></section>';
+      }).join('') + '</ol>' + (short ? more('works', 'radovi.html') : '') + '</div></section>';
   }
 
   /* spojevi okusa: dva sastojka, zašto idu zajedno i gdje su servirani */
   function notes() {
     var N = D.notes; if (!N) return ''; N._id = 'notes';
     return '<section class="sec notes" id="notes" aria-labelledby="notes-t"><div class="wrap">' + head(N, L(N.lead)) +
-      '<ol class="nt-grid">' + N.items.map(function (it, i) {
+      '<ol class="nt-grid" tabindex="0" aria-label="' + esc(L(N.chapter).replace(/^\d+\s*·\s*/, '')) + '">' + N.items.map(function (it, i) {
         return '<li class="nt rv" style="--d:' + i + ';--c:' + it.color + '">' +
           '<div class="nt-pair" aria-hidden="true"><span class="nt-ic nt-a">' + (ART.icon ? ART.icon(it.icons[0]) : '') + '</span><i class="nt-x"></i><span class="nt-ic nt-b">' + (ART.icon ? ART.icon(it.icons[1]) : '') + '</span></div>' +
           '<h3 class="nt-name">' + esc(L(it.a)) + ' <em>&amp;</em> ' + esc(L(it.b)) + '</h3>' +
@@ -147,7 +156,7 @@
       '</div></div></div></section>';
   }
 
-  function weddings() {
+  function weddings(short) {
     var W = D.weddings; W._id = 'weddings';
     var g = W.gallery;
     function tile(it, i, cls, sizes) {
@@ -162,6 +171,7 @@
       '<div class="wrap wd-bar"><p class="wd-count" aria-hidden="true"><b>01</b> / ' + String(g.length).padStart(2, '0') + '</p>' +
       '<i class="wd-prog" aria-hidden="true"><i></i></i>' +
       '<p class="wd-nav"><button type="button" class="wd-btn" data-wd="-1" aria-label="' + esc(L(D.ui.prev)) + '">←</button><button type="button" class="wd-btn" data-wd="1" aria-label="' + esc(L(D.ui.next)) + '">→</button></p></div>' +
+      (short ? '<div class="wrap">' + more('weddings', 'svadbe.html') + '</div>' : '') +
       '</div></div></section>';
   }
 
@@ -191,8 +201,14 @@
       }).join('') + '</ol></div></section>';
   }
 
-  function academy() {
+  function academy(short) {
     var A = D.academy; A._id = 'academy';
+    if (short) {
+      return '<section class="sec academy short" id="academy" aria-labelledby="academy-t"><div class="wrap ac-grid">' +
+        '<div class="ac-art"><figure class="ph ac-a ri">' + img(A.images[0].id, L(A.images[0].alt), '(max-width: 900px) 70vw, 30vw') + '</figure></div>' +
+        '<div class="ac-text">' + head(A) + '<p class="body rv">' + esc(L(A.text)[0]) + '</p>' + more('academy', 'akademija.html') + '</div></div>' +
+        (A.upcoming ? '<div class="wrap ac-more">' + upcoming(A.upcoming, A) + '</div>' : '') + '</section>';
+    }
     return '<section class="sec academy" id="academy" aria-labelledby="academy-t"><div class="wrap ac-grid">' +
       '<div class="ac-art"><figure class="ph ac-a ri">' + img(A.images[0].id, L(A.images[0].alt), '(max-width: 900px) 70vw, 30vw') + '</figure>' +
       '<figure class="ph ac-b ri">' + img(A.images[1].id, L(A.images[1].alt), '(max-width: 900px) 40vw, 14vw') + '</figure></div>' +
@@ -228,7 +244,7 @@
   function show() {
     var S = D.show; S._id = 'show';
     return '<section class="show" id="show" aria-labelledby="show-t"><div class="wrap show-in rv">' +
-      '<p class="chapter"><i aria-hidden="true"></i>' + esc(L(S.chapter)) + '</p>' +
+      '<p class="chapter"><i aria-hidden="true"></i>' + esc(chap(S)) + '</p>' +
       '<h2 class="show-title split" id="show-t">' + words(L(S.title)) + '</h2>' +
       '<p class="show-meta">' + esc(L(S.meta)) + '</p><p class="show-text">' + esc(L(S.text)) + '</p>' +
       '</div>' + (S.episodes ? '<div class="eps-wrap"><ul class="eps">' + S.episodes.map(function (e, i) {
@@ -264,7 +280,7 @@
       '<div class="marquee" aria-hidden="true"><div class="mq-track">' + [0, 1].map(function () { return '<p>' + B.press.items.map(function (p) { return '<span>' + esc(p.name) + '</span><i></i>'; }).join('') + '<span>@' + esc(D.contact.instagram) + '</span><i></i></p>'; }).join('') + '</div></div></section>';
   }
 
-  var form = { topic: 'wedding', name: '', date: '', msg: '' };
+  var form = { topic: (D.pages[PAGE] && D.pages[PAGE].topic) || 'wedding', name: '', date: '', msg: '' };
   /* male ikonice (linije) za dugmad i kontakte */
   var ICO = {
     viber: '<path d="M7 4h10a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3h-6l-4 3v-3a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z"/><path d="M9.5 8.5c.5 2.5 2.5 4.5 5 5"/>',
@@ -312,47 +328,95 @@
     document.getElementById('foot').innerHTML =
       '<div class="wrap foot-in"><svg class="mono mono-big" viewBox="0 0 108 80" aria-hidden="true"><text x="2" y="64">N</text><text x="44" y="64">P</text></svg>' +
       '<p class="foot-line">' + esc(L(F.line)) + '</p>' +
-      '<p class="foot-links"><a href="https://www.instagram.com/' + esc(D.contact.instagram) + '/" target="_blank" rel="noopener">Instagram</a><a href="recepti.html">' + esc(L(D.ui.nav.recipes)) + '</a><a href="stampa.html">' + esc(L(D.ui.qr)) + '</a><a href="#hero">' + esc(L(F.top)) + ' ↑</a></p>' +
+      '<nav class="foot-pages" aria-label="' + esc(L(D.ui.menu)) + '">' + menuItems().map(function (m) { return '<a href="' + m.href + '"' + (m.k === PAGE ? ' aria-current="page"' : '') + '>' + esc(L(m.label)) + '</a>'; }).join('') + '</nav>' +
+      '<p class="foot-links"><a href="https://www.instagram.com/' + esc(D.contact.instagram) + '/" target="_blank" rel="noopener">Instagram</a><a href="stampa.html">' + esc(L(D.ui.qr)) + '</a><a href="#top" data-top>' + esc(L(F.top)) + ' ↑</a></p>' +
       '<p class="foot-copy">' + esc(L(F.copy)) + (D.credit ? ' · <a href="' + esc(D.credit.url) + '">' + esc(D.credit.name) + '</a>' : '') + '</p>' +
       (D.demo ? '<p class="demo-bar">' + esc(L(D.ui.demoBar)) + '</p>' : '') + '</div>';
   }
 
-  /* ---------- meni, jezik ---------- */
-  var NAV = ['story', 'works', 'weddings', 'awards', 'academy', 'recipes', 'contact'];
-  var NAV_HREF = { recipes: 'recepti.html' };
-  var NAV_SEC = { works: 'works' };
+  /* ---------- zaglavlje i meni (desertna karta) ---------- */
+  function menuItems() {
+    var lab = { prica: D.ui.nav.story, radovi: D.ui.nav.works, svadbe: D.ui.nav.weddings, akademija: D.ui.nav.academy };
+    return D.menu.map(function (m) {
+      var P = D.pages[m.k] || {};
+      return { k: m.k, href: m.href || P.file, img: m.img || P.img, label: m.label || lab[m.k] || P.script, sub: m.sub || P.sub };
+    });
+  }
+  function hasContact() { return !!(PAGES[PAGE] && PAGES[PAGE].indexOf('contact') !== -1); }
+  function langBtns() {
+    return LANGS.map(function (l) { return '<button type="button" data-lang="' + l + '" aria-pressed="' + (l === lang) + '" lang="' + l + '">' + l.toUpperCase() + '</button>'; }).join('');
+  }
   function nav() {
-    document.getElementById('nav').innerHTML = NAV.map(function (k) {
-      return '<a href="' + (NAV_HREF[k] || '#' + k) + '">' + esc(L(D.ui.nav[k])) + '</a>';
-    }).join('');
-    document.getElementById('langs').innerHTML = LANGS.map(function (l) {
-      return '<button type="button" data-lang="' + l + '" aria-pressed="' + (l === lang) + '" lang="' + l + '">' + l.toUpperCase() + '</button>';
-    }).join('');
-    document.getElementById('sheet').innerHTML =
-      '<div class="sheet-in"><ol class="sheet-nav">' + NAV.map(function (k, i) {
-        return '<li style="--i:' + i + '"><a href="' + (NAV_HREF[k] || '#' + k) + '"><small>' + String(i + 1).padStart(2, '0') + '</small>' + esc(L(D.ui.nav[k])) + '</a></li>';
-      }).join('') + '</ol>' +
-      '<div class="sheet-foot"><a href="https://www.instagram.com/' + esc(D.contact.instagram) + '/" target="_blank" rel="noopener">@' + esc(D.contact.instagram) + '</a>' +
-      '<button type="button" class="theme-btn" data-theme-btn aria-pressed="false"><i aria-hidden="true"></i><span></span></button>' +
-      '<div class="langs" role="group" aria-label="' + esc(L(D.ui.lang)) + '">' + LANGS.map(function (l) {
-        return '<button type="button" data-lang="' + l + '" aria-pressed="' + (l === lang) + '" lang="' + l + '">' + l.toUpperCase() + '</button>';
-      }).join('') + '</div></div></div>';
+    var items = menuItems(), cur = items.filter(function (m) { return m.k === PAGE; })[0];
+    var write = hasContact() ? '#contact' : './#contact';
+    document.getElementById('brand-page').textContent = cur && !HOME ? L(cur.label) : '';
+    var w = document.getElementById('hd-write'); w.href = write; w.textContent = L(D.ui.write);
+    document.getElementById('langs').innerHTML = langBtns();
     document.getElementById('langs').setAttribute('aria-label', L(D.ui.lang));
+    menuBtn.querySelector('.mb-t').textContent = L(sheetOpen ? D.ui.close : D.ui.menu);
+    document.getElementById('sheet').innerHTML =
+      '<div class="mc" role="dialog" aria-modal="true" aria-label="' + esc(L(D.ui.menu)) + '"><div class="mc-card">' +
+      '<header class="mc-head"><p class="mc-k">Nemanja Petrović · Pastry Chef</p><p class="mc-title script" aria-hidden="true">' + esc(L(D.ui.menuTitle)) + '</p></header>' +
+      '<div class="mc-body"><ol class="mc-list">' + items.map(function (m, i) {
+        var here = m.k === PAGE;
+        return '<li style="--i:' + i + '"><a class="mc-a' + (here ? ' here' : '') + '" href="' + m.href + '" data-mi="' + i + '"' + (here ? ' aria-current="page"' : '') + '>' +
+          '<span class="mc-t">' + esc(L(m.label)) + '</span><i class="mc-dots" aria-hidden="true"></i><span class="mc-n" aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span>' +
+          '<em class="mc-s">' + (here ? '<b>' + esc(L(D.ui.here)) + '</b> · ' : '') + esc(L(m.sub)) + '</em></a></li>';
+      }).join('') + '</ol>' +
+      '<figure class="mc-pic" aria-hidden="true"><div class="mc-arch">' + items.map(function (m, i) {
+        return '<span class="mc-img' + (i === Math.max(0, items.indexOf(cur)) ? ' on' : '') + '" data-mimg="' + i + '">' + img(m.img, '', '(max-width: 1400px) 30vw, 420px') + '</span>';
+      }).join('') + '</div><figcaption class="mc-cap script"></figcaption></figure></div>' +
+      '<footer class="mc-foot"><a class="mc-write" href="' + write + '">' + esc(L(D.ui.write)) + ' <i aria-hidden="true">→</i></a>' +
+      '<a href="https://www.instagram.com/' + esc(D.contact.instagram) + '/" target="_blank" rel="noopener">@' + esc(D.contact.instagram) + '</a>' +
+      '<button type="button" class="theme-btn" data-theme-btn aria-pressed="false"><i aria-hidden="true"></i><span></span></button>' +
+      '<div class="langs" role="group" aria-label="' + esc(L(D.ui.lang)) + '">' + langBtns() + '</div></footer>' +
+      '</div></div>';
+    mcPick(Math.max(0, items.indexOf(cur)));
+  }
+  /* slika i natpis u meniju prate stavku preko koje je miš ili fokus */
+  function mcPick(i) {
+    var items = menuItems(), m = items[i]; if (!m) return;
+    [].forEach.call(sheet.querySelectorAll('[data-mimg]'), function (x) { x.classList.toggle('on', +x.getAttribute('data-mimg') === i); });
+    var c = sheet.querySelector('.mc-cap'); if (c) c.textContent = L(m.label);
   }
 
   /* statični tekstovi u index.html (data-t="hero.tagline") */
   function staticTexts() {
     [].forEach.call(document.querySelectorAll('[data-t]'), function (el) { var v = get(el.getAttribute('data-t')); if (v) el.textContent = L(v); });
     [].forEach.call(document.querySelectorAll('[data-t-alt]'), function (el) { var v = get(el.getAttribute('data-t-alt')); if (v) el.alt = L(v); });
-    document.title = L(D.seo.title);
-    var md = document.querySelector('meta[name="description"]'); if (md) md.content = L(D.seo.desc);
+    var P = D.pages[PAGE];
+    if (HOME) document.title = L(D.seo.title); else if (P) document.title = L(P.seo);
+    var md = document.querySelector('meta[name="description"]'); if (md) md.content = HOME ? L(D.seo.desc) : P ? L(P.lead) : md.content;
     root.lang = lang;
   }
+
+  /* vrh podstranice: rukopis, naslov i uvod */
+  function pageHero() {
+    var P = D.pages[PAGE];
+    return '<section class="pg-hero" aria-labelledby="pg-t"><div class="wrap pg-grid"><div>' +
+      '<p class="chapter rv"><i aria-hidden="true"></i>Nemanja Petrović</p>' +
+      '<p class="pg-script script rv" aria-hidden="true">' + esc(L(P.script)) + '</p>' +
+      '<h1 class="h2 pg-h1 split rv" id="pg-t">' + words(L(P.title)) + '</h1></div>' +
+      '<p class="lead pg-lead rv">' + esc(L(P.lead)) + '</p></div></section>';
+  }
+
+  /* šta je na kojoj stranici (redom); početna je kratka, ostalo je na podstranicama */
+  var PAGES = {
+    home: ['stats', 'story:short', 'works:short', 'weddings:short', 'reviews', 'academy:short', 'recipes', 'contact'],
+    prica: ['hero', 'story', 'awards', 'beyond', 'contact'],
+    radovi: ['hero', 'works', 'notes', 'anatomy', 'tiers', 'fondant', 'contact'],
+    svadbe: ['hero', 'weddings', 'reviews', 'faq', 'contact'],
+    akademija: ['hero', 'academy', 'show', 'contact'],
+    saradnja: ['hero', 'consult', 'notes', 'contact'],
+    recepti: null
+  };
+  var SEC = { hero: pageHero, stats: stats, story: story, works: works, notes: notes, anatomy: anatomy, tiers: tiers, weddings: weddings, reviews: reviews, fondant: fondant, awards: awards, academy: academy, consult: consult, show: show, recipes: recipes, beyond: beyond, faq: faq, contact: contact };
 
   function render() {
     staticTexts();
     nav();
-    document.getElementById('main').innerHTML = stats() + story() + works() + notes() + anatomy() + tiers() + weddings() + reviews() + fondant() + awards() + academy() + consult() + show() + recipes() + beyond() + faq() + contact();
+    chapN = 0;
+    if (PAGES[PAGE]) document.getElementById('main').innerHTML = PAGES[PAGE].map(function (k) { var x = k.split(':'); return SEC[x[0]](x[1] === 'short'); }).join('');
     footer();
     bindForm();
     applyFilter(curFilter);
@@ -370,13 +434,12 @@
   }
 
   /* ---------- mobilni meni ---------- */
-  var sheet = document.getElementById('sheet'), menuBtn = document.getElementById('menu-btn'), sheetOpen = false;
   function openSheet() {
     sheetOpen = true; sheet.hidden = false;
-    requestAnimationFrame(function () { sheet.classList.add('open'); });
+    requestAnimationFrame(function () { requestAnimationFrame(function () { sheet.classList.add('open'); }); });
     menuBtn.setAttribute('aria-expanded', 'true'); menuBtn.querySelector('.mb-t').textContent = L(D.ui.close);
     root.classList.add('locked');
-    var f = sheet.querySelector('a'); if (f) f.focus({ preventScroll: true });
+    var f = sheet.querySelector('.mc-a'); if (f) f.focus({ preventScroll: true });
   }
   function closeSheet(noFocus) {
     if (!sheetOpen) return;
@@ -595,6 +658,9 @@
   document.addEventListener('click', function (e) {
     var l = e.target.closest('[data-lang]'); if (l) { setLang(l.getAttribute('data-lang')); return; }
     if (e.target.closest('#menu-btn')) { sheetOpen ? closeSheet() : openSheet(); return; }
+    if (sheetOpen && e.target === sheet) { closeSheet(); return; }
+    var hereA = e.target.closest('.mc-a.here'); if (hereA) { e.preventDefault(); closeSheet(true); window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
+    if (e.target.closest('[data-top]')) { e.preventDefault(); window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
     var o = e.target.closest('.lb-open'); if (o) { lbOpen(o.getAttribute('data-lb'), +o.getAttribute('data-i'), o); return; }
     var f = e.target.closest('.filters .pill'); if (f) { applyFilter(f.getAttribute('data-f')); return; }
     var tp = e.target.closest('[data-topic-pick]'); if (tp) { pickTopic(tp.getAttribute('data-topic-pick')); return; }
@@ -632,7 +698,13 @@
       return;
     }
     if (sheetOpen && e.key === 'Escape') closeSheet();
+    if (sheetOpen && e.key === 'Tab') { /* fokus ostaje u meniju */
+      var fs = [menuBtn].concat([].slice.call(sheet.querySelectorAll('a, button'))), k = fs.indexOf(document.activeElement);
+      e.preventDefault(); fs[(k + (e.shiftKey ? -1 : 1) + fs.length) % fs.length].focus();
+    }
   });
+  sheet.addEventListener('pointerover', function (e) { var a = e.target.closest('[data-mi]'); if (a) mcPick(+a.getAttribute('data-mi')); });
+  sheet.addEventListener('focusin', function (e) { var a = e.target.closest('[data-mi]'); if (a) mcPick(+a.getAttribute('data-mi')); });
 
   render();
   openFromUrl();
@@ -640,8 +712,9 @@
   (function () {
     var t = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1)));
     if (!t) return;
-    var go = function () { t.scrollIntoView({ block: 'start' }); };
-    go(); addEventListener('load', function () { go(); setTimeout(go, 120); });
+    /* slike i fontovi mogu pomjeriti sadržaj dok se učitavaju, pa se skok ponovi dok se ne smiri */
+    var go = function () { t.scrollIntoView({ block: 'start' }); }, n = 0;
+    go(); addEventListener('load', function settle() { go(); if (++n < 8) setTimeout(settle, 150); });
   })();
   window.NPApp = { L: L, lang: function () { return lang; } };
 })();

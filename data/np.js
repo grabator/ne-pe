@@ -31,6 +31,9 @@ window.NP = {
     skip: { bs: 'Preskoči na sadržaj', en: 'Skip to content', de: 'Zum Inhalt springen' },
     menu: { bs: 'Meni', en: 'Menu', de: 'Menü' },
     close: { bs: 'Zatvori', en: 'Close', de: 'Schließen' },
+    menuTitle: { bs: 'Gdje idemo?', en: 'Where to?', de: 'Wohin?' },
+    write: { bs: 'Pišite mi', en: 'Write to me', de: 'Schreiben Sie mir' },
+    here: { bs: 'Ovdje ste', en: 'You are here', de: 'Sie sind hier' },
     nav: {
       story: { bs: 'Priča', en: 'Story', de: 'Geschichte' },
       works: { bs: 'Radovi', en: 'Signature', de: 'Kreationen' },
@@ -541,6 +544,82 @@ window.NP = {
   },
 
   /* naslov i opis stranice po jeziku */
+  /* --- stranice: vrh svake podstranice, meni i SEO --- */
+  pages: {
+    prica: {
+      file: 'prica.html', img: 'stepenice',
+      script: { bs: 'Priča', en: 'Story', de: 'Geschichte' },
+      title: { bs: 'Petnaest godina *zanata*', en: 'Fifteen years of *craft*', de: 'Fünfzehn Jahre *Handwerk*' },
+      lead: {
+        bs: 'Put od Doboja do Mostara, ljudi koji su me oblikovali, medalje i sve što radim izvan kuhinje.',
+        en: 'The road from Doboj to Mostar, the people who shaped me, the medals and everything I do beyond the kitchen.',
+        de: 'Der Weg von Doboj nach Mostar, die Menschen, die mich geprägt haben, die Medaillen und alles, was ich außerhalb der Küche mache.'
+      },
+      sub: { bs: 'Put, nagrade i press', en: 'The road, awards and press', de: 'Weg, Preise und Presse' },
+      seo: { bs: 'Priča i nagrade · Nemanja Petrović', en: 'Story and awards · Nemanja Petrović', de: 'Geschichte und Preise · Nemanja Petrović' }
+    },
+    radovi: {
+      file: 'radovi.html', img: 'crno-zlato',
+      script: { bs: 'Radovi', en: 'Signature', de: 'Kreationen' },
+      title: { bs: 'Desert je *priča* na tanjiru', en: 'A dessert is a *story* on a plate', de: 'Ein Dessert ist eine *Geschichte* auf dem Teller' },
+      lead: {
+        bs: 'Potpisni deserti, spojevi okusa, anatomija jednog tanjira, torta od jedanaest spratova i figure od fondana.',
+        en: 'Signature desserts, flavour pairings, the anatomy of a plate, an eleven-tier cake and fondant figures.',
+        de: 'Signature-Desserts, Aromen-Paare, die Anatomie eines Tellers, eine elfstöckige Torte und Fondantfiguren.'
+      },
+      sub: { bs: 'Deserti, okusi, fondan, 11 spratova', en: 'Desserts, pairings, fondant, 11 tiers', de: 'Desserts, Aromen, Fondant, 11 Etagen' },
+      seo: { bs: 'Radovi · Nemanja Petrović · Pastry Chef', en: 'Signature work · Nemanja Petrović · Pastry Chef', de: 'Kreationen · Nemanja Petrović · Pastry Chef' }
+    },
+    svadbe: {
+      file: 'svadbe.html', img: 'secer', topic: 'wedding',
+      script: { bs: 'Svadbe', en: 'Weddings', de: 'Hochzeiten' },
+      title: { bs: 'Torta za *vaš* dan', en: 'A cake for *your* day', de: 'Eine Torte für *Ihren* Tag' },
+      lead: {
+        bs: 'Od torte duge jedan metar do jedanaest spratova. Pogledajte fotografije, pročitajte utiske i pošaljite upit.',
+        en: 'From a one-metre cake to eleven tiers. See the photos, read the kind words and send an enquiry.',
+        de: 'Von einer meterlangen Torte bis zu elf Etagen. Fotos ansehen, Stimmen lesen und eine Anfrage senden.'
+      },
+      sub: { bs: 'Galerija, utisci i pitanja', en: 'Gallery, kind words, questions', de: 'Galerie, Stimmen, Fragen' },
+      seo: { bs: 'Svadbene torte · Nemanja Petrović · Mostar', en: 'Wedding cakes · Nemanja Petrović · Mostar', de: 'Hochzeitstorten · Nemanja Petrović · Mostar' }
+    },
+    akademija: {
+      file: 'akademija.html', img: 'plating', topic: 'academy',
+      script: { bs: 'Akademija', en: 'Academy', de: 'Akademie' },
+      title: { bs: 'Znanje koje se *dijeli*', en: 'Knowledge worth *sharing*', de: 'Wissen, das man *teilt*' },
+      lead: {
+        bs: 'Akademija slastičarstva, masterclass radionice i Slatke priče, emisija sa receptima iz moje kuhinje.',
+        en: 'The pastry academy, masterclasses and Sweet Stories, a show with recipes from my kitchen.',
+        de: 'Die Konditorei-Akademie, Masterclasses und Süße Geschichten, eine Sendung mit Rezepten aus meiner Küche.'
+      },
+      sub: { bs: 'Radionice i Slatke priče', en: 'Masterclasses and Sweet Stories', de: 'Kurse und Süße Geschichten' },
+      seo: { bs: 'Akademija slastičarstva · Nemanja Petrović', en: 'Pastry academy · Nemanja Petrović', de: 'Konditorei-Akademie · Nemanja Petrović' }
+    },
+    saradnja: {
+      file: 'saradnja.html', img: 'servis', topic: 'collab',
+      script: { bs: 'Saradnja', en: 'Partners', de: 'Partner' },
+      title: { bs: 'Za restorane i *hotele*', en: 'For restaurants and *hotels*', de: 'Für Restaurants und *Hotels*' },
+      lead: {
+        bs: 'Desertna karta, obuka tima i eventi. Desert koji gost zapamti i kuhinja koja ga može ponoviti.',
+        en: 'Dessert menus, team training and events. A dessert guests remember and a kitchen that can repeat it.',
+        de: 'Dessertkarten, Teamschulung und Events. Ein Dessert, das Gäste nicht vergessen, und eine Küche, die es wiederholen kann.'
+      },
+      sub: { bs: 'Restorani, hoteli i eventi', en: 'Restaurants, hotels, events', de: 'Restaurants, Hotels, Events' },
+      seo: { bs: 'Saradnja za restorane i hotele · Nemanja Petrović', en: 'For restaurants and hotels · Nemanja Petrović', de: 'Für Restaurants und Hotels · Nemanja Petrović' }
+    }
+  },
+  /* meni: redoslijed i slika koja se pokaže kad se pređe preko stavke */
+  menu: [
+    { k: 'home', href: './', img: 'portret', label: { bs: 'Početna', en: 'Home', de: 'Start' }, sub: { bs: 'Sve ukratko', en: 'The short version', de: 'Alles in Kürze' } },
+    { k: 'prica' }, { k: 'radovi' }, { k: 'svadbe' }, { k: 'akademija' }, { k: 'saradnja' },
+    { k: 'recepti', href: 'recepti.html', img: 'kuhinja', label: { bs: 'Recepti', en: 'Recipes', de: 'Rezepte' }, sub: { bs: 'Luda torta, Doboš i još', en: 'Crazy cake, Dobos and more', de: 'Verrückte Torte, Dobos und mehr' } }
+  ],
+  more: {
+    story: { bs: 'Cijela priča', en: 'The whole story', de: 'Die ganze Geschichte' },
+    works: { bs: 'Svi radovi', en: 'All work', de: 'Alle Kreationen' },
+    weddings: { bs: 'Sve o svadbama', en: 'All about weddings', de: 'Alles über Hochzeiten' },
+    academy: { bs: 'Sve o akademiji', en: 'All about the academy', de: 'Alles über die Akademie' }
+  },
+
   seo: {
     title: { bs: 'Nemanja Petrović · Pastry Chef · Mostar', en: 'Nemanja Petrović · Pastry Chef · Mostar', de: 'Nemanja Petrović · Pastry Chef · Mostar' },
     desc: {

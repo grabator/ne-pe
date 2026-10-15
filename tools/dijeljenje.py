@@ -3,7 +3,7 @@ Slike i stranice za dijeljenje fotografija (svadbe i fondan).
 
 Za svaku fotografiju nastaju:
   assets/share/<id>.jpg   1200x630, fotografija sa potpisom (za Facebook, WhatsApp, Viber...)
-  t/<id>.html             mala stranica sa tom slikom u og: podacima, odmah vodi na ?foto=<id>
+  t/<id>.html             mala stranica sa tom slikom u og: podacima, odmah vodi na svadbe.html ili radovi.html?foto=<id>
 
 Pokretanje: python3 tools/dijeljenje.py   (treba Pillow, fontTools i node)
 Adresa stranice se čita iz <link rel="canonical"> u index.html.
@@ -69,9 +69,9 @@ def card(photo, caption, fonts):
     return im
 
 
-def page(base, item_id, title, desc):
+def page(base, item_id, title, desc, where):
     img = f'{base}assets/share/{item_id}.jpg'
-    to = f'../?foto={item_id}'
+    to = f'../{where}?foto={item_id}'
     e = html.escape
     return f'''<!doctype html>
 <html lang="bs">
@@ -90,7 +90,7 @@ def page(base, item_id, title, desc):
 <meta property="og:url" content="{base}t/{item_id}.html">
 <meta name="twitter:card" content="summary_large_image">
 <meta http-equiv="refresh" content="0; url={to}">
-<link rel="canonical" href="{base}?foto={item_id}">
+<link rel="canonical" href="{base}{where}?foto={item_id}">
 <script>location.replace({json.dumps(to)});</script>
 </head>
 <body style="background:#0E0C0A;color:#F3EADB;font-family:system-ui,sans-serif;padding:40px">
@@ -103,7 +103,7 @@ def page(base, item_id, title, desc):
 def main():
     D = data()
     base = re.search(r'<link rel="canonical" href="([^"]+)"', (ROOT / 'index.html').read_text(encoding='utf-8')).group(1)
-    items = [(g['id'], g['cap']['bs']) for g in D['weddings']['gallery']] + [(f['id'], f['cap']['bs']) for f in D['fondant']['items']]
+    items = [(g['id'], g['cap']['bs'], 'svadbe.html') for g in D['weddings']['gallery']] + [(f['id'], f['cap']['bs'], 'radovi.html') for f in D['fondant']['items']]
     (ROOT / 'assets' / 'share').mkdir(parents=True, exist_ok=True); (ROOT / 't').mkdir(exist_ok=True)
     img = json.loads(re.search(r'window\.NP_IMG\s*=\s*(\{.*\})', (ROOT / 'data' / 'slike.js').read_text(encoding='utf-8'), re.S).group(1))
     with tempfile.TemporaryDirectory() as tmp:
@@ -113,10 +113,10 @@ def main():
         fonts['cap'] = ImageFont.truetype(both('cormorant-garamond', '300-italic', tmp), 46)
         man = both('manrope', '600-normal', tmp)
         fonts['label'], fonts['small'] = ImageFont.truetype(man, 15), ImageFont.truetype(man, 14)
-        for item_id, cap in items:
+        for item_id, cap, where in items:
             big = max(img[item_id]['sizes'])
             card(ROOT / 'assets' / 'img' / f'{item_id}-{big}.webp', cap, fonts).save(ROOT / 'assets' / 'share' / f'{item_id}.jpg', quality=84, optimize=True, progressive=True)
-            (ROOT / 't' / f'{item_id}.html').write_text(page(base, item_id, f'{cap} · Nemanja Petrović', 'Pastry chef iz Mostara. Svadbene torte, fondan i Akademija slastičarstva.'), encoding='utf-8')
+            (ROOT / 't' / f'{item_id}.html').write_text(page(base, item_id, f'{cap} · Nemanja Petrović', 'Pastry chef iz Mostara. Svadbene torte, fondan i Akademija slastičarstva.', where), encoding='utf-8')
             print(item_id)
 
 

@@ -8,20 +8,6 @@
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* zaglavlje */
-.rc-nav { display: flex; gap: clamp(18px, 2vw, 32px); margin-left: auto; font: 500 13px/1 var(--sans); color: var(--cream-2); }
-.rc-nav a { padding: 8px 0; border-bottom: 1px solid transparent; transition: color 0.3s, border-color 0.3s; }
-.rc-nav a em { font-style: normal; }
-.rc-nav a:hover, .rc-nav a[aria-current] { color: var(--cream); border-bottom-color: var(--gold); }
-.rc-home { font: 600 11px/1 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream); padding: 12px 0; }
-.rc-home:hover { color: var(--gold); }
-.rc-home span { display: inline-block; transition: transform 0.4s var(--ease); }
-.rc-home:hover span { transform: translateX(-4px); }
-.rc-page .progress { transform: scaleX(0); }
-.rc-page .mono text { fill: var(--cream); stroke-width: 0; stroke-dashoffset: 0; animation: none !important; }
-[data-theme='light'] .rc-page .mono text { fill: #1C1712; }
-.rc-page .mono .mono-line { stroke-dashoffset: 0; animation: none !important; }
-
 /* vrh */
 .rc-hero { padding: calc(132px + env(safe-area-inset-top)) 0 clamp(70px, 8vw, 120px); position: relative; overflow: hidden; }
 .rc-hero::before { content: ''; position: absolute; inset: -20% -10% auto auto; width: 70vw; height: 70vw; max-width: 900px; max-height: 900px; background: radial-gradient(closest-side, var(--rc-glow), transparent); pointer-events: none; }
@@ -159,7 +145,6 @@
 
 /* tablet i mobitel */
 @media (max-width: 1100px) {
-  .rc-nav { display: none; }
   .top-right { margin-left: auto; }
   .rc-cards { grid-template-columns: 1fr 1fr; }
   .rc-card-art2 { grid-column: 1 / -1; }

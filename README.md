@@ -1,7 +1,20 @@
 # Nemanja Petrović · Pastry Chef
 
-Lična stranica slastičara Nemanje Petrovića iz Mostara. Priča, potpisni recepti, torta od jedanaest spratova, svadbe, fondan, nagrade, Akademija slastičarstva i kontakt.
-Posebna stranica `recepti.html` ima recepte sa njegovog Instagrama (Luda torta, Doboš torta) i tekst o tome šta određuje cijenu torte.
+Lična stranica slastičara Nemanje Petrovića iz Mostara.
+
+Početna je kratka (izlog), a sve ostalo je na posebnim stranicama:
+
+| Stranica | Šta je na njoj |
+| --- | --- |
+| `index.html` | Prvi ekran, brojke, kratka priča, potpisni radovi, svadbe, utisci, akademija (odbrojavanje), recepti, kontakt |
+| `prica.html` | Cijela priča, nagrade, Šire od kuhinje i press kit |
+| `radovi.html` | Potpisni radovi, spojevi okusa, anatomija deserta, torta od 11 spratova, fondan |
+| `svadbe.html` | Galerija svadbi, utisci, pitanja i upit |
+| `akademija.html` | Akademija, termini, lista čekanja, certifikat, Slatke priče |
+| `saradnja.html` | Za restorane i hotele, spojevi okusa |
+| `recepti.html` | Recepti sa Instagrama (Luda torta, Doboš torta) i tekst o cijeni torte |
+
+Svaka stranica (osim recepata) završava kontakt formom, a tema forme je već izabrana (Svadbe: svadba, Akademija: akademija, Saradnja: saradnja).
 
 Ovo je **demo** verzija: stranica se ne indeksira, a kontakt podaci su primjeri (označeni sa DEMO).
 
@@ -17,7 +30,7 @@ Pa otvoriti http://localhost:8080 (drugi port: `node serve.mjs 8091`).
 
 Jezik se može birati i preko adrese: `?lang=en`, `?lang=de`.
 
-Uvod (monogram NP i zavjesa) se prikaže samo pri prvom otvaranju. Da se vidi ponovo: `?intro` na kraju adrese.
+Uvod (monogram NP i zavjesa) se prikaže samo pri prvom otvaranju početne. Da se vidi ponovo: `?intro` na kraju adrese.
 
 ## Gdje je šta
 
@@ -25,8 +38,9 @@ Uvod (monogram NP i zavjesa) se prikaže samo pri prvom otvaranju. Da se vidi po
 | --- | --- |
 | `data/np.js` | Sav tekst na tri jezika (bs, en, de), kontakt, nagrade, galerije |
 | `data/slike.js` | Dimenzije slika (pravi ga `tools/slike.py`, ne mijenjati ručno) |
-| `index.html` | Kostur stranice, prvi ekran, SEO podaci |
-| `js/app.js` | Sekcije, meni, jezici, galerija, filter fondana, kontakt forma |
+| `index.html` | Kostur početne, prvi ekran, SEO podaci |
+| `prica.html` ... `saradnja.html`, `recepti.html` | Prave se alatom `tools/stranice.py` (ne mijenjati ručno) |
+| `js/app.js` | Sekcije, šta je na kojoj stranici (`PAGES`), meni, jezici, galerija, filter fondana, kontakt forma |
 | `js/fx.js` | Efekti: uvod, šećer u prahu, 11 spratova, svadbe (strelice), odbrojavanje, medalje, kursor |
 | `js/art.js` | Crteži: potpis, monogram za uvod, ilustracije recepata, slojevi deserta |
 | `css/style.css` | Cijeli izgled |
@@ -35,16 +49,24 @@ Uvod (monogram NP i zavjesa) se prikaže samo pri prvom otvaranju. Da se vidi po
 | `tools/slike.py` | Obrada slika: izrez, topli ton, WebP veličine |
 | `tools/fontovi.py` | Priprema Cormorant fonta (kvačice č, ć, š, ž spuštene bliže slovu) |
 | `tools/tekstura.py` | Tekstura tamnog mramora u pozadini (`assets/tex/mramor.webp`) |
-| `tools/dijeljenje.py` | Slike za dijeljenje (`assets/share/`) i stranice `t/<id>.html` za svaku fotografiju svadbi i fondana |
+| `tools/dijeljenje.py` | Slike za dijeljenje (`assets/share/`) i stranice `t/<id>.html` za svaku fotografiju svadbi i fondana (vode na Svadbe ili Radove) |
 | `tools/qr.py` | QR kod za kontakt (`assets/qr-kontakt.svg`), koristi ga `stampa.html` |
 | `tools/presskit.py` | Press kit ZIP (`assets/press/`): fotografije, biografija na tri jezika, logo |
 | `recepti.html` | Stranica recepata (crta je `js/recepti.js`, izgled `css/recepti.css`) |
 | `data/recepti.js` | Recepti: sastojci, koraci, trikovi, slojevi za crtež presjeka torte |
+| `tools/stranice.py` | Pravi podstranice (zaglavlje, SEO, skripte) iz `data/np.js` → `pages` |
 | `tools/rukopis.py` | Rukopisni font za naslove recepata (dodaje č, ć, š, ž u Mrs Saint Delafield) |
 | `stampa.html` | Kartica za štampu: stalak A6, vizit karta i QR kod, svaki se može preuzeti posebno (PNG i PDF) |
 | `tools/stampa.cjs` | Pravi fajlove za preuzimanje u `assets/print/` (PNG 300 dpi i PDF u tačnoj veličini) |
 
 Tekst se mijenja samo u `data/np.js` (recepti u `data/recepti.js`). Riječ između zvjezdica (`*Mostara*`) ispisuje se zlatnim kurzivom.
+
+## Stranice i meni
+
+- Šta je na kojoj stranici i kojim redom: `PAGES` u `js/app.js` (npr. `svadbe: ['hero', 'weddings', 'reviews', 'faq', 'contact']`).
+- Naslov, uvod, slika u meniju i SEO svake podstranice: `pages` u `data/np.js`. Redoslijed u meniju: `menu`.
+- Poslije promjene u `pages` pokrenuti `python3 tools/stranice.py` (osvježi naslove i opise u HTML-u).
+- Brojevi poglavlja (01, 02...) idu sami redom na svakoj stranici.
 
 ## Novi recept
 
@@ -64,7 +86,7 @@ Recept se sam pojavi i na stranici recepata i u sekciji Recepti na početnoj.
 
 ## Prije objave (obavezno)
 
-1. `index.html` i `recepti.html`: obrisati red `<meta name="robots" content="noindex, nofollow">`.
+1. `index.html` i `tools/stranice.py`: obrisati red `<meta name="robots" content="noindex, nofollow">`, pa pokrenuti `python3 tools/stranice.py`.
 2. `_headers`: obrisati red `X-Robots-Tag: noindex`.
 3. `robots.txt`: zamijeniti sadržaj sa:
    ```
@@ -72,7 +94,7 @@ Recept se sam pojavi i na stranici recepata i u sekciji Recepti na početnoj.
    Allow: /
    Sitemap: https://PRAVA-DOMENA/sitemap.xml
    ```
-4. Adresu `ne-pe.grabafaceit.workers.dev` zamijeniti pravom domenom u `index.html` (canonical, og:url, og:image, JSON-LD), `recepti.html` i `sitemap.xml`, pa ponovo pokrenuti `python3 tools/dijeljenje.py` i `python3 tools/qr.py` (oba čitaju adresu iz `index.html`), a zatim `tools/stampa.cjs` da kartice za preuzimanje dobiju novi QR kod.
+4. Adresu `ne-pe.grabafaceit.workers.dev` zamijeniti pravom domenom u `index.html` (canonical, og:url, og:image, JSON-LD) i `sitemap.xml`, pa ponovo pokrenuti `python3 tools/stranice.py`, `python3 tools/dijeljenje.py` i `python3 tools/qr.py` (oba čitaju adresu iz `index.html`), a zatim `tools/stampa.cjs` da kartice za preuzimanje dobiju novi QR kod.
    U `tools/dijeljenje.py` i `stampa.html` obrisati red `noindex` (označen sa DEMO).
 5. `data/np.js`:
    - `demo: false` (nestaju oznake DEMO i traka u podnožju),
@@ -109,6 +131,8 @@ Adresa: `https://ne-pe.<subdomain>.workers.dev`. Ako `<subdomain>` nije `grabafa
 
 ## Dizajn
 
+- Meni je kao desertna karta: dupli zlatni okvir, stavke sa tačkicama do broja i kratkim opisom, a pored je slika stranice u luku koja se mijenja kad se pređe preko stavke. Na mobitelu je ista karta, bez slike.
+- Na početnoj su samo najjači dijelovi; ispod svakog je link "Sve o ..." na njegovu stranicu.
 - Tamna, topla paleta (ugljen, krem, zlato) jer su fotografije večernje i tople, a zlato veže medalje i šećer.
 - Cormorant Garamond za naslove (elegantan, krupan), Manrope za tekst (čitljiv na mobitelu).
 - Potpisni efekti: uvod sa monogramom NP, šećer u prahu na prvom ekranu (reaguje na miš), desert sa Brača koji se na klik rastavi na slojeve, torta od 11 spratova koja naraste kad se dođe do nje, potpis koji se ispisuje potezom pera.

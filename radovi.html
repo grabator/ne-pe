@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="bs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Radovi · Nemanja Petrović · Pastry Chef</title>
+<meta name="description" content="Potpisni deserti, spojevi okusa, anatomija jednog tanjira, torta od jedanaest spratova i figure od fondana.">
+<!-- DEMO: obrisati ovaj red prije objave (vidi README) -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0E0C0A">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="assets/np.svg" type="image/svg+xml">
+<link rel="canonical" href="https://ne-pe.grabafaceit.workers.dev/radovi.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Radovi · Nemanja Petrović · Pastry Chef">
+<meta property="og:description" content="Potpisni deserti, spojevi okusa, anatomija jednog tanjira, torta od jedanaest spratova i figure od fondana.">
+<meta property="og:image" content="https://ne-pe.grabafaceit.workers.dev/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://ne-pe.grabafaceit.workers.dev/radovi.html">
+<meta property="og:locale" content="bs_BA">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="assets/fonts/cormorant-garamond-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/manrope-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/mrs-saint-delafield-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+<script>
+  /* jezik i tema prije crtanja, da ništa ne trepne (uvod je samo na početnoj) */
+  (function () {
+    var d = document.documentElement, l = null;
+    try { l = new URLSearchParams(location.search).get('lang') || localStorage.getItem('np-lang'); } catch (e) {}
+    if (l === 'en' || l === 'de' || l === 'bs') d.lang = l;
+    d.className += ' js';
+    try { if (localStorage.getItem('np-theme') === 'light') d.setAttribute('data-theme', 'light'); } catch (e) {}
+  })();
+</script>
+</head>
+<body data-page="radovi">
+<a class="skip" href="#main" data-t="ui.skip">Preskoči na sadržaj</a>
+
+<header class="top solid" id="top">
+  <a class="brand" href="./" aria-label="Nemanja Petrović, početna">
+    <svg class="mono" viewBox="0 0 108 80" aria-hidden="true"><text x="2" y="64">N</text><text x="44" y="64">P</text><path class="mono-line" d="M8 74 H100"/></svg>
+    <span class="brand-name">Nemanja Petrović</span>
+  </a>
+  <span class="brand-page" id="brand-page"></span>
+  <div class="top-right">
+    <button class="theme-btn theme-top" type="button" data-theme-btn aria-pressed="false" aria-label="Svijetla tema"><i aria-hidden="true"></i></button>
+    <div class="langs" id="langs" role="group" aria-label="Jezik"></div>
+    <a class="hd-write" id="hd-write" href="#contact">Pišite mi</a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="sheet"><span class="mb-l" aria-hidden="true"><i></i><i></i></span><span class="mb-t" data-t="ui.menu">Meni</span></button>
+  </div>
+  <i class="progress" aria-hidden="true"></i>
+</header>
+
+<div class="sheet" id="sheet" hidden></div>
+
+<main id="main" tabindex="-1">
+  <noscript>
+    <div class="wrap nos">
+      <p>Potpisni deserti, spojevi okusa, anatomija jednog tanjira, torta od jedanaest spratova i figure od fondana.</p>
+      <p>Instagram: <a href="https://www.instagram.com/nemanja_petr/">@nemanja_petr</a></p>
+    </div>
+  </noscript>
+</main>
+
+<footer class="foot" id="foot"></footer>
+
+<div class="cursor" aria-hidden="true"></div>
+
+<script src="data/np.js"></script>
+<script src="data/slike.js"></script>
+<script src="js/art.js"></script>
+<script src="js/app.js"></script>
+<script src="js/fx.js"></script>
+</body>
+</html>

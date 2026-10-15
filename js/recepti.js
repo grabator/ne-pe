@@ -1,6 +1,7 @@
 /*
  * Stranica recepata: crta recepte iz data/recepti.js.
  * Sastojci i koraci se mogu označiti (pamti se u pregledniku), recept se može štampati i podijeliti.
+ * Zaglavlje, meni, temu i podnožje crta js/app.js (data-page="recepti"), otkrivanje i traku napretka js/fx.js.
  */
 (function () {
   'use strict';
@@ -106,8 +107,6 @@
   }
 
   function render() {
-    document.getElementById('rc-nav').innerHTML = R.recipes.map(function (r) { return '<a href="#' + r.id + '">' + rich(r.title) + '</a>'; }).join('') +
-      '<a href="#' + R.article.id + '">' + esc(R.article.label) + '</a>';
     document.getElementById('main').innerHTML = hero() + R.recipes.map(recipe).join('') + article() + outro();
     R.recipes.forEach(restore);
   }
@@ -138,7 +137,9 @@
   /* ---------- štampa i dijeljenje ---------- */
   var toastT = 0;
   function toast(t) {
-    var el = document.querySelector('.rc-toast'); el.textContent = t; el.classList.add('on');
+    var el = document.querySelector('.rc-toast');
+    if (!el) { el = document.createElement('div'); el.className = 'rc-toast'; el.setAttribute('role', 'status'); el.setAttribute('aria-live', 'polite'); document.body.appendChild(el); }
+    el.textContent = t; el.classList.add('on');
     clearTimeout(toastT); toastT = setTimeout(function () { el.classList.remove('on'); }, 2200);
   }
   function share(el) {
@@ -157,14 +158,6 @@
     setTimeout(end, 1500);
   }
 
-  /* ---------- tema ---------- */
-  function themeSet(t) {
-    root.setAttribute('data-theme', t); save2('np-theme', t);
-    var m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = t === 'light' ? '#F6F0E6' : '#0E0C0A';
-    [].forEach.call(document.querySelectorAll('[data-theme-btn]'), function (b) { b.setAttribute('aria-pressed', String(t === 'light')); b.setAttribute('aria-label', t === 'light' ? P.themeDark : P.themeLight); });
-  }
-  function save2(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
-
   /* ---------- događaji ---------- */
   document.addEventListener('click', function (e) {
     var st = e.target.closest('.rc-step');
@@ -177,7 +170,6 @@
       [].forEach.call(el.querySelectorAll('.rc-step'), function (x) { x.setAttribute('aria-pressed', 'false'); });
       store(el); el.querySelector('.rc-list').scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); return;
     }
-    if (e.target.closest('[data-theme-btn]')) themeSet(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
   });
   document.addEventListener('change', function (e) { if (e.target.matches('[data-ing]')) store(e.target.closest('.rc')); });
 
@@ -185,27 +177,4 @@
   /* otvaranje na #recept: sadržaj nastaje iz JS-a, pa skok ide ovdje */
   var hashT = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1)));
   if (hashT) { hashT.scrollIntoView({ block: 'start' }); addEventListener('load', function () { hashT.scrollIntoView({ block: 'start' }); }); }
-  themeSet(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
-  requestAnimationFrame(function () { root.classList.add('ready'); });
-
-  /* ---------- pojavljivanje i traka napretka ---------- */
-  var rv = document.querySelectorAll('.rv');
-  if ('IntersectionObserver' in window && !reduce) {
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } });
-    }, { rootMargin: '0px 0px -8% 0px' });
-    [].forEach.call(rv, function (x) { io.observe(x); });
-  } else [].forEach.call(rv, function (x) { x.classList.add('in'); });
-
-  var bar = document.querySelector('.top .progress'), links = document.querySelectorAll('#rc-nav a'), secs = [].map.call(links, function (a) { return document.querySelector(a.getAttribute('href')); });
-  var tick = false;
-  function onScroll() {
-    tick = false;
-    var h = document.documentElement.scrollHeight - innerHeight;
-    if (bar) bar.style.transform = 'scaleX(' + (h > 0 ? scrollY / h : 0) + ')';
-    var cur = -1; secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top < innerHeight * 0.4) cur = i; });
-    [].forEach.call(links, function (a, i) { if (i === cur) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
-  }
-  addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(onScroll); } }, { passive: true });
-  onScroll();
 })();

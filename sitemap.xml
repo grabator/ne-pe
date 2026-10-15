@@ -6,5 +6,10 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://ne-pe.grabafaceit.workers.dev/?lang=en"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://ne-pe.grabafaceit.workers.dev/?lang=de"/>
   </url>
+  <url><loc>https://ne-pe.grabafaceit.workers.dev/prica.html</loc></url>
+  <url><loc>https://ne-pe.grabafaceit.workers.dev/radovi.html</loc></url>
+  <url><loc>https://ne-pe.grabafaceit.workers.dev/svadbe.html</loc></url>
+  <url><loc>https://ne-pe.grabafaceit.workers.dev/akademija.html</loc></url>
+  <url><loc>https://ne-pe.grabafaceit.workers.dev/saradnja.html</loc></url>
   <url><loc>https://ne-pe.grabafaceit.workers.dev/recepti.html</loc></url>
 </urlset>
