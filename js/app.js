@@ -73,16 +73,16 @@
       }).join('') + '</ol></div></section>';
   }
 
-  /* potpis okusa: tri spoja kao bočice parfema */
+  /* spojevi okusa: dva sastojka, zašto idu zajedno i gdje su servirani */
   function notes() {
     var N = D.notes; if (!N) return ''; N._id = 'notes';
-    var lv = L(N.levels);
     return '<section class="sec notes" id="notes" aria-labelledby="notes-t"><div class="wrap">' + head(N, L(N.lead)) +
       '<ol class="nt-grid">' + N.items.map(function (it, i) {
         return '<li class="nt rv" style="--d:' + i + ';--c:' + it.color + '">' +
-          '<svg class="nt-bottle" viewBox="0 0 120 170" aria-hidden="true"><path d="M50 6 h20 v18 h-20 z M44 24 h32 v10 h-32 z"/><path d="M30 46 C 30 38, 38 34, 46 34 H74 C 82 34, 90 38, 90 46 V150 C 90 158, 84 164, 76 164 H44 C 36 164, 30 158, 30 150 Z"/><path class="nt-fill" d="M34 96 C 50 90, 70 102, 86 96 V150 C 86 156, 82 160, 76 160 H44 C 38 160, 34 156, 34 150 Z"/><text x="60" y="78" text-anchor="middle">' + esc(it.n) + '</text></svg>' +
-          '<h3 class="nt-name">' + esc(L(it.name)) + '</h3>' +
-          '<dl class="nt-notes">' + it.notes.map(function (n, k) { return '<div><dt>' + esc(lv[k]) + '</dt><dd>' + esc(L(n)) + '</dd></div>'; }).join('') + '</dl></li>';
+          '<div class="nt-pair" aria-hidden="true"><span class="nt-ic nt-a">' + (ART.icon ? ART.icon(it.icons[0]) : '') + '</span><i class="nt-x"></i><span class="nt-ic nt-b">' + (ART.icon ? ART.icon(it.icons[1]) : '') + '</span></div>' +
+          '<h3 class="nt-name">' + esc(L(it.a)) + ' <em>&amp;</em> ' + esc(L(it.b)) + '</h3>' +
+          '<p class="nt-why">' + esc(L(it.why)) + '</p>' +
+          '<p class="nt-where"><small>' + esc(L(N.whereLabel)) + '</small><b>' + esc(L(it.where)) + '</b></p></li>';
       }).join('') + '</ol></div></section>';
   }
 

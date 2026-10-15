@@ -136,7 +136,7 @@ window.NP = {
         name: { bs: 'Panakota s lavandom', en: 'Lavender Panna Cotta', de: 'Lavendel Panna Cotta' },
         notes: { bs: 'lavanda · divlje trešnje', en: 'lavender · wild cherries', de: 'Lavendel · Wildkirschen' },
         text: { bs: 'Cvjetna, nježna i tiha.', en: 'Floral, delicate and quiet.', de: 'Blumig, zart und leise.' },
-        aside: { bs: 'Desert koji se pamti po mirisu.', en: 'A dessert remembered by its scent.', de: 'Ein Dessert, das man am Duft erkennt.' },
+        aside: { bs: 'Lavanda koja ostaje u sjećanju.', en: 'Lavender you will remember.', de: 'Lavendel, der in Erinnerung bleibt.' },
         image: null, art: 'dome'
       },
       {
@@ -149,38 +149,29 @@ window.NP = {
     ]
   },
 
-  /* --- 03 Potpis okusa: spojevi okusa kao parfemi (vrh, srce, baza) --- */
+  /* --- 03 Spojevi okusa: neobični spojevi po kojima je Nemanja poznat --- */
   notes: {
-    chapter: { bs: '03 · Potpis okusa', en: '03 · Flavour Signature', de: '03 · Aroma-Signatur' },
-    title: { bs: 'Okusi koji se *pamte* kao miris.', en: 'Flavours remembered like a *scent*.', de: 'Aromen, die man wie einen *Duft* erinnert.' },
+    chapter: { bs: '03 · Spojevi okusa', en: '03 · Flavour Pairings', de: '03 · Aromen-Paare' },
+    title: { bs: 'Dva okusa, *jedan* potpis.', en: 'Two flavours, *one* signature.', de: 'Zwei Aromen, *eine* Handschrift.' },
     lead: {
-      bs: 'Svaki moj desert gradim kao parfem: prvo ono što osjetite na vrhu jezika, zatim srce, pa baza koja ostaje.',
-      en: 'I build each dessert like a perfume: first what you taste on the tip of your tongue, then the heart, then the base that lingers.',
-      de: 'Jedes Dessert baue ich wie ein Parfum: zuerst die Kopfnote auf der Zungenspitze, dann das Herz, dann die Basis, die bleibt.'
+      bs: 'Moj teren su spojevi koji na papiru ne bi trebali ići zajedno. Na tanjiru postanu ono po čemu me ljudi pamte.',
+      en: 'My ground is pairings that on paper should not go together. On the plate they become what people remember me for.',
+      de: 'Mein Terrain sind Paare, die auf dem Papier nicht zusammenpassen. Auf dem Teller werden sie zu dem, woran man sich bei mir erinnert.'
     },
-    levels: { bs: ['Vrh', 'Srce', 'Baza'], en: ['Top', 'Heart', 'Base'], de: ['Kopf', 'Herz', 'Basis'] },
+    whereLabel: { bs: 'Gdje ste ga mogli probati', en: 'Where it was served', de: 'Wo es serviert wurde' },
     items: [
-      { n: 'N° 01', color: '#E08A3C',
-        name: { bs: 'Pivo i mandarina', en: 'Beer and mandarin', de: 'Bier und Mandarine' },
-        notes: [
-          { bs: 'korica mandarine', en: 'mandarin zest', de: 'Mandarinenschale' },
-          { bs: 'krema od tamnog piva', en: 'dark beer cream', de: 'Creme aus dunklem Bier' },
-          { bs: 'lješnjak, karamel', en: 'hazelnut, caramel', de: 'Haselnuss, Karamell' }
-        ] },
-      { n: 'N° 02', color: '#9C7BB0',
-        name: { bs: 'Lavanda i divlja trešnja', en: 'Lavender and wild cherry', de: 'Lavendel und Wildkirsche' },
-        notes: [
-          { bs: 'cvijet lavande', en: 'lavender blossom', de: 'Lavendelblüte' },
-          { bs: 'panakota od vanilije', en: 'vanilla panna cotta', de: 'Vanille-Panna-Cotta' },
-          { bs: 'divlja trešnja', en: 'wild cherry', de: 'Wildkirsche' }
-        ] },
-      { n: 'N° 03', color: '#C9506A',
-        name: { bs: 'Bijelo vino i malina', en: 'White wine and raspberry', de: 'Weißwein und Himbeere' },
-        notes: [
-          { bs: 'svježa malina', en: 'fresh raspberry', de: 'frische Himbeere' },
-          { bs: 'krema od bijelog vina', en: 'white wine cream', de: 'Weißweincreme' },
-          { bs: 'bijela čokolada', en: 'white chocolate', de: 'weiße Schokolade' }
-        ] }
+      { icons: ['hop', 'mandarin'], color: '#E08A3C',
+        a: { bs: 'Pivo', en: 'Beer', de: 'Bier' }, b: { bs: 'mandarina', en: 'mandarin', de: 'Mandarine' },
+        why: { bs: 'Gorčina tamnog piva smiri slatkoću, a dinstana mandarina donese svježinu.', en: 'The bitterness of dark beer calms the sweetness, braised mandarin brings freshness.', de: 'Die Bitterkeit des dunklen Biers bändigt die Süße, geschmorte Mandarine bringt Frische.' },
+        where: { bs: 'Bronca · Brač 2023', en: 'Bronze · Brač 2023', de: 'Bronze · Brač 2023' } },
+      { icons: ['lavender', 'cherry'], color: '#9C7BB0',
+        a: { bs: 'Lavanda', en: 'Lavender', de: 'Lavendel' }, b: { bs: 'divlja trešnja', en: 'wild cherry', de: 'Wildkirsche' },
+        why: { bs: 'Panakota s lavandom i prelivom od divljih trešanja: cvjetno, pa kiselkasto.', en: 'Lavender panna cotta with a wild cherry sauce: floral first, then tart.', de: 'Lavendel-Panna-Cotta mit Wildkirschsauce: erst blumig, dann säuerlich.' },
+        where: { bs: 'Gastro veče · Doboj', en: 'Gastro evening · Doboj', de: 'Gastro-Abend · Doboj' } },
+      { icons: ['glass', 'raspberry'], color: '#C9506A',
+        a: { bs: 'Bijelo vino', en: 'White wine', de: 'Weißwein' }, b: { bs: 'malina', en: 'raspberry', de: 'Himbeere' },
+        why: { bs: 'Krema od bijelog vina, lagana i suha, ispod slatke i kisele maline.', en: 'A light, dry white wine cream under sweet and tart raspberries.', de: 'Eine leichte, trockene Weißweincreme unter süß-sauren Himbeeren.' },
+        where: { bs: 'Potpisni desert', en: 'Signature dessert', de: 'Signature-Dessert' } }
     ]
   },
 

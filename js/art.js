@@ -108,5 +108,20 @@
     return '<svg class="an-svg" viewBox="0 0 760 ' + H + '" aria-hidden="true"><defs>' + defs + '</defs>' + g + '</svg>';
   };
 
+  /* sastojci za spojeve okusa: tanke zlatne linije */
+  var ICON = {
+    hop: '<path d="M40 16 C 55 24, 58 46, 40 68 C 22 46, 25 24, 40 16 Z"/><path d="M30 31 Q 40 37 50 31 M27 43 Q 40 50 53 43 M31 55 Q 40 61 49 55"/><path d="M40 16 V7 M40 10 C 46 4, 54 6, 57 11 C 51 14, 45 13, 40 10"/>',
+    mandarin: '<circle cx="40" cy="44" r="24"/><circle cx="40" cy="44" r="19" opacity=".7"/><path d="M40 44 L40 25 M40 44 L53.4 30.6 M40 44 L59 44 M40 44 L53.4 57.4 M40 44 L40 63 M40 44 L26.6 57.4 M40 44 L21 44 M40 44 L26.6 30.6" opacity=".7"/><path d="M40 20 C 43 11, 52 8, 58 11 C 54 18, 47 20, 40 20 Z"/>',
+    lavender: '<path d="M40 74 V20"/><path d="M40 24 c -5 -1 -8 -5 -8 -10 c 5 1 8 5 8 10 z M40 24 c 5 -1 8 -5 8 -10 c -5 1 -8 5 -8 10 z M40 34 c -5 -1 -8 -5 -8 -10 c 5 1 8 5 8 10 z M40 34 c 5 -1 8 -5 8 -10 c -5 1 -8 5 -8 10 z M40 44 c -5 -1 -8 -5 -8 -10 c 5 1 8 5 8 10 z M40 44 c 5 -1 8 -5 8 -10 c -5 1 -8 5 -8 10 z"/><path d="M40 64 C 32 60, 26 54, 24 46 C 32 50, 37 56, 40 64 Z M40 60 C 47 57, 53 51, 55 44 C 48 47, 43 53, 40 60 Z" opacity=".8"/>',
+    cherry: '<circle cx="29" cy="56" r="10"/><circle cx="53" cy="59" r="10"/><path d="M29 46 C 32 32, 38 22, 46 14 M53 49 C 51 36, 49 24, 46 14"/><path d="M46 14 C 54 8, 64 10, 68 16 C 60 20, 52 19, 46 14 Z"/><path d="M25 52 a 4 4 0 0 1 4 -3" opacity=".7"/>',
+    glass: '<path d="M25 12 C 25 40, 55 40, 55 12 Z"/><path d="M27 24 Q 40 29 53 24" opacity=".75"/><path d="M40 37 V64"/><ellipse cx="40" cy="66" rx="14" ry="3.5"/>',
+    raspberry: '<circle cx="34" cy="38" r="6"/><circle cx="46" cy="38" r="6"/><circle cx="28" cy="49" r="6"/><circle cx="40" cy="49" r="6"/><circle cx="52" cy="49" r="6"/><circle cx="34" cy="60" r="6"/><circle cx="46" cy="60" r="6"/><circle cx="40" cy="70" r="5"/><path d="M40 32 C 36 24, 30 22, 24 24 C 30 30, 35 32, 40 32 Z M40 32 C 44 24, 50 22, 56 24 C 50 30, 45 32, 40 32 Z M40 32 V22"/>'
+  };
+  A.icon = function (k) {
+    var s = ICON[k]; if (!s) return '';
+    s = s.replace(/<(path|ellipse|circle)(?![^>]*pathLength)/g, '<$1 pathLength="1"');
+    return '<svg class="ic" viewBox="0 0 80 80" aria-hidden="true">' + s + '</svg>';
+  };
+
   window.NP_ART = A;
 })();
