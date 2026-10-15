@@ -37,7 +37,8 @@ Uvod (monogram NP i zavjesa) se prikaže samo pri prvom otvaranju. Da se vidi po
 | `tools/dijeljenje.py` | Slike za dijeljenje (`assets/share/`) i stranice `t/<id>.html` za svaku fotografiju svadbi i fondana |
 | `tools/qr.py` | QR kod za kontakt (`assets/qr-kontakt.svg`), koristi ga `stampa.html` |
 | `tools/presskit.py` | Press kit ZIP (`assets/press/`): fotografije, biografija na tri jezika, logo |
-| `stampa.html` | Kartica za štampu: stalak A6 i četiri vizit karte sa QR kodom |
+| `stampa.html` | Kartica za štampu: stalak A6, vizit karta i QR kod, svaki se može preuzeti posebno (PNG i PDF) |
+| `tools/stampa.cjs` | Pravi fajlove za preuzimanje u `assets/print/` (PNG 300 dpi i PDF u tačnoj veličini) |
 
 Tekst se mijenja samo u `data/np.js`. Riječ između zvjezdica (`*Mostara*`) ispisuje se zlatnim kurzivom.
 
@@ -58,7 +59,7 @@ Tekst se mijenja samo u `data/np.js`. Riječ između zvjezdica (`*Mostara*`) isp
    Allow: /
    Sitemap: https://PRAVA-DOMENA/sitemap.xml
    ```
-4. Adresu `ne-pe.grabafaceit.workers.dev` zamijeniti pravom domenom u `index.html` (canonical, og:url, og:image, JSON-LD) i u `sitemap.xml`, pa ponovo pokrenuti `python3 tools/dijeljenje.py` i `python3 tools/qr.py` (oba čitaju adresu iz `index.html`).
+4. Adresu `ne-pe.grabafaceit.workers.dev` zamijeniti pravom domenom u `index.html` (canonical, og:url, og:image, JSON-LD) i u `sitemap.xml`, pa ponovo pokrenuti `python3 tools/dijeljenje.py` i `python3 tools/qr.py` (oba čitaju adresu iz `index.html`), a zatim `tools/stampa.cjs` da kartice za preuzimanje dobiju novi QR kod.
    U `tools/dijeljenje.py` i `stampa.html` obrisati red `noindex` (označen sa DEMO).
 5. `data/np.js`:
    - `demo: false` (nestaju oznake DEMO i traka u podnožju),
@@ -71,7 +72,7 @@ Tekst se mijenja samo u `data/np.js`. Riječ između zvjezdica (`*Mostara*`) isp
    - `works.items[].image`: kad stignu fotografije deserata, upisati id slike (umjesto crteža se prikaže fotografija),
    - `reviews`: utisci su primjer; zamijeniti stvarnim utiscima (uz dozvolu osobe koja ih je napisala),
    - `faq`: odgovori su primjer; Nemanja treba potvrditi rokove, dostavu i pravila,
-   - `notes`: tri spoja okusa i njihove note provjeriti sa Nemanjom,
+   - `notes`: tri spoja okusa i gdje su servirani provjeriti sa Nemanjom,
    - press kit: originalne fotografije staviti u `_izvor/press/<id>.jpg` i pokrenuti `python3 tools/presskit.py`.
 6. Provjeriti kontakt formu: Viber, WhatsApp i email moraju otvarati Nemanjin broj i adresu.
 

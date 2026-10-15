@@ -31,41 +31,73 @@
   .qr img { width: 100%; height: 100%; display: block; }
   .say { font: italic 300 13pt/1.2 'Cormorant', serif; }
   .ig { font: 600 8pt/1 'Manrope', sans-serif; letter-spacing: 0.14em; }
-  .biz { display: grid; grid-template-columns: repeat(2, 85mm); gap: 6mm; }
+  .biz { display: grid; grid-template-columns: 85mm; gap: 6mm; }
+  @media print { .biz { grid-template-columns: repeat(2, 85mm); } .print-only { display: contents; } }
   .bc { width: 85mm; height: 55mm; padding: 6mm 7mm; grid-template-columns: 1fr auto; text-align: left; justify-items: start; align-items: center; gap: 4mm; border: 0.3mm solid var(--gold); }
   .bc .qr { width: 26mm; height: 26mm; }
   .bc .name { font-size: 15pt; }
   .bc .k { letter-spacing: 0.18em; white-space: nowrap; font-size: 7pt; }
   .bc div { display: grid; gap: 2mm; }
   @media (max-width: 560px) { .biz { grid-template-columns: 85mm; } }
+  .item { display: grid; gap: 14px; justify-items: center; }
+  .item h2 { margin: 0; font: 600 11px/1 'Manrope', sans-serif; letter-spacing: 0.24em; text-transform: uppercase; color: #A89B88; }
+  .dl { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .dl a { padding: 12px 18px; border: 1px solid rgba(201, 164, 106, 0.55); color: #F3EADB; text-decoration: none; font: 600 11px/1 'Manrope', sans-serif; letter-spacing: 0.18em; text-transform: uppercase; }
+  .dl a:hover { background: #C9A46A; color: #0E0C0A; }
+  .qr-only { background: #fff; padding: 14px; width: 150px; }
+  .qr-only img { width: 100%; display: block; }
+  .print-only { display: none; }
+  /* ?samo=a6 ili ?samo=bc: samo jedna kartica u tačnoj veličini (za izvoz u PNG i PDF) */
+  .solo body, .solo .sheet { background: transparent; padding: 0; gap: 0; }
+  .solo .bar, .solo .item h2, .solo .dl, .solo .rest { display: none !important; }
+  .solo .card { box-shadow: none; }
   @page { size: A4; margin: 10mm; }
   @media print {
     body { background: #fff; }
-    .bar { display: none; }
+    .bar, .item h2, .dl, .rest { display: none !important; }
+    .print-only { display: grid; }
     .sheet { padding: 0; gap: 8mm; }
     .card { box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
 </head>
 <body>
+<script>
+  /* izvoz jedne kartice: stampa.html?samo=a6 ili ?samo=bc */
+  (function () { var m = /[?&]samo=(a6|bc)/.exec(location.search); if (m) document.documentElement.className = 'solo solo-' + m[1]; })();
+</script>
+<style>.solo-a6 .biz-wrap, .solo-bc .a6-wrap { display: none !important; }</style>
 <div class="bar">
   <a href="./">← Nazad na stranicu</a>
-  <button type="button" onclick="window.print()">Štampaj</button>
+  <button type="button" onclick="window.print()">Štampaj sve na A4</button>
 </div>
 <main class="sheet">
-  <section class="card a6" aria-label="Kartica za stalak">
-    <p class="mono">NP</p>
-    <p class="k">Pastry Chef · Mostar</p>
-    <p class="name">Nemanja Petrović</p>
-    <div class="qr"><img src="assets/qr-kontakt.svg" alt="QR kod: kontakt Nemanje Petrovića"></div>
-    <p class="say">Skenirajte za kontakt</p>
-    <p class="ig">@nemanja_petr</p>
+  <section class="item a6-wrap">
+    <h2>Kartica sa QR kodom · A6 (105 × 148 mm)</h2>
+    <div class="card a6">
+      <p class="mono">NP</p>
+      <p class="k">Pastry Chef · Mostar</p>
+      <p class="name">Nemanja Petrović</p>
+      <div class="qr"><img src="assets/qr-kontakt.svg" alt="QR kod: kontakt Nemanje Petrovića"></div>
+      <p class="say">Skenirajte za kontakt</p>
+      <p class="ig">@nemanja_petr</p>
+    </div>
+    <p class="dl"><a href="assets/print/qr-kartica.png" download>Preuzmi PNG</a><a href="assets/print/qr-kartica.pdf" download>Preuzmi PDF za štampu</a></p>
   </section>
-  <section class="biz" aria-label="Vizit karte">
-    <div class="card bc"><div><p class="k">Pastry Chef · Mostar</p><p class="name">Nemanja Petrović</p><p class="ig">@nemanja_petr</p></div><div class="qr"><img src="assets/qr-kontakt.svg" alt=""></div></div>
-    <div class="card bc"><div><p class="k">Pastry Chef · Mostar</p><p class="name">Nemanja Petrović</p><p class="ig">@nemanja_petr</p></div><div class="qr"><img src="assets/qr-kontakt.svg" alt=""></div></div>
-    <div class="card bc"><div><p class="k">Pastry Chef · Mostar</p><p class="name">Nemanja Petrović</p><p class="ig">@nemanja_petr</p></div><div class="qr"><img src="assets/qr-kontakt.svg" alt=""></div></div>
-    <div class="card bc"><div><p class="k">Pastry Chef · Mostar</p><p class="name">Nemanja Petrović</p><p class="ig">@nemanja_petr</p></div><div class="qr"><img src="assets/qr-kontakt.svg" alt=""></div></div>
+  <section class="item biz-wrap">
+    <h2>Vizit karta · 85 × 55 mm</h2>
+    <div class="biz">
+      <div class="card bc"><div><p class="k">Pastry Chef · Mostar</p><p class="name">Nemanja Petrović</p><p class="ig">@nemanja_petr</p></div><div class="qr"><img src="assets/qr-kontakt.svg" alt=""></div></div>
+      <div class="print-only"><div class="card bc"><div><p class="k">Pastry Chef · Mostar</p><p class="name">Nemanja Petrović</p><p class="ig">@nemanja_petr</p></div><div class="qr"><img src="assets/qr-kontakt.svg" alt=""></div></div></div>
+      <div class="print-only"><div class="card bc"><div><p class="k">Pastry Chef · Mostar</p><p class="name">Nemanja Petrović</p><p class="ig">@nemanja_petr</p></div><div class="qr"><img src="assets/qr-kontakt.svg" alt=""></div></div></div>
+      <div class="print-only"><div class="card bc"><div><p class="k">Pastry Chef · Mostar</p><p class="name">Nemanja Petrović</p><p class="ig">@nemanja_petr</p></div><div class="qr"><img src="assets/qr-kontakt.svg" alt=""></div></div></div>
+    </div>
+    <p class="dl"><a href="assets/print/vizitka.png" download>Preuzmi PNG</a><a href="assets/print/vizitka.pdf" download>Preuzmi PDF za štampu</a></p>
+  </section>
+  <section class="item rest">
+    <h2>Samo QR kod</h2>
+    <div class="qr-only"><img src="assets/qr-kontakt.svg" alt="QR kod: kontakt Nemanje Petrovića"></div>
+    <p class="dl"><a href="assets/print/qr-kod.png" download>Preuzmi PNG</a><a href="assets/qr-kontakt.svg" download>Preuzmi SVG</a></p>
   </section>
 </main>
 </body>
