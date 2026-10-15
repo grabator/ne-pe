@@ -20,6 +20,8 @@
 @font-face { font-family: 'Manrope'; font-style: normal; font-weight: 500; font-display: swap; src: url(../assets/fonts/manrope-latin-ext-500-normal.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: 'Manrope'; font-style: normal; font-weight: 600; font-display: swap; src: url(../assets/fonts/manrope-latin-600-normal.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'Manrope'; font-style: normal; font-weight: 600; font-display: swap; src: url(../assets/fonts/manrope-latin-ext-600-normal.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+/* rukopis za naslove recepata (Mrs Saint Delafield, dodane č ć š ž: tools/rukopis.py) */
+@font-face { font-family: 'Rukopis'; font-style: normal; font-weight: 400; font-display: swap; src: url(../assets/fonts/mrs-saint-delafield-latin-400-normal.woff2) format('woff2'); }
 
 /* ---------- boje i mjere ---------- */
 :root {
@@ -29,6 +31,7 @@
   --paper: #F6F0E6; --paper-ink: #1A1612; --paper-2: #6B5E4E;
   --line: rgba(243, 234, 219, 0.12);
   --serif: 'Cormorant', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --script: 'Rukopis', 'Brush Script MT', cursive;
   --sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --ease: cubic-bezier(.2, .7, .1, 1);
   --gut: clamp(20px, 5vw, 72px);
@@ -741,6 +744,32 @@ html.intro-on body::before { content: ''; position: fixed; inset: 0; z-index: 11
 .cursor.word span { transform: scale(1); }
 .cursor.word i { transform: scale(0); }
 .has-cursor .lb-open { cursor: none; }
+
+/* ---------- 13 recepti (najava; cijeli recepti na recepti.html) ---------- */
+.script { font-family: var(--script); font-weight: 400; font-style: normal; letter-spacing: 0; text-transform: none; line-height: 1.05; }
+.recipes { background: radial-gradient(50% 60% at 85% 30%, rgba(176, 116, 54, 0.14), transparent 70%), var(--ink); border-top: 1px solid var(--line); }
+.rt-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.rt-card { position: relative; height: 100%; display: grid; grid-template-columns: 130px 1fr; gap: 26px; align-items: center; padding: 26px 56px 26px 26px; border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(160deg, rgba(176, 116, 54, 0.12), transparent 60%), var(--ink-2); transition: border-color 0.4s, transform 0.6s var(--ease); }
+.rt-card:hover { border-color: rgba(201, 164, 106, 0.55); transform: translateY(-4px); }
+.rt-art svg { width: 100%; height: auto; max-height: 160px; }
+.rt-txt { display: grid; gap: 4px; }
+.rt-txt small { font: 600 10px/1.4 var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-2); }
+.rt-txt .script { font-size: clamp(46px, 4vw, 60px); color: var(--gold-2); margin: 4px 0 2px; }
+.rt-intro { font-size: 15px; color: var(--cream-2); }
+.rt-go { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); font-style: normal; color: var(--gold); transition: transform 0.4s var(--ease); }
+.rt-card:hover .rt-go { transform: translate(5px, -50%); }
+.rt-cta { margin-top: clamp(28px, 4vw, 44px); }
+.cake { display: block; overflow: visible; }
+.cake-plate { fill: none; stroke: var(--gold); stroke-width: 1; opacity: 0.55; }
+.cake-line { stroke: rgba(0, 0, 0, 0.3); stroke-width: 1; fill: none; }
+.cake-body path { stroke: rgba(0, 0, 0, 0.16); stroke-width: 0.6; }
+[data-theme='light'] .rt-card { background: #FBF6EE; }
+@media (max-width: 900px) {
+  .rt-list { grid-template-columns: 1fr; gap: 12px; }
+  .rt-card { grid-template-columns: 84px 1fr; gap: 16px; padding: 18px 40px 18px 14px; }
+  .rt-go { right: 16px; }
+  .rt-intro { font-size: 14px; }
+}
 
 /* ---------- brzina: van ekrana se ne crta i ne animira ---------- */
 #main > .sec:not(.tiers) { content-visibility: auto; contain-intrinsic-size: auto 1100px; }

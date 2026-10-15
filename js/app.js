@@ -240,6 +240,18 @@
       '</section>';
   }
 
+  function recipes() {
+    var S = D.recipes, R = window.NP_REC, ART = window.NP_ART; if (!S || !R) return '';
+    S._id = 'recipes';
+    return '<section class="sec recipes" id="recipes" aria-labelledby="recipes-t"><div class="wrap">' + head(S, L(S.lead)) +
+      '<ul class="rt-list">' + R.recipes.map(function (r, i) {
+        return '<li class="rv" style="--d:' + i + '"><a class="rt-card" href="recepti.html#' + r.id + '"><span class="rt-art">' + ART.cake(r.layers, 'h' + i).svg + '</span>' +
+          '<span class="rt-txt"><small>' + esc(L(S.read)) + ' · ' + r.steps.length + ' ' + esc(L(S.steps)) + '</small><b class="script" lang="bs">' + esc(r.script) + '</b>' +
+          '<span class="rt-intro" lang="bs">' + esc(r.intro) + '</span></span><i class="rt-go" aria-hidden="true">→</i></a></li>';
+      }).join('') + '</ul>' +
+      '<p class="rt-cta rv"><a class="btn btn-line" href="recepti.html">' + esc(L(S.cta)) + '<span aria-hidden="true">→</span></a></p></div></section>';
+  }
+
   function beyond() {
     var B = D.beyond; B._id = 'beyond';
     return '<section class="sec beyond" id="beyond" aria-labelledby="beyond-t"><div class="wrap">' + head(B) +
@@ -300,24 +312,25 @@
     document.getElementById('foot').innerHTML =
       '<div class="wrap foot-in"><svg class="mono mono-big" viewBox="0 0 108 80" aria-hidden="true"><text x="2" y="64">N</text><text x="44" y="64">P</text></svg>' +
       '<p class="foot-line">' + esc(L(F.line)) + '</p>' +
-      '<p class="foot-links"><a href="https://www.instagram.com/' + esc(D.contact.instagram) + '/" target="_blank" rel="noopener">Instagram</a><a href="stampa.html">' + esc(L(D.ui.qr)) + '</a><a href="#hero">' + esc(L(F.top)) + ' ↑</a></p>' +
+      '<p class="foot-links"><a href="https://www.instagram.com/' + esc(D.contact.instagram) + '/" target="_blank" rel="noopener">Instagram</a><a href="recepti.html">' + esc(L(D.ui.nav.recipes)) + '</a><a href="stampa.html">' + esc(L(D.ui.qr)) + '</a><a href="#hero">' + esc(L(F.top)) + ' ↑</a></p>' +
       '<p class="foot-copy">' + esc(L(F.copy)) + (D.credit ? ' · <a href="' + esc(D.credit.url) + '">' + esc(D.credit.name) + '</a>' : '') + '</p>' +
       (D.demo ? '<p class="demo-bar">' + esc(L(D.ui.demoBar)) + '</p>' : '') + '</div>';
   }
 
   /* ---------- meni, jezik ---------- */
-  var NAV = ['story', 'works', 'weddings', 'awards', 'academy', 'contact'];
+  var NAV = ['story', 'works', 'weddings', 'awards', 'academy', 'recipes', 'contact'];
+  var NAV_HREF = { recipes: 'recepti.html' };
   var NAV_SEC = { works: 'works' };
   function nav() {
     document.getElementById('nav').innerHTML = NAV.map(function (k) {
-      return '<a href="#' + k + '">' + esc(L(D.ui.nav[k])) + '</a>';
+      return '<a href="' + (NAV_HREF[k] || '#' + k) + '">' + esc(L(D.ui.nav[k])) + '</a>';
     }).join('');
     document.getElementById('langs').innerHTML = LANGS.map(function (l) {
       return '<button type="button" data-lang="' + l + '" aria-pressed="' + (l === lang) + '" lang="' + l + '">' + l.toUpperCase() + '</button>';
     }).join('');
     document.getElementById('sheet').innerHTML =
       '<div class="sheet-in"><ol class="sheet-nav">' + NAV.map(function (k, i) {
-        return '<li style="--i:' + i + '"><a href="#' + k + '"><small>' + String(i + 1).padStart(2, '0') + '</small>' + esc(L(D.ui.nav[k])) + '</a></li>';
+        return '<li style="--i:' + i + '"><a href="' + (NAV_HREF[k] || '#' + k) + '"><small>' + String(i + 1).padStart(2, '0') + '</small>' + esc(L(D.ui.nav[k])) + '</a></li>';
       }).join('') + '</ol>' +
       '<div class="sheet-foot"><a href="https://www.instagram.com/' + esc(D.contact.instagram) + '/" target="_blank" rel="noopener">@' + esc(D.contact.instagram) + '</a>' +
       '<button type="button" class="theme-btn" data-theme-btn aria-pressed="false"><i aria-hidden="true"></i><span></span></button>' +
@@ -339,7 +352,7 @@
   function render() {
     staticTexts();
     nav();
-    document.getElementById('main').innerHTML = stats() + story() + works() + notes() + anatomy() + tiers() + weddings() + reviews() + fondant() + awards() + academy() + consult() + show() + beyond() + faq() + contact();
+    document.getElementById('main').innerHTML = stats() + story() + works() + notes() + anatomy() + tiers() + weddings() + reviews() + fondant() + awards() + academy() + consult() + show() + recipes() + beyond() + faq() + contact();
     footer();
     bindForm();
     applyFilter(curFilter);
@@ -623,5 +636,12 @@
 
   render();
   openFromUrl();
+  /* dolazak sa druge stranice na #kontakt i slično: sekcije nastaju iz JS-a, pa skok ide ovdje */
+  (function () {
+    var t = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (!t) return;
+    var go = function () { t.scrollIntoView({ block: 'start' }); };
+    go(); addEventListener('load', function () { go(); setTimeout(go, 120); });
+  })();
   window.NPApp = { L: L, lang: function () { return lang; } };
 })();

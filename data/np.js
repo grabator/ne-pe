@@ -37,6 +37,7 @@ window.NP = {
       weddings: { bs: 'Svadbe', en: 'Weddings', de: 'Hochzeiten' },
       awards: { bs: 'Nagrade', en: 'Awards', de: 'Auszeichnungen' },
       academy: { bs: 'Akademija', en: 'Academy', de: 'Akademie' },
+      recipes: { bs: 'Recepti', en: 'Recipes', de: 'Rezepte' },
       contact: { bs: 'Kontakt', en: 'Contact', de: 'Kontakt' }
     },
     prev: { bs: 'Prethodna', en: 'Previous', de: 'Zurück' },
@@ -430,9 +431,23 @@ window.NP = {
     epLabel: { bs: 'Epizoda', en: 'Episode', de: 'Folge' }
   },
 
-  /* --- 09 Šire od kuhinje --- */
+  /* --- 13 Recepti (cijeli recepti su na recepti.html, podaci u data/recepti.js) --- */
+  recipes: {
+    chapter: { bs: '13 · Recepti', en: '13 · Recipes', de: '13 · Rezepte' },
+    title: { bs: 'Iz moje kuhinje *u vašu*', en: 'From my kitchen *to yours*', de: 'Aus meiner Küche *in Ihre*' },
+    lead: {
+      bs: 'Provjereni recepti sa Instagrama, korak po korak: sastojci, priprema i mali trikovi.',
+      en: 'Tried and tested recipes from Instagram, step by step: ingredients, method and little tricks. Written in Bosnian.',
+      de: 'Erprobte Rezepte von Instagram, Schritt für Schritt: Zutaten, Zubereitung und kleine Tricks. Auf Bosnisch.'
+    },
+    steps: { bs: 'koraka', en: 'steps', de: 'Schritte' },
+    read: { bs: 'Recept', en: 'Recipe', de: 'Rezept' },
+    cta: { bs: 'Svi recepti', en: 'All recipes', de: 'Alle Rezepte' }
+  },
+
+  /* --- 14 Šire od kuhinje --- */
   beyond: {
-    chapter: { bs: '13 · Šire od kuhinje', en: '13 · Beyond the Kitchen', de: '13 · Über die Küche hinaus' },
+    chapter: { bs: '14 · Šire od kuhinje', en: '14 · Beyond the Kitchen', de: '14 · Über die Küche hinaus' },
     title: { bs: 'Više od *deserta*.', en: 'More than *dessert*.', de: 'Mehr als *Dessert*.' },
     cols: [
       {
@@ -470,7 +485,7 @@ window.NP = {
 
   /* --- 14 Pitanja (DEMO: odgovori su primjer, Nemanja treba potvrditi rokove i pravila) --- */
   faq: {
-    chapter: { bs: '14 · Pitanja', en: '14 · Questions', de: '14 · Fragen' },
+    chapter: { bs: '15 · Pitanja', en: '15 · Questions', de: '15 · Fragen' },
     title: { bs: 'Ono što me najčešće *pitate*.', en: 'What you ask me *most*.', de: 'Was Sie mich am häufigsten *fragen*.' },
     items: [
       { q: { bs: 'Koliko ranije rezervisati svadbenu tortu?', en: 'How far ahead should I book a wedding cake?', de: 'Wie früh sollte man eine Hochzeitstorte buchen?' },
@@ -488,7 +503,7 @@ window.NP = {
 
   /* --- 15 Kontakt --- */
   contactSec: {
-    chapter: { bs: '15 · Kontakt', en: '15 · Contact', de: '15 · Kontakt' },
+    chapter: { bs: '16 · Kontakt', en: '16 · Contact', de: '16 · Kontakt' },
     title: { bs: 'Za svadbe, saradnju, akademiju ili *razgovor*.', en: 'For weddings, collaborations, the academy or a *conversation*.', de: 'Für Hochzeiten, Kooperationen, die Akademie oder ein *Gespräch*.' },
     note: { bs: 'Odgovaram lično.', en: 'I reply personally.', de: 'Ich antworte persönlich.' },
     topicLabel: { bs: 'Tema', en: 'Topic', de: 'Thema' },

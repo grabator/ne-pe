@@ -1,6 +1,7 @@
 # Nemanja Petrović · Pastry Chef
 
 Lična stranica slastičara Nemanje Petrovića iz Mostara. Priča, potpisni recepti, torta od jedanaest spratova, svadbe, fondan, nagrade, Akademija slastičarstva i kontakt.
+Posebna stranica `recepti.html` ima recepte sa njegovog Instagrama (Luda torta, Doboš torta) i tekst o tome šta određuje cijenu torte.
 
 Ovo je **demo** verzija: stranica se ne indeksira, a kontakt podaci su primjeri (označeni sa DEMO).
 
@@ -37,10 +38,22 @@ Uvod (monogram NP i zavjesa) se prikaže samo pri prvom otvaranju. Da se vidi po
 | `tools/dijeljenje.py` | Slike za dijeljenje (`assets/share/`) i stranice `t/<id>.html` za svaku fotografiju svadbi i fondana |
 | `tools/qr.py` | QR kod za kontakt (`assets/qr-kontakt.svg`), koristi ga `stampa.html` |
 | `tools/presskit.py` | Press kit ZIP (`assets/press/`): fotografije, biografija na tri jezika, logo |
+| `recepti.html` | Stranica recepata (crta je `js/recepti.js`, izgled `css/recepti.css`) |
+| `data/recepti.js` | Recepti: sastojci, koraci, trikovi, slojevi za crtež presjeka torte |
+| `tools/rukopis.py` | Rukopisni font za naslove recepata (dodaje č, ć, š, ž u Mrs Saint Delafield) |
 | `stampa.html` | Kartica za štampu: stalak A6, vizit karta i QR kod, svaki se može preuzeti posebno (PNG i PDF) |
 | `tools/stampa.cjs` | Pravi fajlove za preuzimanje u `assets/print/` (PNG 300 dpi i PDF u tačnoj veličini) |
 
-Tekst se mijenja samo u `data/np.js`. Riječ između zvjezdica (`*Mostara*`) ispisuje se zlatnim kurzivom.
+Tekst se mijenja samo u `data/np.js` (recepti u `data/recepti.js`). Riječ između zvjezdica (`*Mostara*`) ispisuje se zlatnim kurzivom.
+
+## Novi recept
+
+U `data/recepti.js` u listu `recipes` dodati novi recept po uzoru na postojeće:
+- `id` (adresa: `recepti.html#id`), `script` (naslov rukopisom), `title`, `date`, `intro`, `chips`,
+- `groups` (grupe sastojaka; svaki sastojak je `['količina', 'naziv']`), `steps`, `tips`, po želji `fact`,
+- `layers`: slojevi torte odozgo prema dolje (`color`, `h` visina, `name` oznaka pored crteža).
+
+Recept se sam pojavi i na stranici recepata i u sekciji Recepti na početnoj.
 
 ## Nove slike
 
@@ -51,7 +64,7 @@ Tekst se mijenja samo u `data/np.js`. Riječ između zvjezdica (`*Mostara*`) isp
 
 ## Prije objave (obavezno)
 
-1. `index.html`: obrisati red `<meta name="robots" content="noindex, nofollow">`.
+1. `index.html` i `recepti.html`: obrisati red `<meta name="robots" content="noindex, nofollow">`.
 2. `_headers`: obrisati red `X-Robots-Tag: noindex`.
 3. `robots.txt`: zamijeniti sadržaj sa:
    ```
@@ -59,7 +72,7 @@ Tekst se mijenja samo u `data/np.js`. Riječ između zvjezdica (`*Mostara*`) isp
    Allow: /
    Sitemap: https://PRAVA-DOMENA/sitemap.xml
    ```
-4. Adresu `ne-pe.grabafaceit.workers.dev` zamijeniti pravom domenom u `index.html` (canonical, og:url, og:image, JSON-LD) i u `sitemap.xml`, pa ponovo pokrenuti `python3 tools/dijeljenje.py` i `python3 tools/qr.py` (oba čitaju adresu iz `index.html`), a zatim `tools/stampa.cjs` da kartice za preuzimanje dobiju novi QR kod.
+4. Adresu `ne-pe.grabafaceit.workers.dev` zamijeniti pravom domenom u `index.html` (canonical, og:url, og:image, JSON-LD), `recepti.html` i `sitemap.xml`, pa ponovo pokrenuti `python3 tools/dijeljenje.py` i `python3 tools/qr.py` (oba čitaju adresu iz `index.html`), a zatim `tools/stampa.cjs` da kartice za preuzimanje dobiju novi QR kod.
    U `tools/dijeljenje.py` i `stampa.html` obrisati red `noindex` (označen sa DEMO).
 5. `data/np.js`:
    - `demo: false` (nestaju oznake DEMO i traka u podnožju),
@@ -100,6 +113,7 @@ Adresa: `https://ne-pe.<subdomain>.workers.dev`. Ako `<subdomain>` nije `grabafa
 - Cormorant Garamond za naslove (elegantan, krupan), Manrope za tekst (čitljiv na mobitelu).
 - Potpisni efekti: uvod sa monogramom NP, šećer u prahu na prvom ekranu (reaguje na miš), desert sa Brača koji se na klik rastavi na slojeve, torta od 11 spratova koja naraste kad se dođe do nje, potpis koji se ispisuje potezom pera.
 - Svadbe: na desktopu strelice lijevo/desno, na mobitelu prevlačenje prstom. Ništa se ne "popunjava" dok se lista.
+- Recepti: naslovi rukopisom kao na Instagram objavama, sastojci na krem kartici, koraci se označavaju klikom, napredak i označeni sastojci se pamte u pregledniku. Svaki recept se štampa posebno (A4) i dijeli linkom.
 - Tamna tema je zadana, svijetla (krem i zlato) se bira prekidačem u zaglavlju ili meniju i pamti se.
 - Svaka fotografija svadbi i fondana ima dugme "Podijeli": link vodi na stranicu sa posebnom slikom (fotografija + potpis), koja onda otvara tu fotografiju na stranici.
 - Lista čekanja za akademiju i prijava šalju poruku preko Vibera ili WhatsAppa; stranica ne čuva nikakve podatke.

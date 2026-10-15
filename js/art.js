@@ -123,5 +123,45 @@
     return '<svg class="ic" viewBox="0 0 80 80" aria-hidden="true">' + s + '</svg>';
   };
 
+  /* presjek torte (recepti): slojevi odozgo prema dolje, { color, h, name?, deco? }
+     vraća svg i položaj naziva slojeva u postocima visine, za oznake pored crteža */
+  A.cake = function (layers, uid) {
+    var W = 300, L = 30, R = 270, rx = 120, ry = 20, k = 4.2, y0 = 34, out = [], marks = [];
+    var y = y0, sides = '', clip = 'ck-' + uid;
+    function band(a, b) { return 'M' + L + ' ' + a + ' A' + rx + ' ' + ry + ' 0 0 0 ' + R + ' ' + a + ' L' + R + ' ' + b + ' A' + rx + ' ' + ry + ' 0 0 1 ' + L + ' ' + b + ' Z'; }
+    layers.forEach(function (l, i) {
+      var y2 = y + l.h * k;
+      sides += '<path d="' + band(y, y2) + '" fill="' + l.color + '"/>';
+      if (l.deco === 'bits') for (var j = 0; j < 9; j++) {
+        var bx = L + 14 + j * 26 + (j % 2) * 5, by = y + 6 + Math.sin(j * 1.7) * 3 + 14 * (1 - Math.pow((bx - 150) / rx, 2)) * 0.9;
+        sides += '<rect x="' + bx.toFixed(1) + '" y="' + by.toFixed(1) + '" width="' + (14 + (j % 3) * 4) + '" height="' + (l.h * k - 13).toFixed(1) + '" rx="2" fill="#E3B77C" transform="rotate(' + ((j % 3) - 1) * 7 + ' ' + bx.toFixed(1) + ' ' + by.toFixed(1) + ')"/>';
+      }
+      if (l.name) marks.push({ name: l.name, at: ((y + y2) / 2) });
+      y = y2;
+    });
+    var top = layers[0], H = y + ry + 26;
+    /* gornja površina */
+    var face = '<ellipse cx="150" cy="' + y0 + '" rx="' + rx + '" ry="' + ry + '" fill="' + top.color + '"/><ellipse cx="150" cy="' + y0 + '" rx="' + rx + '" ry="' + ry + '" fill="#fff" opacity=".14"/>';
+    if (top.deco === 'fans') {
+      for (var f = 0; f < 16; f++) {
+        var t = f / 16 * Math.PI * 2;
+        face += '<path d="M150 ' + y0 + ' L' + (150 + rx * Math.cos(t)).toFixed(1) + ' ' + (y0 + ry * Math.sin(t)).toFixed(1) + '" stroke="#6B3E14" stroke-width=".9" opacity=".7"/>';
+      }
+      face += '<ellipse cx="150" cy="' + y0 + '" rx="14" ry="3" fill="#6B3E14" opacity=".5"/>';
+    }
+    if (top.deco === 'dots') for (var d = 0; d < 12; d++) {
+      var a = d / 12 * Math.PI * 2;
+      face += '<circle cx="' + (150 + rx * 0.72 * Math.cos(a)).toFixed(1) + '" cy="' + (y0 + ry * 0.72 * Math.sin(a)).toFixed(1) + '" r="' + (d % 2 ? 3.4 : 5) + '" fill="' + (d % 2 ? '#F6EBD8' : '#4B2E1E') + '"/>';
+    }
+    out.push('<svg class="cake" viewBox="0 0 ' + W + ' ' + H.toFixed(0) + '" aria-hidden="true">');
+    out.push('<ellipse class="cake-plate" cx="150" cy="' + (y + 6).toFixed(1) + '" rx="146" ry="' + (ry + 8) + '"/>');
+    out.push('<g class="cake-body">' + sides + '<path d="' + band(y0, y) + '" fill="url(#' + clip + ')"/></g>');
+    out.push('<defs><linearGradient id="' + clip + '" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset=".35" stop-color="#fff" stop-opacity=".08"/><stop offset=".7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".32"/></linearGradient></defs>');
+    out.push('<g class="cake-top">' + face + '</g>');
+    out.push('<path class="cake-line" d="M' + L + ' ' + y0 + ' V' + y + ' M' + R + ' ' + y0 + ' V' + y + '"/>');
+    out.push('</svg>');
+    return { svg: out.join(''), marks: marks.map(function (m) { return { name: m.name, at: (m.at / H * 100).toFixed(2) }; }) };
+  };
+
   window.NP_ART = A;
 })();
