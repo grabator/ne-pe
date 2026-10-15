@@ -76,9 +76,23 @@ Tekst se mijenja samo u `data/np.js`. Riječ između zvjezdica (`*Mostara*`) isp
    - press kit: originalne fotografije staviti u `_izvor/press/<id>.jpg` i pokrenuti `python3 tools/presskit.py`.
 6. Provjeriti kontakt formu: Viber, WhatsApp i email moraju otvarati Nemanjin broj i adresu.
 
-## Objava (Cloudflare)
+## Objava (Cloudflare Workers)
 
-Statična stranica, bez builda. Na Cloudflare Pages ili Workers (static assets) kao izvor se stavlja korijen repozitorija. `_headers` postavlja keširanje i sigurnosna zaglavlja.
+Statična stranica, bez builda. Podešavanje je u `wrangler.jsonc` (ime `ne-pe`, fajlovi iz korijena repozitorija).
+`.assetsignore` drži alate, README i izvorne fajlove van stranice. `_headers` postavlja keširanje i sigurnosna zaglavlja.
+
+Preko GitHuba (svaki push se sam objavi):
+1. Cloudflare → Workers & Pages → Create → Import a repository → `grabator/ne-pe`.
+2. Build command: prazno. Deploy command: `npx wrangler deploy`.
+3. Production branch: `main` (ili `feature/demo` dok je demo).
+
+Ručno iz terminala:
+```
+npx wrangler login
+npx wrangler deploy
+```
+
+Adresa: `https://ne-pe.<subdomain>.workers.dev`. Ako `<subdomain>` nije `grabafaceit`, adresu zamijeniti u `index.html` i `sitemap.xml` i ponovo pokrenuti alate (korak 4 u "Prije objave").
 
 ## Dizajn
 

@@ -1,0 +1,9 @@
+{
+  // Cloudflare Workers: statična stranica (bez builda), fajlovi se serviraju direktno iz korijena repozitorija.
+  // Adresa nakon objave: https://ne-pe.<vaš-subdomain>.workers.dev
+  "name": "ne-pe",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./"
+  }
+}
