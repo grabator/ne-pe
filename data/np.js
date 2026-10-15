@@ -52,7 +52,14 @@ window.NP = {
     view: { bs: 'Pogledaj', en: 'View', de: 'Ansehen' },
     drag: { bs: 'Povuci', en: 'Drag', de: 'Ziehen' },
     skipIntro: { bs: 'Preskoči', en: 'Skip', de: 'Überspringen' },
-    play: { bs: 'Pusti epizodu', en: 'Play episode', de: 'Folge abspielen' }
+    play: { bs: 'Pusti epizodu', en: 'Play episode', de: 'Folge abspielen' },
+    share: { bs: 'Podijeli', en: 'Share', de: 'Teilen' },
+    copied: { bs: 'Link je kopiran', en: 'Link copied', de: 'Link kopiert' },
+    themeLight: { bs: 'Svijetla tema', en: 'Light theme', de: 'Helles Design' },
+    themeDark: { bs: 'Tamna tema', en: 'Dark theme', de: 'Dunkles Design' },
+    qr: { bs: 'Kartica sa QR kodom', en: 'QR code card', de: 'Karte mit QR-Code' },
+    prevReview: { bs: 'Prethodni utisak', en: 'Previous review', de: 'Vorherige Bewertung' },
+    nextReview: { bs: 'Sljedeći utisak', en: 'Next review', de: 'Nächste Bewertung' }
   },
 
   /* --- prvi ekran (isti tekst stoji i direktno u index.html zbog brzine i SEO) --- */
@@ -142,9 +149,44 @@ window.NP = {
     ]
   },
 
-  /* --- 03 Anatomija deserta (DEMO: slojevi po opisu deserta sa Brača, Nemanja treba potvrditi) --- */
+  /* --- 03 Potpis okusa: spojevi okusa kao parfemi (vrh, srce, baza) --- */
+  notes: {
+    chapter: { bs: '03 · Potpis okusa', en: '03 · Flavour Signature', de: '03 · Aroma-Signatur' },
+    title: { bs: 'Okusi koji se *pamte* kao miris.', en: 'Flavours remembered like a *scent*.', de: 'Aromen, die man wie einen *Duft* erinnert.' },
+    lead: {
+      bs: 'Svaki moj desert gradim kao parfem: prvo ono što osjetite na vrhu jezika, zatim srce, pa baza koja ostaje.',
+      en: 'I build each dessert like a perfume: first what you taste on the tip of your tongue, then the heart, then the base that lingers.',
+      de: 'Jedes Dessert baue ich wie ein Parfum: zuerst die Kopfnote auf der Zungenspitze, dann das Herz, dann die Basis, die bleibt.'
+    },
+    levels: { bs: ['Vrh', 'Srce', 'Baza'], en: ['Top', 'Heart', 'Base'], de: ['Kopf', 'Herz', 'Basis'] },
+    items: [
+      { n: 'N° 01', color: '#E08A3C',
+        name: { bs: 'Pivo i mandarina', en: 'Beer and mandarin', de: 'Bier und Mandarine' },
+        notes: [
+          { bs: 'korica mandarine', en: 'mandarin zest', de: 'Mandarinenschale' },
+          { bs: 'krema od tamnog piva', en: 'dark beer cream', de: 'Creme aus dunklem Bier' },
+          { bs: 'lješnjak, karamel', en: 'hazelnut, caramel', de: 'Haselnuss, Karamell' }
+        ] },
+      { n: 'N° 02', color: '#9C7BB0',
+        name: { bs: 'Lavanda i divlja trešnja', en: 'Lavender and wild cherry', de: 'Lavendel und Wildkirsche' },
+        notes: [
+          { bs: 'cvijet lavande', en: 'lavender blossom', de: 'Lavendelblüte' },
+          { bs: 'panakota od vanilije', en: 'vanilla panna cotta', de: 'Vanille-Panna-Cotta' },
+          { bs: 'divlja trešnja', en: 'wild cherry', de: 'Wildkirsche' }
+        ] },
+      { n: 'N° 03', color: '#C9506A',
+        name: { bs: 'Bijelo vino i malina', en: 'White wine and raspberry', de: 'Weißwein und Himbeere' },
+        notes: [
+          { bs: 'svježa malina', en: 'fresh raspberry', de: 'frische Himbeere' },
+          { bs: 'krema od bijelog vina', en: 'white wine cream', de: 'Weißweincreme' },
+          { bs: 'bijela čokolada', en: 'white chocolate', de: 'weiße Schokolade' }
+        ] }
+    ]
+  },
+
+  /* --- 04 Anatomija deserta (DEMO: slojevi po opisu deserta sa Brača, Nemanja treba potvrditi) --- */
   anatomy: {
-    chapter: { bs: '03 · Anatomija deserta', en: '03 · Anatomy of a Dessert', de: '03 · Anatomie eines Desserts' },
+    chapter: { bs: '04 · Anatomija deserta', en: '04 · Anatomy of a Dessert', de: '04 · Anatomie eines Desserts' },
     title: { bs: 'Pet slojeva *bronce*.', en: 'Five layers of *bronze*.', de: 'Fünf Schichten *Bronze*.' },
     lead: {
       bs: 'Desert koji je na Braču osvojio broncu među 500 takmičara, rastavljen sloj po sloj. Svaki ima svoj zadatak: hrskavo, kremasto, svježe.',
@@ -177,7 +219,7 @@ window.NP = {
 
   /* --- 04 Jedanaest spratova --- */
   tiers: {
-    chapter: { bs: '04 · Najveći izazov', en: '04 · The Greatest Challenge', de: '04 · Die größte Herausforderung' },
+    chapter: { bs: '05 · Najveći izazov', en: '05 · The Greatest Challenge', de: '05 · Die größte Herausforderung' },
     title: { bs: 'Jedanaest *spratova*.', en: 'Eleven *tiers*.', de: 'Elf *Etagen*.' },
     steps: [
       { bs: 'Mladenci su rekli samo jedno: neka bude što veća.', en: 'The couple asked for just one thing: make it as tall as possible.', de: 'Das Brautpaar hatte nur einen Wunsch: so groß wie möglich.' },
@@ -193,7 +235,7 @@ window.NP = {
 
   /* --- 04 Svadbe --- */
   weddings: {
-    chapter: { bs: '05 · Svadbe', en: '05 · Weddings', de: '05 · Hochzeiten' },
+    chapter: { bs: '06 · Svadbe', en: '06 · Weddings', de: '06 · Hochzeiten' },
     title: { bs: 'Trenutak koji *pamtite*.', en: 'A moment you *remember*.', de: 'Ein Moment, der *bleibt*.' },
     text: {
       bs: 'Na svadbi torta nije samo desert. Ona je trenutak večeri: dekoracija uživo pred mladencima, srce od malina i kiša šećera koju gosti pamte godinama.',
@@ -209,9 +251,27 @@ window.NP = {
     ]
   },
 
-  /* --- 05 Fondan --- */
+  /* --- 07 Utisci (DEMO: primjeri, zamijeniti stvarnim utiscima uz dozvolu autora) --- */
+  reviews: {
+    chapter: { bs: '07 · Utisci', en: '07 · Kind Words', de: '07 · Stimmen' },
+    title: { bs: 'Rekli su o *slatkom*.', en: 'What they said about the *sweet* part.', de: 'Was sie über das *Süße* sagen.' },
+    items: [
+      { who: 'Amra i Dino', where: { bs: 'Svadba · Mostar', en: 'Wedding · Mostar', de: 'Hochzeit · Mostar' },
+        text: { bs: 'Kiša šećera nad tortom je bila trenutak večeri. Gosti i danas pričaju o tome.', en: 'The shower of sugar over the cake was the moment of the night. Guests still talk about it.', de: 'Der Puderzuckerregen über der Torte war der Moment des Abends. Die Gäste reden heute noch davon.' } },
+      { who: 'Lejla', where: { bs: 'Polaznica akademije', en: 'Academy student', de: 'Teilnehmerin der Akademie' },
+        text: { bs: 'Za dva dana sam naučila više nego za godinu sama. Strpljiv, precizan i nesebičan.', en: 'In two days I learned more than in a year on my own. Patient, precise and generous.', de: 'In zwei Tagen habe ich mehr gelernt als allein in einem Jahr. Geduldig, präzise und großzügig.' } },
+      { who: 'Marija i Ivan', where: { bs: 'Svadba · Čapljina', en: 'Wedding · Čapljina', de: 'Hochzeit · Čapljina' },
+        text: { bs: 'Rekli smo samo boje i atmosferu. Torta je bila ljepša nego što smo zamislili.', en: 'We only gave him colours and a mood. The cake was more beautiful than we imagined.', de: 'Wir nannten nur Farben und Stimmung. Die Torte war schöner, als wir sie uns vorgestellt hatten.' } },
+      { who: 'Haris', where: { bs: 'Chef, polaznik masterclassa', en: 'Chef, masterclass participant', de: 'Koch, Masterclass-Teilnehmer' },
+        text: { bs: 'Konačno neko ko objašnjava zašto, a ne samo kako. Desertna karta nam je danas drugačija.', en: 'Finally someone who explains why, not just how. Our dessert menu is different today.', de: 'Endlich jemand, der das Warum erklärt, nicht nur das Wie. Unsere Dessertkarte ist heute eine andere.' } },
+      { who: 'Selma', where: { bs: 'Rođendanska torta', en: 'Birthday cake', de: 'Geburtstagstorte' },
+        text: { bs: 'Figura od fondana je izgledala kao naša kćerka. Bilo nam je žao rezati tortu.', en: 'The fondant figure looked just like our daughter. We were sorry to cut the cake.', de: 'Die Fondantfigur sah aus wie unsere Tochter. Es tat uns leid, die Torte anzuschneiden.' } }
+    ]
+  },
+
+  /* --- 08 Fondan --- */
   fondant: {
-    chapter: { bs: '06 · Fondan', en: '06 · Fondant', de: '06 · Fondant' },
+    chapter: { bs: '08 · Fondan', en: '08 · Fondant', de: '08 · Fondant' },
     title: { bs: 'Skulpture koje se *jedu*.', en: 'Sculptures you can *eat*.', de: 'Skulpturen zum *Essen*.' },
     lead: {
       bs: 'Šećerna pasta u mojim rukama postaje lik, priča i uspomena. Svaka figura je urađena ručno.',
@@ -240,7 +300,7 @@ window.NP = {
 
   /* --- 06 Nagrade --- */
   awards: {
-    chapter: { bs: '07 · Nagrade', en: '07 · Awards', de: '07 · Auszeichnungen' },
+    chapter: { bs: '09 · Nagrade', en: '09 · Awards', de: '09 · Auszeichnungen' },
     title: { bs: 'Medalje koje *govore*.', en: 'Medals that *speak*.', de: 'Medaillen, die *sprechen*.' },
     diploma: { bs: 'Diploma', en: 'Diploma', de: 'Urkunde' },
     items: [
@@ -271,7 +331,7 @@ window.NP = {
 
   /* --- 07 Akademija --- */
   academy: {
-    chapter: { bs: '08 · Akademija', en: '08 · Academy', de: '08 · Akademie' },
+    chapter: { bs: '10 · Akademija', en: '10 · Academy', de: '10 · Akademie' },
     title: { bs: 'Znanje se *dijeli*.', en: 'Knowledge is meant to be *shared*.', de: 'Wissen will *geteilt* werden.' },
     text: {
       bs: [
@@ -309,6 +369,11 @@ window.NP = {
       units: { bs: ['dana', 'sati', 'min', 'sek'], en: ['days', 'hours', 'min', 'sec'], de: ['Tage', 'Std', 'Min', 'Sek'] },
       started: { bs: 'Kurs je u toku.', en: 'The course is under way.', de: 'Der Kurs läuft.' },
       signup: { bs: 'Prijavi se', en: 'Sign up', de: 'Anmelden' },
+      wait: { bs: 'Termin ne odgovara? Lista čekanja', en: 'Date does not suit you? Join the waiting list', de: 'Termin passt nicht? Warteliste' },
+      waitName: { bs: 'Ime i prezime', en: 'Full name', de: 'Vor- und Nachname' },
+      waitPhone: { bs: 'Viber / WhatsApp broj', en: 'Viber / WhatsApp number', de: 'Viber- / WhatsApp-Nummer' },
+      waitNeed: { bs: 'Upišite ime i broj', en: 'Enter your name and number', de: 'Name und Nummer eingeben' },
+      waitMsg: { bs: 'Pozdrav Nemanja, upišite me na listu čekanja za akademiju. Ime: {n}. Broj: {p}.', en: 'Hello Nemanja, please add me to the academy waiting list. Name: {n}. Number: {p}.', de: 'Hallo Nemanja, bitte setzen Sie mich auf die Warteliste der Akademie. Name: {n}. Nummer: {p}.' },
       msg: {
         bs: 'Pozdrav Nemanja, želim se prijaviti na akademiju ({t}, {p}).',
         en: 'Hello Nemanja, I would like to sign up for the academy ({t}, {p}).',
@@ -333,9 +398,27 @@ window.NP = {
     ]
   },
 
-  /* --- 08 Slatke priče --- */
+  /* --- 11 Restorani i hoteli --- */
+  consult: {
+    chapter: { bs: '11 · Za restorane i hotele', en: '11 · For Restaurants and Hotels', de: '11 · Für Restaurants und Hotels' },
+    title: { bs: 'Desertna karta koja *prodaje*.', en: 'A dessert menu that *sells*.', de: 'Eine Dessertkarte, die *verkauft*.' },
+    lead: {
+      bs: 'Radim sa restoranima, hotelima i slastičarnama: od ideje i recepture do tima koji je sam priprema.',
+      en: 'I work with restaurants, hotels and pastry shops: from the idea and recipe to a team that prepares it on its own.',
+      de: 'Ich arbeite mit Restaurants, Hotels und Konditoreien: von der Idee und Rezeptur bis zum Team, das sie selbst zubereitet.'
+    },
+    items: [
+      { title: { bs: 'Desertna karta', en: 'Dessert menu', de: 'Dessertkarte' }, text: { bs: 'Nova karta po sezoni, cijeni koštanja i stilu kuće.', en: 'A new menu built around the season, cost and the style of the house.', de: 'Eine neue Karte nach Saison, Kalkulation und Stil des Hauses.' } },
+      { title: { bs: 'Obuka osoblja', en: 'Staff training', de: 'Schulung des Teams' }, text: { bs: 'Rad u vašoj kuhinji dok tim ne savlada svaki desert.', en: 'Hands-on work in your kitchen until the team masters every dessert.', de: 'Arbeit in Ihrer Küche, bis das Team jedes Dessert beherrscht.' } },
+      { title: { bs: 'Recepture i normativi', en: 'Recipes and specs', de: 'Rezepturen und Normen' }, text: { bs: 'Precizne recepture, gramature i fotografije za svaki tanjir.', en: 'Precise recipes, portions and a photo for every plate.', de: 'Genaue Rezepturen, Grammaturen und ein Foto für jeden Teller.' } },
+      { title: { bs: 'Eventi i degustacije', en: 'Events and tastings', de: 'Events und Verkostungen' }, text: { bs: 'Desertni stol ili degustacijski meni za posebne večeri.', en: 'A dessert table or tasting menu for special evenings.', de: 'Ein Desserttisch oder Degustationsmenü für besondere Abende.' } }
+    ],
+    cta: { bs: 'Razgovarajmo o saradnji', en: 'Let us talk', de: 'Lassen Sie uns sprechen' }
+  },
+
+  /* --- 12 Slatke priče --- */
   show: {
-    chapter: { bs: '09 · Slatke priče', en: '09 · Sweet Stories', de: '09 · Süße Geschichten' },
+    chapter: { bs: '12 · Slatke priče', en: '12 · Sweet Stories', de: '12 · Süße Geschichten' },
     title: { bs: 'Slatke *priče*', en: 'Sweet *Stories*', de: 'Süße *Geschichten*' },
     meta: { bs: '30 emisija · 30 recepata · YouTube', en: '30 episodes · 30 recipes · YouTube', de: '30 Folgen · 30 Rezepte · YouTube' },
     text: {
@@ -358,7 +441,7 @@ window.NP = {
 
   /* --- 09 Šire od kuhinje --- */
   beyond: {
-    chapter: { bs: '10 · Šire od kuhinje', en: '10 · Beyond the Kitchen', de: '10 · Über die Küche hinaus' },
+    chapter: { bs: '13 · Šire od kuhinje', en: '13 · Beyond the Kitchen', de: '13 · Über die Küche hinaus' },
     title: { bs: 'Više od *deserta*.', en: 'More than *dessert*.', de: 'Mehr als *Dessert*.' },
     cols: [
       {
@@ -382,6 +465,9 @@ window.NP = {
     ],
     press: {
       title: { bs: 'Pisali su', en: 'In the press', de: 'In der Presse' },
+      kit: { bs: 'Press kit · fotografije i biografija', en: 'Press kit · photos and biography', de: 'Pressemappe · Fotos und Biografie' },
+      kitFile: 'assets/press/nemanja-petrovic-press-kit.zip',
+      kitSize: 'ZIP · 1,7 MB',
       items: [
         { name: 'Hercegovina.info', url: 'https://www.hercegovina.info/hercegovina/najbolji-mladi-bh-slasticar-se-doselio-u-mostar-a-zahtjev-lokalnih-mladenaca-lansirao-ga-medju-slatke-zvijezde/223291/' },
         { name: 'Hercegovina.in', url: 'https://hercegovina.in/slasticarski-spektakl-stize-u-mostar-nemanja-petrovic-okuplja-slasticare-i-chefove-iz-regije/' },
@@ -391,9 +477,27 @@ window.NP = {
     }
   },
 
-  /* --- 10 Kontakt --- */
+  /* --- 14 Pitanja (DEMO: odgovori su primjer, Nemanja treba potvrditi rokove i pravila) --- */
+  faq: {
+    chapter: { bs: '14 · Pitanja', en: '14 · Questions', de: '14 · Fragen' },
+    title: { bs: 'Ono što me najčešće *pitate*.', en: 'What you ask me *most*.', de: 'Was Sie mich am häufigsten *fragen*.' },
+    items: [
+      { q: { bs: 'Koliko ranije rezervisati svadbenu tortu?', en: 'How far ahead should I book a wedding cake?', de: 'Wie früh sollte man eine Hochzeitstorte buchen?' },
+        a: { bs: 'Najbolje tri do šest mjeseci ranije, a za sezonu svadbi (maj do septembar) i ranije. Za manje torte često je dovoljno dvije do tri sedmice.', en: 'Ideally three to six months ahead, and earlier for wedding season (May to September). For smaller cakes two to three weeks is often enough.', de: 'Am besten drei bis sechs Monate vorher, in der Hochzeitssaison (Mai bis September) noch früher. Für kleinere Torten reichen oft zwei bis drei Wochen.' } },
+      { q: { bs: 'Kako izgleda dogovor oko torte?', en: 'How does planning a cake work?', de: 'Wie läuft die Planung einer Torte ab?' },
+        a: { bs: 'Pošaljete datum, broj gostiju i atmosferu (boje, cvijeće, prostor). Predložim okuse i izgled, a po želji dogovorimo i degustaciju.', en: 'Send the date, number of guests and the mood (colours, flowers, venue). I suggest flavours and a design, and we can arrange a tasting if you like.', de: 'Sie senden Datum, Gästezahl und Stimmung (Farben, Blumen, Ort). Ich schlage Aromen und Design vor, auf Wunsch mit Verkostung.' } },
+      { q: { bs: 'Može li bez glutena, laktoze ili šećera?', en: 'Can it be gluten, lactose or sugar free?', de: 'Geht es auch ohne Gluten, Laktose oder Zucker?' },
+        a: { bs: 'Da, za većinu deserata postoji prilagođena verzija. Recite unaprijed, da recepturu sastavim od početka, a ne kao zamjenu.', en: 'Yes, most desserts have an adapted version. Tell me in advance so I build the recipe from scratch rather than as a substitute.', de: 'Ja, für die meisten Desserts gibt es eine angepasste Version. Sagen Sie es vorher, damit ich die Rezeptur von Grund auf plane.' } },
+      { q: { bs: 'Kako čuvati tortu do posluživanja?', en: 'How should the cake be stored before serving?', de: 'Wie lagert man die Torte bis zum Servieren?' },
+        a: { bs: 'U hladnjaku na 4 do 6 °C, a 20 do 30 minuta prije posluživanja na sobnoj temperaturi. Torte sa fondanom držite dalje od vlage.', en: 'In the fridge at 4 to 6 °C, then 20 to 30 minutes at room temperature before serving. Keep fondant cakes away from moisture.', de: 'Im Kühlschrank bei 4 bis 6 °C und 20 bis 30 Minuten vor dem Servieren bei Raumtemperatur. Fondanttorten vor Feuchtigkeit schützen.' } },
+      { q: { bs: 'Dostavljate li tortu i izvan Mostara?', en: 'Do you deliver outside Mostar?', de: 'Liefern Sie auch außerhalb von Mostar?' },
+        a: { bs: 'Da, svadbene torte dovezem i postavim lično, u Hercegovini i šire. Za udaljenija mjesta dogovaramo prevoz.', en: 'Yes, I deliver and set up wedding cakes in person, across Herzegovina and beyond. For distant venues we arrange transport.', de: 'Ja, Hochzeitstorten liefere und baue ich persönlich auf, in der Herzegowina und darüber hinaus. Für weitere Orte vereinbaren wir den Transport.' } }
+    ]
+  },
+
+  /* --- 15 Kontakt --- */
   contactSec: {
-    chapter: { bs: '11 · Kontakt', en: '11 · Contact', de: '11 · Kontakt' },
+    chapter: { bs: '15 · Kontakt', en: '15 · Contact', de: '15 · Kontakt' },
     title: { bs: 'Za svadbe, saradnju, akademiju ili *razgovor*.', en: 'For weddings, collaborations, the academy or a *conversation*.', de: 'Für Hochzeiten, Kooperationen, die Akademie oder ein *Gespräch*.' },
     note: { bs: 'Odgovaram lično.', en: 'I reply personally.', de: 'Ich antworte persönlich.' },
     topicLabel: { bs: 'Tema', en: 'Topic', de: 'Thema' },
