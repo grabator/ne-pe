@@ -34,6 +34,10 @@ Uvod (monogram NP i zavjesa) se prikaže samo pri prvom otvaranju. Da se vidi po
 | `tools/slike.py` | Obrada slika: izrez, topli ton, WebP veličine |
 | `tools/fontovi.py` | Priprema Cormorant fonta (kvačice č, ć, š, ž spuštene bliže slovu) |
 | `tools/tekstura.py` | Tekstura tamnog mramora u pozadini (`assets/tex/mramor.webp`) |
+| `tools/dijeljenje.py` | Slike za dijeljenje (`assets/share/`) i stranice `t/<id>.html` za svaku fotografiju svadbi i fondana |
+| `tools/qr.py` | QR kod za kontakt (`assets/qr-kontakt.svg`), koristi ga `stampa.html` |
+| `tools/presskit.py` | Press kit ZIP (`assets/press/`): fotografije, biografija na tri jezika, logo |
+| `stampa.html` | Kartica za štampu: stalak A6 i četiri vizit karte sa QR kodom |
 
 Tekst se mijenja samo u `data/np.js`. Riječ između zvjezdica (`*Mostara*`) ispisuje se zlatnim kurzivom.
 
@@ -54,7 +58,8 @@ Tekst se mijenja samo u `data/np.js`. Riječ između zvjezdica (`*Mostara*`) isp
    Allow: /
    Sitemap: https://PRAVA-DOMENA/sitemap.xml
    ```
-4. Adresu `ne-pe.grabafaceit.workers.dev` zamijeniti pravom domenom u `index.html` (canonical, og:url, og:image, JSON-LD) i u `sitemap.xml`.
+4. Adresu `ne-pe.grabafaceit.workers.dev` zamijeniti pravom domenom u `index.html` (canonical, og:url, og:image, JSON-LD) i u `sitemap.xml`, pa ponovo pokrenuti `python3 tools/dijeljenje.py` i `python3 tools/qr.py` (oba čitaju adresu iz `index.html`).
+   U `tools/dijeljenje.py` i `stampa.html` obrisati red `noindex` (označen sa DEMO).
 5. `data/np.js`:
    - `demo: false` (nestaju oznake DEMO i traka u podnožju),
    - upisati `contact.phone`, `contact.viber`, `contact.whatsapp` (samo brojevi, npr. `38761234567`) i `contact.email`,
@@ -63,7 +68,11 @@ Tekst se mijenja samo u `data/np.js`. Riječ između zvjezdica (`*Mostara*`) isp
    - `anatomy.layers`: slojeve deserta prilagoditi pravom receptu (sada su primjer),
    - `academy.upcoming`: pravi datum, mjesto i broj mjesta sljedeće akademije (odbrojavanje radi samo od datuma),
    - `show.episodes`: pravi naslovi; u `video` upisati YouTube ID epizode i ona se pušta direktno na stranici,
-   - `works.items[].image`: kad stignu fotografije deserata, upisati id slike (umjesto crteža se prikaže fotografija).
+   - `works.items[].image`: kad stignu fotografije deserata, upisati id slike (umjesto crteža se prikaže fotografija),
+   - `reviews`: utisci su primjer; zamijeniti stvarnim utiscima (uz dozvolu osobe koja ih je napisala),
+   - `faq`: odgovori su primjer; Nemanja treba potvrditi rokove, dostavu i pravila,
+   - `notes`: tri spoja okusa i njihove note provjeriti sa Nemanjom,
+   - press kit: originalne fotografije staviti u `_izvor/press/<id>.jpg` i pokrenuti `python3 tools/presskit.py`.
 6. Provjeriti kontakt formu: Viber, WhatsApp i email moraju otvarati Nemanjin broj i adresu.
 
 ## Objava (Cloudflare)
@@ -76,6 +85,9 @@ Statična stranica, bez builda. Na Cloudflare Pages ili Workers (static assets) 
 - Cormorant Garamond za naslove (elegantan, krupan), Manrope za tekst (čitljiv na mobitelu).
 - Potpisni efekti: uvod sa monogramom NP, šećer u prahu na prvom ekranu (reaguje na miš), desert sa Brača koji se na klik rastavi na slojeve, torta od 11 spratova koja naraste kad se dođe do nje, potpis koji se ispisuje potezom pera.
 - Svadbe: na desktopu strelice lijevo/desno, na mobitelu prevlačenje prstom. Ništa se ne "popunjava" dok se lista.
+- Tamna tema je zadana, svijetla (krem i zlato) se bira prekidačem u zaglavlju ili meniju i pamti se.
+- Svaka fotografija svadbi i fondana ima dugme "Podijeli": link vodi na stranicu sa posebnom slikom (fotografija + potpis), koja onda otvara tu fotografiju na stranici.
+- Lista čekanja za akademiju i prijava šalju poruku preko Vibera ili WhatsAppa; stranica ne čuva nikakve podatke.
 - Na mobitelu se recepti, svadbe i epizode prevlače prstom.
 - Sekcija Svadbe je svijetla, kao predah između tamnih dijelova.
 - Kontakt nije narudžba nego razgovor: tema, ime, poruka, pa slanje preko Vibera, WhatsAppa ili emaila.
