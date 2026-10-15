@@ -24,9 +24,10 @@
       if (!visible || document.hidden) { raf = 0; return; }
       raf = requestAnimationFrame(tick);
       cx.clearRect(0, 0, w, h);
+      var light = root.getAttribute('data-theme') === 'light';
       /* tri nivoa prozirnosti, svaki u jednom potezu */
       for (var band = 0; band < 3; band++) {
-        cx.globalAlpha = 0.3 + band * 0.25; cx.fillStyle = '#F6EFE3'; cx.beginPath();
+        cx.globalAlpha = 0.3 + band * 0.25; cx.fillStyle = light ? '#B08A4A' : '#F6EFE3'; cx.beginPath();
         for (var i = band; i < parts.length; i += 3) {
           var p = parts[i];
           p.ph += 0.012; p.y += p.vy; p.x += Math.sin(p.ph) * p.sw + p.dx; p.dx *= 0.94;

@@ -71,6 +71,7 @@
     try { l = new URLSearchParams(location.search).get('lang') || localStorage.getItem('np-lang'); } catch (e) {}
     if (l === 'en' || l === 'de' || l === 'bs') d.lang = l;
     d.className += ' js';
+    try { if (localStorage.getItem('np-theme') === 'light') d.setAttribute('data-theme', 'light'); } catch (e) {}
     /* uvod samo pri prvom otvaranju; ekran ostaje taman dok se ne pokrene */
     try {
       var force = /[?&]intro\b/.test(location.search), seen = localStorage.getItem('np-intro') === '1';
@@ -89,6 +90,7 @@
   </a>
   <nav class="nav" aria-label="Glavni meni" id="nav"></nav>
   <div class="top-right">
+    <button class="theme-btn theme-top" type="button" data-theme-btn aria-pressed="false" aria-label="Svijetla tema"><i aria-hidden="true"></i></button>
     <div class="langs" id="langs" role="group" aria-label="Jezik"></div>
     <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="sheet"><span class="mb-l" aria-hidden="true"><i></i><i></i></span><span class="mb-t" data-t="ui.menu">Meni</span></button>
   </div>
