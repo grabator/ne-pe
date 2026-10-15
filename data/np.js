@@ -521,7 +521,7 @@ window.NP = {
 
   footer: {
     line: { bs: 'Nemanja Petrović · Pastry Chef · Mostar', en: 'Nemanja Petrović · Pastry Chef · Mostar', de: 'Nemanja Petrović · Pastry Chef · Mostar' },
-    copy: { bs: '© 2026 Nemanja Petrović', en: '© 2026 Nemanja Petrović', de: '© 2026 Nemanja Petrović' },
+    copy: { bs: '© 2026 Nemanja Petrović · Mostar', en: '© 2026 Nemanja Petrović · Mostar', de: '© 2026 Nemanja Petrović · Mostar' },
     top: { bs: 'Na vrh', en: 'Back to top', de: 'Nach oben' }
   },
 
