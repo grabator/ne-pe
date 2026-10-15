@@ -261,7 +261,7 @@
     S._id = 'recipes';
     return '<section class="sec recipes" id="recipes" aria-labelledby="recipes-t"><div class="wrap">' + head(S, L(S.lead)) +
       '<ul class="rt-list">' + R.recipes.map(function (r, i) {
-        return '<li class="rv" style="--d:' + i + '"><a class="rt-card" href="recepti.html#' + r.id + '"><span class="rt-art">' + ART.cake(r.layers, 'h' + i).svg + '</span>' +
+        return '<li class="rv" style="--d:' + i + '"><a class="rt-card" href="recept-' + r.id + '.html"><span class="rt-art">' + ART.cake(r.layers, 'h' + i).svg + '</span>' +
           '<span class="rt-txt"><small>' + esc(L(S.read)) + ' · ' + r.steps.length + ' ' + esc(L(S.steps)) + '</small><b class="script" lang="bs">' + esc(r.script) + '</b>' +
           '<span class="rt-intro" lang="bs">' + esc(r.intro) + '</span></span><i class="rt-go" aria-hidden="true">→</i></a></li>';
       }).join('') + '</ul>' +
@@ -328,7 +328,7 @@
     document.getElementById('foot').innerHTML =
       '<div class="wrap foot-in"><svg class="mono mono-big" viewBox="0 0 108 80" aria-hidden="true"><text x="2" y="64">N</text><text x="44" y="64">P</text></svg>' +
       '<p class="foot-line">' + esc(L(F.line)) + '</p>' +
-      '<nav class="foot-pages" aria-label="' + esc(L(D.ui.menu)) + '">' + menuItems().map(function (m) { return '<a href="' + m.href + '"' + (m.k === PAGE ? ' aria-current="page"' : '') + '>' + esc(L(m.label)) + '</a>'; }).join('') + '</nav>' +
+      '<nav class="foot-pages" aria-label="' + esc(L(D.ui.menu)) + '">' + menuItems().map(function (m) { return '<a href="' + m.href + '"' + (m.k === (PAGE === 'recept' ? 'recepti' : PAGE) ? ' aria-current="page"' : '') + '>' + esc(L(m.label)) + '</a>'; }).join('') + '</nav>' +
       '<p class="foot-links"><a href="https://www.instagram.com/' + esc(D.contact.instagram) + '/" target="_blank" rel="noopener">Instagram</a><a href="stampa.html">' + esc(L(D.ui.qr)) + '</a><a href="#top" data-top>' + esc(L(F.top)) + ' ↑</a></p>' +
       '<p class="foot-copy">' + esc(L(F.copy)) + (D.credit ? ' · <a href="' + esc(D.credit.url) + '">' + esc(D.credit.name) + '</a>' : '') + '</p>' +
       (D.demo ? '<p class="demo-bar">' + esc(L(D.ui.demoBar)) + '</p>' : '') + '</div>';
@@ -347,7 +347,9 @@
     return LANGS.map(function (l) { return '<button type="button" data-lang="' + l + '" aria-pressed="' + (l === lang) + '" lang="' + l + '">' + l.toUpperCase() + '</button>'; }).join('');
   }
   function nav() {
-    var items = menuItems(), cur = items.filter(function (m) { return m.k === PAGE; })[0];
+    /* stranica jednog recepta pripada Receptima */
+    var curKey = PAGE === 'recept' ? 'recepti' : PAGE;
+    var items = menuItems(), cur = items.filter(function (m) { return m.k === curKey; })[0];
     var write = hasContact() ? '#contact' : './#contact';
     document.getElementById('brand-page').textContent = cur && !HOME ? L(cur.label) : '';
     var w = document.getElementById('hd-write'); w.href = write; w.textContent = L(D.ui.write);
@@ -358,8 +360,8 @@
       '<div class="mc" role="dialog" aria-modal="true" aria-label="' + esc(L(D.ui.menu)) + '"><div class="mc-card">' +
       '<header class="mc-head"><p class="mc-k">Nemanja Petrović · Pastry Chef</p><p class="mc-title script" aria-hidden="true">' + esc(L(D.ui.menuTitle)) + '</p></header>' +
       '<div class="mc-body"><ol class="mc-list">' + items.map(function (m, i) {
-        var here = m.k === PAGE;
-        return '<li style="--i:' + i + '"><a class="mc-a' + (here ? ' here' : '') + '" href="' + m.href + '" data-mi="' + i + '"' + (here ? ' aria-current="page"' : '') + '>' +
+        var here = m.k === curKey, same = m.k === PAGE;
+        return '<li style="--i:' + i + '"><a class="mc-a' + (here ? ' here' : '') + '" href="' + m.href + '" data-mi="' + i + '"' + (same ? ' data-same aria-current="page"' : '') + '>' +
           '<span class="mc-t">' + esc(L(m.label)) + '</span><i class="mc-dots" aria-hidden="true"></i><span class="mc-n" aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span>' +
           '<em class="mc-s">' + (here ? '<b>' + esc(L(D.ui.here)) + '</b> · ' : '') + esc(L(m.sub)) + '</em></a></li>';
       }).join('') + '</ol>' +
@@ -408,7 +410,8 @@
     svadbe: ['hero', 'weddings', 'reviews', 'faq', 'contact'],
     akademija: ['hero', 'academy', 'show', 'contact'],
     saradnja: ['hero', 'consult', 'notes', 'contact'],
-    recepti: null
+    recepti: null,
+    recept: null
   };
   var SEC = { hero: pageHero, stats: stats, story: story, works: works, notes: notes, anatomy: anatomy, tiers: tiers, weddings: weddings, reviews: reviews, fondant: fondant, awards: awards, academy: academy, consult: consult, show: show, recipes: recipes, beyond: beyond, faq: faq, contact: contact };
 
@@ -659,7 +662,7 @@
     var l = e.target.closest('[data-lang]'); if (l) { setLang(l.getAttribute('data-lang')); return; }
     if (e.target.closest('#menu-btn')) { sheetOpen ? closeSheet() : openSheet(); return; }
     if (sheetOpen && e.target === sheet) { closeSheet(); return; }
-    var hereA = e.target.closest('.mc-a.here'); if (hereA) { e.preventDefault(); closeSheet(true); window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
+    var hereA = e.target.closest('.mc-a[data-same]'); if (hereA) { e.preventDefault(); closeSheet(true); window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
     if (e.target.closest('[data-top]')) { e.preventDefault(); window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
     var o = e.target.closest('.lb-open'); if (o) { lbOpen(o.getAttribute('data-lb'), +o.getAttribute('data-i'), o); return; }
     var f = e.target.closest('.filters .pill'); if (f) { applyFilter(f.getAttribute('data-f')); return; }

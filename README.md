@@ -12,7 +12,8 @@ Početna je kratka (izlog), a sve ostalo je na posebnim stranicama:
 | `svadbe.html` | Galerija svadbi, utisci, pitanja i upit |
 | `akademija.html` | Akademija, termini, lista čekanja, certifikat, Slatke priče |
 | `saradnja.html` | Za restorane i hotele, spojevi okusa |
-| `recepti.html` | Recepti sa Instagrama (Luda torta, Doboš torta) i tekst o cijeni torte |
+| `recepti.html` | Lista recepata i tekstova (kartice, po 6 na stranici) |
+| `recept-<id>.html`, `tekst-<id>.html` | Jedan recept (Luda torta, Doboš torta) ili tekst (cijena torte), sa prethodnim i sljedećim |
 
 Svaka stranica (osim recepata) završava kontakt formom, a tema forme je već izabrana (Svadbe: svadba, Akademija: akademija, Saradnja: saradnja).
 
@@ -54,12 +55,23 @@ Uvod (monogram NP i zavjesa) se prikaže samo pri prvom otvaranju početne. Da s
 | `tools/presskit.py` | Press kit ZIP (`assets/press/`): fotografije, biografija na tri jezika, logo |
 | `recepti.html` | Stranica recepata (crta je `js/recepti.js`, izgled `css/recepti.css`) |
 | `data/recepti.js` | Recepti: sastojci, koraci, trikovi, slojevi za crtež presjeka torte |
-| `tools/stranice.py` | Pravi podstranice (zaglavlje, SEO, skripte) iz `data/np.js` → `pages` |
+| `tools/stranice.py` | Pravi podstranice i stranicu za svaki recept (zaglavlje, SEO, skripte) iz `data/np.js` → `pages` i `data/recepti.js` |
+| `tools/verzije.py` | Dodaje oznaku verzije na CSS, JS i data fajlove u svim stranicama (`app.js?v=...`) |
 | `tools/rukopis.py` | Rukopisni font za naslove recepata (dodaje č, ć, š, ž u Mrs Saint Delafield) |
 | `stampa.html` | Kartica za štampu: stalak A6, vizit karta i QR kod, svaki se može preuzeti posebno (PNG i PDF) |
 | `tools/stampa.cjs` | Pravi fajlove za preuzimanje u `assets/print/` (PNG 300 dpi i PDF u tačnoj veličini) |
 
 Tekst se mijenja samo u `data/np.js` (recepti u `data/recepti.js`). Riječ između zvjezdica (`*Mostara*`) ispisuje se zlatnim kurzivom.
+
+## Prije svakog pusha
+
+Ako je mijenjan bilo koji fajl u `css/`, `js/` ili `data/`, pokrenuti:
+```
+python3 tools/verzije.py
+```
+To promijeni oznaku verzije (`?v=...`) u stranicama, pa posjetioci odmah dobiju nove fajlove umjesto starih iz keša.
+Bez toga se može desiti da preglednik uzme novu stranicu sa starim JS-om i da meni ili listanje ne rade.
+(`tools/stranice.py` ga pokreće sam.)
 
 ## Stranice i meni
 
@@ -75,7 +87,7 @@ U `data/recepti.js` u listu `recipes` dodati novi recept po uzoru na postojeće:
 - `groups` (grupe sastojaka; svaki sastojak je `['količina', 'naziv']`), `steps`, `tips`, po želji `fact`,
 - `layers`: slojevi torte odozgo prema dolje (`color`, `h` visina, `name` oznaka pored crteža).
 
-Recept se sam pojavi i na stranici recepata i u sekciji Recepti na početnoj.
+Zatim pokrenuti `python3 tools/stranice.py`: napravi stranicu `recept-<id>.html`. Recept se pojavi na listi recepata (po 6 na stranici, dugmad za stranice se pojave sama kad ih bude više od 6) i u sekciji Recepti na početnoj.
 
 ## Nove slike
 

@@ -1,8 +1,9 @@
 """
-Podstranice: prica.html, radovi.html, svadbe.html, akademija.html, saradnja.html i recepti.html.
+Podstranice: prica.html, radovi.html, svadbe.html, akademija.html, saradnja.html, recepti.html (lista)
+i stranica za svaki recept (recept-<id>.html) i tekst (tekst-<id>.html) iz data/recepti.js.
 Sve imaju isto zaglavlje, meni i podnožje kao početna; sadržaj crta js/app.js prema data-page.
 
-Pokretanje: python3 tools/stranice.py   (treba node)
+Pokretanje: python3 tools/stranice.py   (treba node; na kraju pokrene i tools/verzije.py)
 Naslovi i opisi se čitaju iz data/np.js (pages), adresa iz <link rel="canonical"> u index.html.
 """
 import html, json, re, subprocess
@@ -12,12 +13,12 @@ ROOT = Path(__file__).resolve().parent.parent
 e = html.escape
 
 
-def data():
-    js = "global.window={};require(process.argv[1]);console.log(JSON.stringify(window.NP))"
-    return json.loads(subprocess.check_output(['node', '-e', js, str(ROOT / 'data' / 'np.js')]))
+def data(file='np.js', var='NP'):
+    js = "global.window={};require(process.argv[1]);console.log(JSON.stringify(window." + var + "))"
+    return json.loads(subprocess.check_output(['node', '-e', js, str(ROOT / 'data' / file)]))
 
 
-def page(base, key, file, title, desc, extra_css='', extra_js='', body_cls='', noscript=''):
+def page(base, key, file, title, desc, extra_css='', extra_js='', body_cls='', noscript='', data_id=''):
     css = '<link rel="stylesheet" href="css/style.css">' + (f'\n<link rel="stylesheet" href="{extra_css}">' if extra_css else '')
     pre = '<link rel="preload" href="assets/fonts/mrs-saint-delafield-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>'
     scripts = ['data/np.js', 'data/slike.js'] + (['data/recepti.js'] if extra_js else []) + ['js/art.js', 'js/app.js'] + ([extra_js] if extra_js else []) + ['js/fx.js']
@@ -58,7 +59,7 @@ def page(base, key, file, title, desc, extra_css='', extra_js='', body_cls='', n
   }})();
 </script>
 </head>
-<body data-page="{key}"{f' class="{body_cls}"' if body_cls else ''}>
+<body data-page="{key}"{f' data-id="{data_id}"' if data_id else ''}{f' class="{body_cls}"' if body_cls else ''}>
 <a class="skip" href="#main" data-t="ui.skip">Preskoči na sadržaj</a>
 
 <header class="top solid" id="top">
@@ -108,6 +109,18 @@ def main():
                extra_css='css/recepti.css', extra_js='js/recepti.js', body_cls='rc-page',
                noscript='Recepti se prikazuju uz uključen JavaScript.')
     (ROOT / 'recepti.html').write_text(out, encoding='utf-8'); print('recepti.html')
+    R = data('recepti.js', 'NP_REC')
+    clean = lambda t: t.replace('*', '')
+    items = [('recept-' + r['id'] + '.html', r['id'], clean(r['title']) + ' · Recept · Nemanja Petrović', r['intro']) for r in R['recipes']]
+    A = R['article']
+    items.append(('tekst-' + A['id'] + '.html', A['id'], clean(A['title']) + ' · Nemanja Petrović', A['intro']))
+    keep = {f for f, *_ in items}
+    for old in list(ROOT.glob('recept-*.html')) + list(ROOT.glob('tekst-*.html')):
+        if old.name not in keep: old.unlink(); print('obrisano', old.name)
+    for f, rid, title, desc in items:
+        out = page(base, 'recept', f, title, desc, extra_css='css/recepti.css', extra_js='js/recepti.js', body_cls='rc-page', noscript=desc, data_id=rid)
+        (ROOT / f).write_text(out, encoding='utf-8'); print(f)
+    import verzije; verzije.main()
 
 
 if __name__ == '__main__':

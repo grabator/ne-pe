@@ -7,7 +7,7 @@ window.NP_REC = {
   page: {
     label: 'Iz Nemanjine kuhinje',
     title: 'Iz moje kuhinje *u vašu*',
-    lead: 'Provjereni recepti sa mog Instagrama, napisani korak po korak, da uspiju i vama. Označite sastojke koje imate i korake koje ste završili, stranica to pamti.',
+    lead: 'Provjereni recepti sa mog Instagrama, napisani korak po korak, da uspiju i vama. Izaberite recept i otvorite ga: sastojke i korake možete označavati, stranica to pamti.',
     print: 'Štampaj recept',
     share: 'Podijeli',
     copied: 'Link je kopiran',
@@ -20,6 +20,16 @@ window.NP_REC = {
     ingCount: 'sastojaka',
     read: 'Pogledaj recept',
     readArticle: 'Pročitaj',
+    recipe: 'Recept',
+    back: 'Svi recepti',
+    prev: 'Prethodni',
+    next: 'Sljedeći',
+    more2: 'Još recepata',
+    shown: 'Prikazano',
+    pages: 'Stranice recepata',
+    page: 'Stranica',
+    prevPage: 'Prethodna stranica',
+    nextPage: 'Sljedeća stranica',
     more: 'Još recepata stiže uskoro. Pratite ih na Instagramu:'
   },
 
