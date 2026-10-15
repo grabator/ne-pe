@@ -258,7 +258,7 @@ em { font-style: italic; }
 .wd { margin: 0; position: relative; }
 .wd figcaption { margin-top: 14px; font: 600 10.5px/1.5 var(--sans); letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-2); }
 /* traka sa fotografijama: na mobitelu se prevlači prstom */
-.wd-track { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); scrollbar-width: none; -webkit-overflow-scrolling: touch; outline-offset: -4px; }
+.wd-track { overflow-y: hidden; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); scrollbar-width: none; -webkit-overflow-scrolling: touch; outline-offset: -4px; }
 .wd-track::-webkit-scrollbar { display: none; }
 .wd-rail { display: flex; gap: clamp(14px, 2vw, 28px); width: max-content; padding: 0 var(--gut); }
 .wd-slide { flex: none; width: min(82vw, 520px); scroll-snap-align: start; }
@@ -372,37 +372,52 @@ em { font-style: italic; }
 .press a span { font-size: 15px; color: var(--gold); }
 .press a:hover { color: var(--gold-2); padding-left: 8px; }
 
-/* ---------- 10 kontakt ---------- */
-.contact { background: var(--ink-2); border-top: 1px solid var(--line); }
-.ct-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; row-gap: 56px; }
+/* ---------- kontakt ---------- */
+.contact { background: var(--ink-2); border-top: 1px solid var(--line); padding: clamp(72px, 8vw, 112px) 0; }
+.ct-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; row-gap: 36px; align-items: start; }
 .ct-main { grid-column: 1 / 8; }
-.contact { padding: clamp(72px, 8vw, 112px) 0; }
 .ct-main .h2 { font-size: clamp(30px, 3.1vw, 48px); }
-.ct-main .sec-head { margin-bottom: clamp(24px, 3vw, 36px); }
-.ct-form { display: grid; gap: 16px; }
-.topics { display: flex; flex-wrap: wrap; gap: 10px; border: 0; margin: 0; padding: 0; min-width: 0; }
+.ct-main .sec-head { margin-bottom: clamp(22px, 2.6vw, 32px); }
+/* forma kao kartica */
+.ct-form { display: grid; gap: 18px; padding: clamp(20px, 2.4vw, 30px); border: 1px solid rgba(201, 164, 106, 0.28); background: linear-gradient(180deg, rgba(201, 164, 106, 0.06), rgba(201, 164, 106, 0.01)); }
+.topics { display: flex; flex-wrap: wrap; gap: 8px; border: 0; margin: 0; padding: 0; min-width: 0; }
 .topics legend { padding: 0; margin-bottom: 10px; width: 100%; }
-.ct-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr); gap: 22px; }
-.ct-row:has(.ct-date[hidden]) { grid-template-columns: 1fr; }
-.field { display: grid; gap: 4px; }
-.field input, .field textarea { width: 100%; min-width: 0; padding: 10px 0; background: transparent; border: 0; border-bottom: 1px solid rgba(243, 234, 219, 0.28); border-radius: 0; color: var(--cream); font-size: 17px; transition: border-color 0.3s; resize: vertical; }
-.field input:focus, .field textarea:focus { outline: none; border-color: var(--gold); }
-.field input[type='date'] { color-scheme: dark; }
-.ct-need { min-height: 1.5em; font-size: 14px; color: var(--cream-2); }
+.ct-row2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.75fr); gap: 14px; }
+.ct-row2:has(.ct-date[hidden]) { grid-template-columns: 1fr; }
+.field { display: grid; gap: 8px; }
+.field .label { font-size: 10px; }
+.field input, .field textarea { width: 100%; min-width: 0; padding: 13px 14px; background: rgba(243, 234, 219, 0.04); border: 1px solid var(--line); border-radius: 2px; color: var(--cream); font-size: 16px; transition: border-color 0.3s, background-color 0.3s; resize: vertical; }
+.field textarea { min-height: 96px; }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--gold); background: rgba(243, 234, 219, 0.06); }
+.field input[type='date'] { color-scheme: dark; min-height: 48px; }
+[data-theme='light'] .field input[type='date'] { color-scheme: light; }
+.ct-need { display: flex; align-items: center; gap: 8px; min-height: 1.4em; font-size: 13px; color: var(--cream-2); }
+.ct-need::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cream-2); opacity: 0.6; flex: none; }
 .ct-need.ok { color: var(--gold); }
-.ct-send { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
-.ct-send .label { width: 100%; color: var(--cream-2); }
-.send { flex: 1 1 140px; display: inline-flex; justify-content: center; padding: 16px 18px; border: 1px solid var(--gold); color: var(--ink); background: var(--gold); font: 600 12px/1 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; transition: background-color 0.3s, color 0.3s, opacity 0.3s; }
+.ct-need.ok::before { background: var(--gold); opacity: 1; }
+.ct-send { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.ct-send .label { grid-column: 1 / -1; color: var(--cream-2); }
+.send { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 12px 10px; border: 1px solid var(--gold); color: var(--ink); background: var(--gold); font: 600 11.5px/1 var(--sans); letter-spacing: 0.16em; text-transform: uppercase; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
 .send:hover { background: var(--gold-2); }
 .send.locked { background: transparent; color: var(--cream-2); border-color: var(--line); }
-.ct-side { grid-column: 9 / 13; display: grid; align-content: start; gap: 20px; }
-.ct-img { margin: 0; width: min(100%, calc((100svh - 330px) * 0.8)); aspect-ratio: 4 / 5; overflow: hidden; border-radius: 999px 999px 0 0; }
+.ico { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+/* desno: lično i kontakti kao redovi */
+.ct-side { grid-column: 9 / 13; display: grid; gap: 22px; }
+.ct-me { display: grid; gap: 18px; }
+.ct-img { margin: 0; width: min(100%, calc((100svh - 400px) * 0.8)); aspect-ratio: 4 / 5; overflow: hidden; border-radius: 999px 999px 0 0; }
 .ct-img img { width: 100%; height: 100%; object-fit: cover; }
-.ct-note { font: italic 300 23px/1.2 var(--serif); color: var(--cream); }
-.ct-list { display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; align-items: baseline; }
-.ct-list dd { font-size: 16px; color: var(--cream); overflow-wrap: anywhere; }
-.ct-list a { border-bottom: 1px solid rgba(201, 164, 106, 0.4); transition: color 0.3s; }
-.ct-list a:hover { color: var(--gold-2); }
+.ct-note { font: italic 300 25px/1.15 var(--serif); color: var(--cream); }
+.ct-who { margin-top: 6px; font: 600 10px/1.4 var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+.ct-links { border-top: 1px solid var(--line); }
+.ct-links li { border-bottom: 1px solid var(--line); }
+.ct-links a, .ct-row { display: flex; align-items: center; gap: 14px; padding: 13px 2px; }
+.ct-ico { display: grid; place-items: center; width: 38px; height: 38px; flex: none; border: 1px solid rgba(201, 164, 106, 0.4); border-radius: 50%; color: var(--gold); }
+.ct-txt { display: grid; gap: 4px; min-width: 0; flex: 1; }
+.ct-txt small { font: 600 9.5px/1 var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-2); }
+.ct-txt b { font-weight: 400; font-size: 15.5px; color: var(--cream); overflow-wrap: anywhere; }
+.ct-links a i { font-style: normal; color: var(--gold); transition: transform 0.4s var(--ease); }
+.ct-links a:hover b { color: var(--gold-2); }
+.ct-links a:hover i { transform: translateX(4px); }
 .demo-tag { margin-left: 6px; padding: 2px 7px; border: 1px solid var(--line); border-radius: 999px; font: 600 9px/1 var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream-2); vertical-align: 2px; }
 
 /* ---------- podnožje ---------- */
@@ -794,10 +809,6 @@ html.intro-on body::before { content: ''; position: fixed; inset: 0; z-index: 11
   .ac-a { aspect-ratio: 4 / 3.6; }
   .ac-b { right: -18%; width: 44%; }
   .by-grid { grid-template-columns: 1fr; }
-  .ct-row { grid-template-columns: 1fr; }
-  .ct-side { grid-template-columns: 120px 1fr; column-gap: 18px; align-items: start; }
-  .ct-img { grid-row: 1 / 3; }
-  .ct-list { grid-column: 1 / -1; }
 
   /* 11 spratova na mobitelu: kraće, slika iznad teksta */
   .tiers-grid { row-gap: 30px; }
@@ -838,11 +849,11 @@ html.intro-on body::before { content: ''; position: fixed; inset: 0; z-index: 11
   .ac-nums li { grid-template-columns: 64px 1fr; gap: 12px; padding: 12px 0; }
   .cert { margin: 6px 6px 0; width: auto; }
   .eps-wrap { width: 100%; }
-  .eps { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(76vw, 340px); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); padding: 0 var(--gut) 6px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .eps { overflow-y: hidden; overscroll-behavior-y: auto; touch-action: pan-x pan-y; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(76vw, 340px); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); padding: 0 var(--gut) 6px; scrollbar-width: none; overscroll-behavior-x: contain; }
   .eps::-webkit-scrollbar { display: none; }
   .ep { scroll-snap-align: start; }
   .wd-bar { margin-top: 20px; gap: 16px; }
-  .nt-grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(78vw, 320px); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); padding: 0 var(--gut) 4px; margin-inline: calc(var(--gut) * -1); scrollbar-width: none; overscroll-behavior-x: contain; }
+  .nt-grid { overflow-y: hidden; overscroll-behavior-y: auto; touch-action: pan-x pan-y; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(78vw, 320px); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); padding: 0 var(--gut) 4px; margin-inline: calc(var(--gut) * -1); scrollbar-width: none; overscroll-behavior-x: contain; }
   .nt-grid::-webkit-scrollbar { display: none; }
   .nt { scroll-snap-align: start; }
   .cs-grid, .fq-grid { grid-template-columns: 1fr; }
@@ -853,6 +864,16 @@ html.intro-on body::before { content: ''; position: fixed; inset: 0; z-index: 11
   .rw-item p { font-size: 23px; }
   .lb-share { top: calc(14px + env(safe-area-inset-top)); }
   .top-right > .theme-top { display: none; }
+  /* kontakt na mobitelu: forma, pa mala kartica sa slikom i kontakti */
+  .ct-grid { row-gap: 28px; }
+  .ct-side { gap: 18px; }
+  .ct-me { grid-template-columns: 64px 1fr; align-items: center; gap: 16px; }
+  .ct-img { width: 64px; height: 64px; aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(201, 164, 106, 0.5); }
+  .ct-note { font-size: 22px; }
+  .ct-row2 { grid-template-columns: 1fr; }
+  .ct-form { padding: 18px; margin-inline: -4px; }
+  .send { flex-direction: column; gap: 6px; min-height: 64px; font-size: 10px; letter-spacing: 0.12em; }
+  .ct-links { margin-top: 4px; }
 }
 @media (max-width: 380px) {
   .hero-name { font-size: 48px; }
@@ -862,14 +883,12 @@ html.intro-on body::before { content: ''; position: fixed; inset: 0; z-index: 11
   .cd span { font-size: 9px; letter-spacing: 0.14em; }
   .wd-btn { width: 44px; height: 44px; }
   .card { min-height: 0; }
-  .ct-side { grid-template-columns: 1fr; }
-  .ct-img { grid-row: auto; width: 60%; }
 }
 @media (max-width: 640px) {
   /* recepti se prevlače prstom, kartica do kartice */
   .works .wrap { width: 100%; }
   .works .sec-head { width: min(var(--max), 100% - var(--gut) * 2); margin-inline: auto; }
-  .cards { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(80vw, 330px); gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); padding: 0 var(--gut) 4px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .cards { overflow-y: hidden; overscroll-behavior-y: auto; touch-action: pan-x pan-y; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(80vw, 330px); gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); padding: 0 var(--gut) 4px; scrollbar-width: none; overscroll-behavior-x: contain; }
   .cards::-webkit-scrollbar { display: none; }
   .card { min-height: 0; gap: 12px; scroll-snap-align: start; }
   .card-aside { margin-top: 10px; }

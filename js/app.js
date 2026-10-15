@@ -253,29 +253,46 @@
   }
 
   var form = { topic: 'wedding', name: '', date: '', msg: '' };
+  /* male ikonice (linije) za dugmad i kontakte */
+  var ICO = {
+    viber: '<path d="M7 4h10a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3h-6l-4 3v-3a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z"/><path d="M9.5 8.5c.5 2.5 2.5 4.5 5 5"/>',
+    wa: '<path d="M4 20l1.3-3.6A8 8 0 1 1 8 19.3z"/><path d="M9.2 9c.3 2 1.8 3.6 3.8 4"/>',
+    mail: '<rect x="3" y="5.5" width="18" height="13" rx="1.5"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/>',
+    ig: '<rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17" cy="7" r=".6"/>',
+    tel: '<path d="M6.5 3.5h3l1.5 4-2 1.5a10 10 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/>',
+    pin: '<path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/>'
+  };
+  function ico(k) { return '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">' + ICO[k] + '</svg>'; }
   function contact() {
     var C = D.contactSec, K = D.contact; C._id = 'contact';
-    var tag = D.demo ? ' <small class="demo-tag">' + esc(L(D.ui.demoTag)) + '</small>' : '';
+    var tag = D.demo ? '<small class="demo-tag">' + esc(L(D.ui.demoTag)) + '</small>' : '';
+    function row(icon, label, value, href, ext) {
+      var inner = '<span class="ct-ico">' + ico(icon) + '</span><span class="ct-txt"><small>' + esc(label) + '</small><b>' + value + '</b></span>';
+      return '<li>' + (href ? '<a href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' + inner + '<i aria-hidden="true">' + (ext ? '↗' : '→') + '</i></a>' : '<span class="ct-row">' + inner + '</span>') + '</li>';
+    }
     return '<section class="sec contact" id="contact" aria-labelledby="contact-t"><div class="wrap ct-grid">' +
       '<div class="ct-main">' + head(C) +
       '<form class="ct-form rv" id="ct-form" novalidate>' +
       '<fieldset class="topics"><legend class="label">' + esc(L(C.topicLabel)) + '</legend>' + C.topics.map(function (t) {
         return '<button type="button" class="pill" data-topic-pick="' + t.key + '" aria-pressed="' + (form.topic === t.key) + '">' + esc(L(t.label)) + '</button>';
       }).join('') + '</fieldset>' +
-      '<div class="ct-row"><label class="field"><span class="label">' + esc(L(C.name)) + '</span><input id="ct-name" type="text" autocomplete="name" value="' + esc(form.name) + '"></label>' +
+      '<div class="ct-row2"><label class="field"><span class="label">' + esc(L(C.name)) + '</span><input id="ct-name" type="text" autocomplete="name" value="' + esc(form.name) + '"></label>' +
       '<label class="field ct-date"' + (form.topic === 'wedding' ? '' : ' hidden') + '><span class="label">' + esc(L(C.date)) + '</span><input id="ct-date" type="date" value="' + esc(form.date) + '"></label></div>' +
       '<label class="field"><span class="label">' + esc(L(C.message)) + '</span><textarea id="ct-msg" rows="3">' + esc(form.msg) + '</textarea></label>' +
       '<p class="ct-need" id="ct-need" aria-live="polite"></p>' +
       '<div class="ct-send"><span class="label">' + esc(L(C.send)) + '</span>' +
-      '<a class="send" id="send-viber" href="#" data-via="viber">Viber</a><a class="send" id="send-wa" href="#" data-via="wa" target="_blank" rel="noopener">WhatsApp</a><a class="send" id="send-mail" href="#" data-via="mail">Email</a></div>' +
+      '<a class="send" id="send-viber" href="#" data-via="viber">' + ico('viber') + '<span>Viber</span></a>' +
+      '<a class="send" id="send-wa" href="#" data-via="wa" target="_blank" rel="noopener">' + ico('wa') + '<span>WhatsApp</span></a>' +
+      '<a class="send" id="send-mail" href="#" data-via="mail">' + ico('mail') + '<span>Email</span></a></div>' +
       '</form></div>' +
-      '<aside class="ct-side rv"><figure class="ct-img">' + img(C.image.id, L(C.image.alt), '(max-width: 900px) 60vw, 26vw') + '</figure>' +
-      '<p class="ct-note">' + esc(L(C.note)) + '</p>' +
-      '<dl class="ct-list"><dt class="label">Instagram</dt><dd><a href="https://www.instagram.com/' + esc(K.instagram) + '/" target="_blank" rel="noopener">@' + esc(K.instagram) + '</a></dd>' +
-      '<dt class="label">' + esc(L(C.phone)) + '</dt><dd>' + (K.phone ? '<a href="tel:' + esc(K.phone.replace(/\s/g, '')) + '">' + esc(K.phone) + '</a>' : esc(K.phoneLabel) + tag) + '</dd>' +
-      '<dt class="label">Email</dt><dd>' + (K.email ? '<a href="mailto:' + esc(K.email) + '">' + esc(K.email) + '</a>' : esc(K.emailLabel) + tag) + '</dd>' +
-      '<dt class="label">' + esc(L(C.where)) + '</dt><dd><a href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(K.mapQuery) + '" target="_blank" rel="noopener">' + esc(L(C.whereNote)) + '<span aria-hidden="true"> ↗</span></a></dd></dl>' +
-      '</aside></div></section>';
+      '<aside class="ct-side rv"><div class="ct-me"><figure class="ct-img">' + img(C.image.id, L(C.image.alt), '(max-width: 900px) 30vw, 26vw') + '</figure>' +
+      '<div class="ct-me-t"><p class="ct-note">' + esc(L(C.note)) + '</p><p class="ct-who">Nemanja Petrović · Pastry Chef</p></div></div>' +
+      '<ul class="ct-links">' +
+      row('ig', 'Instagram', '@' + esc(K.instagram), 'https://www.instagram.com/' + K.instagram + '/', true) +
+      row('tel', L(C.phone), (K.phone ? esc(K.phone) : esc(K.phoneLabel) + ' ' + tag), K.phone ? 'tel:' + K.phone.replace(/\s/g, '') : null) +
+      row('mail', 'Email', (K.email ? esc(K.email) : esc(K.emailLabel) + ' ' + tag), K.email ? 'mailto:' + K.email : null) +
+      row('pin', L(C.where), esc(L(C.whereNote)), 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(K.mapQuery), true) +
+      '</ul></aside></div></section>';
   }
 
   function footer() {
