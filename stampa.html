@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="bs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kartica sa QR kodom · Nemanja Petrović</title>
+<!-- DEMO: obrisati ovaj red prije objave (vidi README) -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/np.svg" type="image/svg+xml">
+<style>
+  /* kartica za štampu: stalak A6 i četiri vizit karte (85 × 55 mm) na jednom A4 */
+  @font-face { font-family: 'Cormorant'; font-weight: 300; src: url(assets/fonts/cormorant-garamond-latin-300-normal.woff2) format('woff2'); }
+  @font-face { font-family: 'Cormorant'; font-weight: 300; font-style: italic; src: url(assets/fonts/cormorant-garamond-latin-300-italic.woff2) format('woff2'); }
+  @font-face { font-family: 'Cormorant'; font-weight: 300; src: url(assets/fonts/cormorant-garamond-latin-ext-300-normal.woff2) format('woff2'); unicode-range: U+0100-02BA; }
+  @font-face { font-family: 'Manrope'; font-weight: 600; src: url(assets/fonts/manrope-latin-600-normal.woff2) format('woff2'); }
+  @font-face { font-family: 'Manrope'; font-weight: 600; src: url(assets/fonts/manrope-latin-ext-600-normal.woff2) format('woff2'); unicode-range: U+0100-02BA; }
+  :root { --ink: #1C1712; --gold: #8A6A30; --paper: #F7F1E7; }
+  * { box-sizing: border-box; }
+  p { margin: 0; }
+  body { margin: 0; background: #0E0C0A; color: #F3EADB; font: 15px/1.6 'Manrope', system-ui, sans-serif; }
+  .bar { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto; padding: 28px 20px; }
+  .bar a { color: #E2C690; text-decoration: none; font-size: 14px; }
+  .bar button { padding: 14px 26px; border: 0; background: #C9A46A; color: #0E0C0A; font: 600 12px/1 'Manrope', sans-serif; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
+  .sheet { display: grid; gap: 28px; justify-items: center; padding: 0 20px 60px; }
+  .card { background: var(--paper); color: var(--ink); display: grid; justify-items: center; align-content: center; text-align: center; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.8); }
+  .a6 { width: 105mm; height: 148mm; padding: 12mm; gap: 6mm; border: 0.3mm solid var(--gold); outline: 0.3mm solid var(--gold); outline-offset: -3mm; }
+  .mono { font: 300 64px/0.8 'Cormorant', serif; letter-spacing: -0.06em; color: var(--ink); }
+  .k { font: 600 8pt/1.4 'Manrope', sans-serif; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+  .name { font: 300 22pt/1 'Cormorant', serif; }
+  .qr { width: 42mm; height: 42mm; }
+  .qr img { width: 100%; height: 100%; display: block; }
+  .say { font: italic 300 13pt/1.2 'Cormorant', serif; }
+  .ig { font: 600 8pt/1 'Manrope', sans-serif; letter-spacing: 0.14em; }
+  .biz { display: grid; grid-template-columns: repeat(2, 85mm); gap: 6mm; }
+  .bc { width: 85mm; height: 55mm; padding: 6mm 7mm; grid-template-columns: 1fr auto; text-align: left; justify-items: start; align-items: center; gap: 4mm; border: 0.3mm solid var(--gold); }
+  .bc .qr { width: 26mm; height: 26mm; }
+  .bc .name { font-size: 15pt; }
+  .bc .k { letter-spacing: 0.18em; white-space: nowrap; font-size: 7pt; }
+  .bc div { display: grid; gap: 2mm; }
+  @media (max-width: 560px) { .biz { grid-template-columns: 85mm; } }
+  @page { size: A4; margin: 10mm; }
+  @media print {
+    body { background: #fff; }
+    .bar { display: none; }
+    .sheet { padding: 0; gap: 8mm; }
+    .card { box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="bar">
+  <a href="./">← Nazad na stranicu</a>
+  <button type="button" onclick="window.print()">Štampaj</button>
+</div>
+<main class="sheet">
+  <section class="card a6" aria-label="Kartica za stalak">
+    <p class="mono">NP</p>
+    <p class="k">Pastry Chef · Mostar</p>
+    <p class="name">Nemanja Petrović</p>
+    <div class="qr"><img src="assets/qr-kontakt.svg" alt="QR kod: kontakt Nemanje Petrovića"></div>
+    <p class="say">Skenirajte za kontakt</p>
+    <p class="ig">@nemanja_petr</p>
+  </section>
+  <section class="biz" aria-label="Vizit karte">
+    <div class="card bc"><div><p class="k">Pastry Chef · Mostar</p><p class="name">Nemanja Petrović</p><p class="ig">@nemanja_petr</p></div><div class="qr"><img src="assets/qr-kontakt.svg" alt=""></div></div>
+    <div class="card bc"><div><p class="k">Pastry Chef · Mostar</p><p class="name">Nemanja Petrović</p><p class="ig">@nemanja_petr</p></div><div class="qr"><img src="assets/qr-kontakt.svg" alt=""></div></div>
+    <div class="card bc"><div><p class="k">Pastry Chef · Mostar</p><p class="name">Nemanja Petrović</p><p class="ig">@nemanja_petr</p></div><div class="qr"><img src="assets/qr-kontakt.svg" alt=""></div></div>
+    <div class="card bc"><div><p class="k">Pastry Chef · Mostar</p><p class="name">Nemanja Petrović</p><p class="ig">@nemanja_petr</p></div><div class="qr"><img src="assets/qr-kontakt.svg" alt=""></div></div>
+  </section>
+</main>
+</body>
+</html>
