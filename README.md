@@ -1,159 +1,26 @@
-# Nemanja Petrović · Pastry Chef
+# Pastry chef website
 
-Lična stranica slastičara Nemanje Petrovića iz Mostara.
+Website for a pastry chef from Mostar.
 
-Početna je kratka (izlog), a sve ostalo je na posebnim stranicama:
+**Live:** https://ne-pe.grabafaceit.workers.dev
 
-| Stranica | Šta je na njoj |
-| --- | --- |
-| `index.html` | Prvi ekran, brojke, kratka priča, potpisni radovi, svadbe, utisci, akademija (odbrojavanje), recepti, kontakt |
-| `prica.html` | Cijela priča, nagrade, Šire od kuhinje i press kit |
-| `radovi.html` | Potpisni radovi, spojevi okusa, anatomija deserta, torta od 11 spratova, fondan |
-| `svadbe.html` | Galerija svadbi, utisci, pitanja i upit |
-| `akademija.html` | Akademija, termini, lista čekanja, certifikat, Slatke priče |
-| `saradnja.html` | Za restorane i hotele, spojevi okusa |
-| `recepti.html` | Lista recepata i tekstova (kartice, po 6 na stranici) |
-| `recept-<id>.html`, `tekst-<id>.html` | Jedan recept (Luda torta, Doboš torta) ili tekst (cijena torte), sa prethodnim i sljedećim |
+## What's inside
 
-Svaka stranica (osim recepata) završava kontakt formom, a tema forme je već izabrana (Svadbe: svadba, Akademija: akademija, Saradnja: saradnja).
+- A short showcase homepage
+- Separate pages for the story and awards, signature desserts, weddings, the pastry academy (dates and a waiting list), partnerships for restaurants and hotels, and recipes
+- Every page ends with an enquiry form
+- Bosnian, English and German
 
-Ovo je **demo** verzija: stranica se ne indeksira, a kontakt podaci su primjeri (označeni sa DEMO).
+## Tech
 
-## Pokretanje
+Plain HTML, CSS and JavaScript, no framework and no build step. Hosted on Cloudflare Workers. All text and data is in `data/np.js`.
 
-Nema instalacije ni build koraka. Potreban je samo Node.js:
+## Run locally
 
 ```
 node serve.mjs
 ```
 
-Pa otvoriti http://localhost:8080 (drugi port: `node serve.mjs 8091`).
+Then open http://localhost:8080. Language can be set with `?lang=en` or `?lang=de`.
 
-Jezik se može birati i preko adrese: `?lang=en`, `?lang=de`.
-
-Uvod (monogram NP i zavjesa) se prikaže samo pri prvom otvaranju početne. Da se vidi ponovo: `?intro` na kraju adrese.
-
-## Gdje je šta
-
-| Fajl | Sadržaj |
-| --- | --- |
-| `data/np.js` | Sav tekst na tri jezika (bs, en, de), kontakt, nagrade, galerije |
-| `data/slike.js` | Dimenzije slika (pravi ga `tools/slike.py`, ne mijenjati ručno) |
-| `index.html` | Kostur početne, prvi ekran, SEO podaci |
-| `prica.html` ... `saradnja.html`, `recepti.html` | Prave se alatom `tools/stranice.py` (ne mijenjati ručno) |
-| `js/app.js` | Sekcije, šta je na kojoj stranici (`PAGES`), meni, jezici, galerija, filter fondana, kontakt forma |
-| `js/fx.js` | Efekti: uvod, šećer u prahu, 11 spratova, svadbe (strelice), odbrojavanje, medalje, kursor |
-| `js/art.js` | Crteži: potpis, monogram za uvod, ilustracije recepata, slojevi deserta |
-| `css/style.css` | Cijeli izgled |
-| `assets/img/` | Slike u WebP formatu, tri veličine |
-| `assets/fonts/` | Cormorant Garamond i Manrope (OFL licence uz fontove) |
-| `tools/slike.py` | Obrada slika: izrez, topli ton, WebP veličine |
-| `tools/fontovi.py` | Priprema Cormorant fonta (kvačice č, ć, š, ž spuštene bliže slovu) |
-| `tools/tekstura.py` | Tekstura tamnog mramora u pozadini (`assets/tex/mramor.webp`) |
-| `tools/dijeljenje.py` | Slike za dijeljenje (`assets/share/`) i stranice `t/<id>.html` za svaku fotografiju svadbi i fondana (vode na Svadbe ili Radove) |
-| `tools/qr.py` | QR kod za kontakt (`assets/qr-kontakt.svg`), koristi ga `stampa.html` |
-| `tools/presskit.py` | Press kit ZIP (`assets/press/`): fotografije, biografija na tri jezika, logo |
-| `recepti.html` | Stranica recepata (crta je `js/recepti.js`, izgled `css/recepti.css`) |
-| `data/recepti.js` | Recepti: sastojci, koraci, trikovi, slojevi za crtež presjeka torte |
-| `tools/stranice.py` | Pravi podstranice i stranicu za svaki recept (zaglavlje, SEO, skripte) iz `data/np.js` → `pages` i `data/recepti.js` |
-| `tools/verzije.py` | Dodaje oznaku verzije na CSS, JS i data fajlove u svim stranicama (`app.js?v=...`) |
-| `tools/rukopis.py` | Rukopisni font za naslove recepata (dodaje č, ć, š, ž u Mrs Saint Delafield) |
-| `stampa.html` | Kartica za štampu: stalak A6, vizit karta i QR kod, svaki se može preuzeti posebno (PNG i PDF) |
-| `tools/stampa.cjs` | Pravi fajlove za preuzimanje u `assets/print/` (PNG 300 dpi i PDF u tačnoj veličini) |
-
-Tekst se mijenja samo u `data/np.js` (recepti u `data/recepti.js`). Riječ između zvjezdica (`*Mostara*`) ispisuje se zlatnim kurzivom.
-
-## Prije svakog pusha
-
-Ako je mijenjan bilo koji fajl u `css/`, `js/` ili `data/`, pokrenuti:
-```
-python3 tools/verzije.py
-```
-To promijeni oznaku verzije (`?v=...`) u stranicama, pa posjetioci odmah dobiju nove fajlove umjesto starih iz keša.
-Bez toga se može desiti da preglednik uzme novu stranicu sa starim JS-om i da meni ili listanje ne rade.
-(`tools/stranice.py` ga pokreće sam.)
-
-## Stranice i meni
-
-- Šta je na kojoj stranici i kojim redom: `PAGES` u `js/app.js` (npr. `svadbe: ['hero', 'weddings', 'reviews', 'faq', 'contact']`).
-- Naslov, uvod, slika u meniju i SEO svake podstranice: `pages` u `data/np.js`. Redoslijed u meniju: `menu`.
-- Poslije promjene u `pages` pokrenuti `python3 tools/stranice.py` (osvježi naslove i opise u HTML-u).
-- Brojevi poglavlja (01, 02...) idu sami redom na svakoj stranici.
-
-## Novi recept
-
-U `data/recepti.js` u listu `recipes` dodati novi recept po uzoru na postojeće:
-- `id` (adresa: `recepti.html#id`), `script` (naslov rukopisom), `title`, `date`, `intro`, `chips`,
-- `groups` (grupe sastojaka; svaki sastojak je `['količina', 'naziv']`), `steps`, `tips`, po želji `fact`,
-- `layers`: slojevi torte odozgo prema dolje (`color`, `h` visina, `name` oznaka pored crteža).
-
-Zatim pokrenuti `python3 tools/stranice.py`: napravi stranicu `recept-<id>.html`. Recept se pojavi na listi recepata (po 6 na stranici, dugmad za stranice se pojave sama kad ih bude više od 6) i u sekciji Recepti na početnoj.
-
-## Nove slike
-
-1. Originale staviti u `_izvor/` (taj folder ne ide u repo).
-2. U `tools/slike.py` dodati red u `SLIKE` (id, izvor, izrez).
-3. Pokrenuti `python3 tools/slike.py` (treba Pillow).
-4. Id slike upisati na željeno mjesto u `data/np.js`.
-
-## Prije objave (obavezno)
-
-1. `index.html` i `tools/stranice.py`: obrisati red `<meta name="robots" content="noindex, nofollow">`, pa pokrenuti `python3 tools/stranice.py`.
-2. `_headers`: obrisati red `X-Robots-Tag: noindex`.
-3. `robots.txt`: zamijeniti sadržaj sa:
-   ```
-   User-agent: *
-   Allow: /
-   Sitemap: https://PRAVA-DOMENA/sitemap.xml
-   ```
-4. Adresu `ne-pe.grabafaceit.workers.dev` zamijeniti pravom domenom u `index.html` (canonical, og:url, og:image, JSON-LD) i `sitemap.xml`, pa ponovo pokrenuti `python3 tools/stranice.py`, `python3 tools/dijeljenje.py` i `python3 tools/qr.py` (oba čitaju adresu iz `index.html`), a zatim `tools/stampa.cjs` da kartice za preuzimanje dobiju novi QR kod.
-   U `tools/dijeljenje.py` i `stampa.html` obrisati red `noindex` (označen sa DEMO).
-5. `data/np.js`:
-   - `demo: false` (nestaju oznake DEMO i traka u podnožju),
-   - upisati `contact.phone`, `contact.viber`, `contact.whatsapp` (samo brojevi, npr. `38761234567`) i `contact.email`,
-   - YouTube: upisati pravi link kanala ili playliste i postaviti `youtubeIsSearch: false`,
-   - nagrade 2024: upisati takmičenja kad budu poznata,
-   - `anatomy.layers`: slojeve deserta prilagoditi pravom receptu (sada su primjer),
-   - `academy.upcoming`: pravi datum, mjesto i broj mjesta sljedeće akademije (odbrojavanje radi samo od datuma),
-   - `show.episodes`: pravi naslovi; u `video` upisati YouTube ID epizode i ona se pušta direktno na stranici,
-   - `works.items[].image`: kad stignu fotografije deserata, upisati id slike (umjesto crteža se prikaže fotografija),
-   - `reviews`: utisci su primjer; zamijeniti stvarnim utiscima (uz dozvolu osobe koja ih je napisala),
-   - `faq`: odgovori su primjer; Nemanja treba potvrditi rokove, dostavu i pravila,
-   - `notes`: tri spoja okusa i gdje su servirani provjeriti sa Nemanjom,
-   - press kit: originalne fotografije staviti u `_izvor/press/<id>.jpg` i pokrenuti `python3 tools/presskit.py`.
-6. Provjeriti kontakt formu: Viber, WhatsApp i email moraju otvarati Nemanjin broj i adresu.
-
-## Objava (Cloudflare Workers)
-
-Statična stranica, bez builda. Podešavanje je u `wrangler.jsonc` (ime `ne-pe`, fajlovi iz korijena repozitorija).
-`.assetsignore` drži alate, README i izvorne fajlove van stranice. `_headers` postavlja keširanje i sigurnosna zaglavlja.
-
-Preko GitHuba (svaki push se sam objavi):
-1. Cloudflare → Workers & Pages → Create → Import a repository → `grabator/ne-pe`.
-2. Build command: prazno. Deploy command: `npx wrangler deploy`.
-3. Production branch: `main` (ili `feature/demo` dok je demo).
-
-Ručno iz terminala:
-```
-npx wrangler login
-npx wrangler deploy
-```
-
-Adresa: `https://ne-pe.<subdomain>.workers.dev`. Ako `<subdomain>` nije `grabafaceit`, adresu zamijeniti u `index.html` i `sitemap.xml` i ponovo pokrenuti alate (korak 4 u "Prije objave").
-
-## Dizajn
-
-- Meni je kao desertna karta: dupli zlatni okvir, stavke sa tačkicama do broja i kratkim opisom, a pored je slika stranice u luku koja se mijenja kad se pređe preko stavke. Na mobitelu je ista karta, bez slike.
-- Na početnoj su samo najjači dijelovi; ispod svakog je link "Sve o ..." na njegovu stranicu.
-- Tamna, topla paleta (ugljen, krem, zlato) jer su fotografije večernje i tople, a zlato veže medalje i šećer.
-- Cormorant Garamond za naslove (elegantan, krupan), Manrope za tekst (čitljiv na mobitelu).
-- Potpisni efekti: uvod sa monogramom NP, šećer u prahu na prvom ekranu (reaguje na miš), desert sa Brača koji se na klik rastavi na slojeve, torta od 11 spratova koja naraste kad se dođe do nje, potpis koji se ispisuje potezom pera.
-- Svadbe: na desktopu strelice lijevo/desno, na mobitelu prevlačenje prstom. Ništa se ne "popunjava" dok se lista.
-- Recepti: naslovi rukopisom kao na Instagram objavama, sastojci na krem kartici, koraci se označavaju klikom, napredak i označeni sastojci se pamte u pregledniku. Svaki recept se štampa posebno (A4) i dijeli linkom.
-- Tamna tema je zadana, svijetla (krem i zlato) se bira prekidačem u zaglavlju ili meniju i pamti se.
-- Svaka fotografija svadbi i fondana ima dugme "Podijeli": link vodi na stranicu sa posebnom slikom (fotografija + potpis), koja onda otvara tu fotografiju na stranici.
-- Lista čekanja za akademiju i prijava šalju poruku preko Vibera ili WhatsAppa; stranica ne čuva nikakve podatke.
-- Na mobitelu se recepti, svadbe i epizode prevlače prstom.
-- Sekcija Svadbe je svijetla, kao predah između tamnih dijelova.
-- Kontakt nije narudžba nego razgovor: tema, ime, poruka, pa slanje preko Vibera, WhatsAppa ili emaila.
-- Sve animacije staju van ekrana, a uz postavku "smanji pokrete" stranica je mirna i sve je odmah vidljivo. Bez JavaScripta se vidi prvi ekran i osnovni podaci.
+Made by [Ahmed Grabus (Graba)](https://graba-portofolio.grabafaceit.workers.dev)
